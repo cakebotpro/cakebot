@@ -22,11 +22,14 @@ import os
 import EmbedUtil
 from discord.utils import get
 from discord.ext.commands import Bot
+import requests
 
 Bot_Prefix = "+"
 
+web_pool = requests.HTTPSession()
 client = Bot(command_prefix=Bot_Prefix)
 
+jokes = []
 
 @client.event
 async def on_ready():
@@ -36,8 +39,16 @@ async def on_ready():
     :return: nothing
     :rtype: None
     """
+    print("Changing playing status...")
     await client.change_presence(game=discord.Game(name="Being beta tested"))
+    print("Changed playing status")
 
+    print("Downloading external content...")
+    jokes = web_pool.request(
+        'get',
+        'https://raw.githubusercontent.com/RDIL/cakebot/master/content/jokes.txt'
+    ).content.split("\n")
+    
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @", client.user)
     print(area4.divider(1))
