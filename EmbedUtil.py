@@ -1,6 +1,6 @@
 import discord
 
-def classicEmbed(
+def classic(
     title,
     description,
     sectionNames,
