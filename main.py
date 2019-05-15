@@ -21,10 +21,11 @@ import area4
 import os
 import EmbedUtil
 from discord.utils import get
+from discord.ext.commands import Bot
 
 Bot_Prefix = "+"
 
-client = discord.ext.commands.Bot(command_prefix=Bot_Prefix)
+client = Bot(command_prefix=Bot_Prefix)
 
 
 @client.event
