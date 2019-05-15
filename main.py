@@ -57,8 +57,8 @@ async def on_message(message):
         # normal message
         return
     # asking for bot
-    theinput = message.content[len(prefix):]
-    args = theinput.split()
+    # TODO: theinput = message.content[len(Bot_Prefix):]
+    # TODO: args = theinput.split()
     # the command, e.x. "help"
     # TODO: cmd = args[0].lower()
     # the args (array) e.x. ["hello", "world"]
