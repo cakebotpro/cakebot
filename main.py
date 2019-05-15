@@ -18,6 +18,7 @@
 
 import discord
 import area4
+import os
 from discord.utils import get
 
 Bot_Prefix = "+"
@@ -80,3 +81,10 @@ def hasRole(server, role_name, person):
         return True
     else:
         return False
+
+
+if __name__ == __main__:
+    token = os.getenv("TOKEN")
+    client.run(token)
+else:
+    raise Exception("Bot can't be imported!")
