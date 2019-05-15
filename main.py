@@ -60,9 +60,9 @@ async def on_message(message):
     theinput = message.content[len(prefix):]
     args = theinput.split()
     # the command, e.x. "help"
-    cmd = args[0].lower()
+    # TODO: cmd = args[0].lower()
     # the args (array) e.x. ["hello", "world"]
-    args = args[1:]
+    # TODO: args = args[1:]
 
 
 def hasRole(server, role_name, person):
@@ -78,11 +78,10 @@ def hasRole(server, role_name, person):
     item = get(server.roles, name=role_name)
     if item in person.roles:
         return True
-    else:
-        return False
+    return False
 
 
-if __name__ == __main__:
+if __name__ == "__main__":
     token = os.getenv("TOKEN")
     client.run(token)
 else:
