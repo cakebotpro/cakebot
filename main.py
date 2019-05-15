@@ -23,7 +23,7 @@ from discord.utils import get
 
 Bot_Prefix = "+"
 
-client = discord.ext.commands.Bot(command_prefix = Bot_Prefix)
+client = discord.ext.commands.Bot(command_prefix=Bot_Prefix)
 
 
 @client.event
@@ -53,7 +53,6 @@ async def on_message(message):
     if message.author == client.user:
         # cancel own messages
         return
-    else:
     if not message.content.startswith(Bot_Prefix):
         # normal message
         return
