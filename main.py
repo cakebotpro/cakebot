@@ -114,13 +114,13 @@ def get_general(server):
     :param server: the server object to check
     """
     check_for = [
-        get(server.channels, name='general')
-        get(server.channels, name='hub')
-        get(server.channels, name='chat')
-        get(server.channels, name='talk')
-        get(server.channels, name='info')
-        get(server.channels, name='announcements')
-        get(server.channels, name='welcome')
+        get(server.channels, name='general'),
+        get(server.channels, name='hub'),
+        get(server.channels, name='chat'),
+        get(server.channels, name='talk'),
+        get(server.channels, name='info'),
+        get(server.channels, name='announcements'),
+        get(server.channels, name='welcome'),
         get(server.channels, name='commands')
     ]
 
