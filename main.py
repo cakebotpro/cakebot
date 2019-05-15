@@ -38,7 +38,7 @@ async def on_ready():
     await client.change_presence(game=discord.Game(name="Being beta tested"))
 
     print(area4.divider(1))
-    print("Ready to role, I'll see you on Discord: @", client.user)
+    print("Ready to roll, I'll see you on Discord: @", client.user)
     print(area4.divider(1))
 
 
