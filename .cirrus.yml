@@ -1,0 +1,4 @@
+task:
+  container:
+    image: alpine/flake8:latest
+  script: python3 -m flake8 *.py
