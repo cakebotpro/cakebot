@@ -19,6 +19,7 @@
 import discord
 import area4
 import os
+import EmbedUtil
 from discord.utils import get
 
 Bot_Prefix = "+"
@@ -65,6 +66,24 @@ async def on_message(message):
     # TODO: args = args[1:]
 
 
+@client.event
+async def on_server_join(server):
+    await client.send_message(
+        get_general(),
+        embed=EmbedUtil.classic(
+            name="Server Welcome!",
+            description=":::::::::::::::::",
+            sectionNames=[
+                "Hello!"
+            ],
+            sectionContents=[
+                "Today is a great day, because today I have been invited"
+                +"to this server! I hope to have fun here!"
+            ]
+        )
+    )
+
+
 def hasRole(server, role_name, person):
     """
     If user has a role
@@ -79,6 +98,30 @@ def hasRole(server, role_name, person):
     if item in person.roles:
         return True
     return False
+
+
+def get_general(server):
+    """
+    Get the general chat room for the server
+
+    :return: the channel if found
+    :param server: the server object to check
+    """
+    check_for = [
+        get(server.channels, name='general')
+        get(server.channels, name='hub')
+        get(server.channels, name='chat')
+        get(server.channels, name='talk')
+        get(server.channels, name='info')
+        get(server.channels, name='announcements')
+        get(server.channels, name='welcome')
+        get(server.channels, name='commands')
+    ]
+
+    for e, v in enumerate(check_for):
+        if check_for[e] in server.channels:
+            return check_for[e]
+    return
 
 
 if __name__ == "__main__":
