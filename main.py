@@ -58,10 +58,16 @@ async def on_message(message):
         # normal message
         return
     # asking for bot
-    # TODO: theinput = message.content[len(Bot_Prefix):]
-    # TODO: args = theinput.split()
+    TODO: theinput = message.content[len(Bot_Prefix):]
+    args = theinput.split()
     # the command, e.x. "help"
-    # TODO: cmd = args[0].lower()
+    cmd = args[0].lower()
+    if cmd is None:
+        # fix npe
+        return
+    if cmd is "" or cmd is " ":
+        # fix npe
+        return
     # the args (array) e.x. ["hello", "world"]
     # TODO: args = args[1:]
 
