@@ -1,0 +1,65 @@
+What do you call a dinosaur that is sleeping? A dino-snore!
+What is fast, loud and crunchy?  A rocket chip!
+Why did the teddy bear say no to dessert?  Because she was stuffed.
+What has ears but cannot hear?  A cornfield.
+What did the left eye say to the right eye?  Between us, something smells!
+What do you get when you cross a vampire and a snowman?  Frost bite!
+What did one plate say to the other plate?  Dinner is on me!
+Why did the student eat his homework?  Because the teacher told him it was a piece of cake!
+When you look for something, why is it always in the last place you look?  Because when you find it, you stop looking.
+What is brown, hairy and wears sunglasses?  A coconut on vacation.
+Two pickles fell out of a jar onto the floor. What did one say to the other?  Dill with it.
+What did the Dalmatian say after lunch?  That hit the spot!
+Why did the kid cross the playground?  To get to the other slide.
+How does a vampire start a letter?  Tomb it may concern...
+What do you call a droid that takes the long way around?  R2 detour.
+How do you stop an astronaut’s baby from crying?  You rocket!
+What is a witch’s favorite subject in school?  Spelling!
+When does a joke become a “dad” joke?  When the punchline is a parent.
+How do you make a lemon drop?  Just let it fall
+Today at the bank, an old lady asked me to help check her balance. So I pushed her over.
+I bought some shoes from a drug dealer. I don't know what he laced them with, but I've been tripping all day.
+I told my girlfriend she drew her eyebrows too high. She seemed surprised.
+My dog used to chase people on a bike a lot. It got so bad, finally I had to take his bike away.
+I'm so good at sleeping. I can do it with my eyes closed.
+My boss told me to have a good day.. so I went home.
+Why is Peter Pan always flying? He neverlands.
+A woman walks into a library and asked if they had any books about paranoia. The librarian says "They're right behind you!"
+The other day, my wife asked me to pass her lipstick but I accidentally passed her a glue stick. She still isn't talking to me.
+Why do blind people hate skydiving? It scares the hell out of their dogs.
+When you look really closely, all mirrors look like eyeballs.
+My friend says to me: "What rhymes with orange" I said: "No it doesn't"
+What do you call a guy with a rubber toe? Roberto.
+What did the pirate say when he turned 80 years old? Aye matey.
+My wife told me I had to stop acting like a flamingo. So I had to put my foot down.
+I couldn't figure out why the baseball kept getting larger. Then it hit me.
+Why did the old man fall in the well? Because he couldn't see that well.
+I ate a clock yesterday, it was very time consuming.
+Whatdya call a frenchman wearing sandals? Phillipe Phillope.
+A blind man walks into a bar. And a table. And a chair.
+I know a lot of jokes about unemployed people but none of them work.
+What's orange and sounds like a parrot? A carrot.
+Did you hear about the italian chef that died? He pasta way.
+As I suspected, someone has been adding soil to my garden. The plot thickens.
+How do crazy people go through the forest? They take the physco path.
+And the lord said unto John, "Come forth and you will receive eternal life". John came fifth and won a toaster.
+What did the traffic light say to the car? Don’t look! I’m about to change.
+I just wrote a book on reverse psychology. Do not read it!
+What did one hat say to the other? You stay here. I’ll go on ahead.
+Why are graveyards noisy? Because of all the coffin!
+What's a ghost's favorite pasta? Spookgetti.
+Why didn’t the skeleton go to the ball? Because he had no-body to go with!
+What do you call a fat pumpkin? A plumpkin.
+What room does a ghost not need? A living room!
+What kind of dessert does a ghost like? I scream!
+What is a vampire’s favorite fruit? A nectarine!
+Know why skeletons are so calm? Because nothing gets under their skin.
+What is a ghost's favorite liquor? Mali-boo.
+Do you know how to make a witch itch? You take away the w!
+What do you call two witches living together? Broommates.
+Why are ghosts so bad at lying? You can see right through them.
+How do you make a skeleton laugh? Tickle his funny bone!
+What do mummies like to listening to on Halloween? Wrap music!
+What monster likes to dance at a party? The boogieman!
+How do girl vampires flirt? They bat their eyes.
+What is a ghosts favorite dessert? Boo-berry pie.
