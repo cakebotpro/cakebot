@@ -70,7 +70,7 @@ async def on_message(message):
         # normal message
         return
     # asking for bot
-    TODO: theinput = message.content[len(Bot_Prefix):]
+    theinput = message.content[len(Bot_Prefix):]
     args = theinput.split()
     # the command, e.x. "help"
     cmd = args[0].lower()
@@ -81,7 +81,10 @@ async def on_message(message):
         # fix npe
         return
     # the args (array) e.x. ["hello", "world"]
-    # TODO: args = args[1:]
+    args = args[1:]
+    if len(args) > 1:
+        for i in range(len(args)):
+            args[i] = args[i].lower()
 
 
 @client.event
@@ -141,6 +144,28 @@ def get_general(server):
             return check_for[e]
     return
 
+
+class Commands:
+    commandnames = ["help"]
+    commands = [help(m)]
+
+    def __init__(self, message):
+        self.m = message
+
+    def help(self, message):
+        await client.send_message(
+        message.channel,
+        embed=EmbedUtil.classic(
+            name="Cakebot Help Menu",
+            description=":::::::::::::::::",
+            sectionNames=[
+                "Basic Commands"
+            ],
+            sectionContents=[
+                "`help` - Show this menu"
+            ]
+        )
+    )
 
 if __name__ == "__main__":
     token = os.getenv("TOKEN")
