@@ -29,7 +29,17 @@ Bot_Prefix = "+"
 web_pool = requests.HTTPSession()
 client = Bot(command_prefix=Bot_Prefix)
 
-jokes = []
+
+class Jokes:
+    def __init__(self):
+        self.jokes = []
+
+    def download(self):
+        self.jokes = web_pool.request(
+            'get',
+            'https://raw.githubusercontent.com/RDIL/cakebot/master/content/jokes.txt'
+        ).content.split("\n")
+
 
 @client.event
 async def on_ready():
@@ -44,10 +54,6 @@ async def on_ready():
     print("Changed playing status")
 
     print("Downloading external content...")
-    jokes = web_pool.request(
-        'get',
-        'https://raw.githubusercontent.com/RDIL/cakebot/master/content/jokes.txt'
-    ).content.split("\n")
     
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @", client.user)
@@ -77,7 +83,7 @@ async def on_message(message):
     if cmd is None:
         # fix npe
         return
-    if cmd is "" or cmd is " ":
+    if cmd == "" or cmd == " ":
         # fix npe
         return
     # the args (array) e.x. ["hello", "world"]
