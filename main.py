@@ -85,9 +85,6 @@ async def on_message(message):
     if len(args) > 1:
         for i in range(len(args)):
             args[i] = args[i].lower()
-    if cmd = "help":
-        c = Commands(message)
-        c.commands[0]()
 
 
 @client.event
@@ -124,6 +121,9 @@ def hasRole(server, role_name, person):
     return False
 
 
+def react(m, emoji):
+    await client.add_reaction(m, emoji)
+
 def get_general(server):
     """
     Get the general chat room for the server
@@ -148,16 +148,10 @@ def get_general(server):
     return
 
 
-class Commands:
-    commandnames = ["help"]
-    commands = [help(m)]
-
-    def __init__(self, message):
-        self.m = message
-
-    def help(self, message):
-        await client.send_message(
-        message.channel,
+def send_help(self, m):
+    react(m, "❤")  # heart the message
+    await client.send_message(
+        m.channel,
         embed=EmbedUtil.classic(
             name="Cakebot Help Menu",
             description=":::::::::::::::::",
