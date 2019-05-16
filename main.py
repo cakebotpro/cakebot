@@ -130,6 +130,7 @@ def hasRole(server, role_name, person):
 def react(m, emoji):
     await client.add_reaction(m, emoji)
 
+
 def get_general(server):
     """
     Get the general chat room for the server
@@ -169,6 +170,7 @@ def send_help(self, m):
             ]
         )
     )
+
 
 if __name__ == "__main__":
     token = os.getenv("TOKEN")
