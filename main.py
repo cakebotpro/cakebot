@@ -85,6 +85,9 @@ async def on_message(message):
     if len(args) > 1:
         for i in range(len(args)):
             args[i] = args[i].lower()
+    if cmd = "help":
+        c = Commands(message)
+        c.commands[0]()
 
 
 @client.event
