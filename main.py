@@ -30,15 +30,15 @@ web_pool = requests.HTTPSession()
 client = Bot(command_prefix=Bot_Prefix)
 
 
-class Jokes:
-    def __init__(self):
-        self.jokes = []
-
-    def download(self):
-        self.jokes = web_pool.request(
-            'get',
-            'https://raw.githubusercontent.com/RDIL/cakebot/master/content/jokes.txt'
-        ).content.split("\n")
+#class Jokes:
+#    def __init__(self):
+#        self.jokes = []
+#
+#    def download(self):
+#        self.jokes = web_pool.request(
+#            'get',
+#            'https://raw.githubusercontent.com/RDIL/cakebot/master/content/jokes.txt'
+#        ).content.split("\n")
 
 
 @client.event
@@ -152,7 +152,6 @@ def get_general(server):
 
 
 def send_help(self, m):
-    await client.add_reaction(m, "❤")  # heart the message
     await client.send_message(
         m.channel,
         embed=EmbedUtil.classic(
