@@ -25,29 +25,11 @@ import requests
 
 Bot_Prefix = "+"
 
-web_pool = requests.HTTPSession()
-client = Bot(command_prefix=Bot_Prefix)
-
-
-class Jokes:
-    def __init__(self):
-        self.jokes = []
-
-    def download(self):
-        self.jokes = web_pool.request(
-            'get',
-            'https://raw.githubusercontent.com/RDIL/cakebot/master/content/jokes.txt'
-        ).content.split("\n")
+client = discord.Client()
 
 
 @client.event
 async def on_ready():
-    """
-    Called when the bot is booted
-
-    :return: nothing
-    :rtype: None
-    """
     print("Changing playing status...")
     await client.change_presence(game=discord.Game(name="Being beta tested"))
     print("Changed playing status")
@@ -61,13 +43,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    """
-    Called on message
-
-    :return: nothing
-    :rtype: None
-    :param message: the message object
-    """
     if message.author == client.user:
         # cancel own messages
         return
@@ -116,15 +91,6 @@ async def on_server_join(server):
 
 
 def hasRole(server, role_name, person):
-    """
-    If user has a role
-
-    :param server: the discord server object
-    :param role_name: the name of the role as a string
-    :param person: the person to check
-    :return: if they have it or not
-    :rtype: bool
-    """
     item = get(server.roles, name=role_name)
     if item in person.roles:
         return True
@@ -132,12 +98,6 @@ def hasRole(server, role_name, person):
 
 
 def get_general(server):
-    """
-    Get the general chat room for the server
-
-    :return: the channel if found
-    :param server: the server object to check
-    """
     check_for = [
         get(server.channels, name='general'),
         get(server.channels, name='hub'),
@@ -173,6 +133,6 @@ def send_help(m):
 
 if __name__ == "__main__":
     with open("token.txt", mode="r") as fh:
-        client.run(fh.readlines()[1].replace("\n", ""))
+        client.run(fh.readlines()[0].replace("\n", ""))
 else:
     raise Exception("Bot can't be imported!")
