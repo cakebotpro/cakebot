@@ -19,62 +19,15 @@
 import discord
 import EmbedUtil
 import area4
-import io
 from discord.utils import get
+import FileUtil
 
 Bot_Prefix = "+"
 
 client = discord.Client()
 
 
-class AbstractFile:
-    # init class
-    def __init__(self, name):
-        self.name = name
-
-    # override __str__ method
-    def __str__(self):
-        return self.name
-
-    # get the name
-    def get_name(self):
-        return self.__str__()
-
-    # io stuff
-    def wrap(self):
-        return open(self.get_name(), mode="a")
-
-
-class FileHandler:
-    # init class
-    def __init__(self, abstractFile):
-        self.cache = []
-        if type(abstractFile) != AbstractFile:
-            raise TypeError("'abstractFile' param must be instance of AbstractFile!")
-        else:
-            self.theFile = abstractFile
-
-    def get_file(self):
-        return self.theFile
-
-    def get_file_name(self):
-        return self.get_file().get_name()
-
-    def refresh(self):
-        with open(self.get_file_name(), mode="r") as filehandler:
-            if not type(filehandler) is io.TextIOWrapper:
-                raise TypeError("Could not create a TextIOWrapper for the file!")
-            else:
-                self.cache = filehandler.readlines()
-                # strip newlines
-                for h, g in enumerate(self.cache):
-                    self.cache[h] = self.cache[h].replace("\n", "")
-
-    def get_cache(self):
-        return self.cache
-
-
-log_file = FileHandler(AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
+log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
 
 
 @client.event
@@ -107,81 +60,59 @@ async def on_message(message):
         )
         # cancel now
         return
-    
+
     # Split the input
     theinput = message.content[len(Bot_Prefix):]
-    
+
     args = theinput.split()
-    
+
     # the command, e.x. "help"
     cmd = args[0].lower()
-    
+
     # if the user doesn't put in a command with the prefix, cancel:
     if cmd is None:
         return
-    
+
     # if the user doesn't put in a command with the prefix, cancel:
     if cmd == "" or cmd == " ":
         # fix npe
         return
-    
+
     # the args (array) e.x. ["hello", "world"]
     args = args[1:]
-    
+
     # make all args lowercase:
     for i in range(len(args)):
         args[i] = args[i].lower()
 
     # COMMANDS
     if cmd == "help":
-        await client.send_message(message.channel,
-            embed=EmbedUtil.classic(
-                name="Cakebot Help Menu",
-                description="Make sure to add a + before each command",
-                sectionNames=[
-                    "help",
-                    "ping"
-                ],
-                sectionContents=[
-                    "Show this menu.",
-                    "Check if the bot is up."
-                ]
-            )
+        await client.send_message(
+            message.channel,
+            embed=EmbedUtil.build_help_menu(EmbedUtil.prep(title="Cakebot Help", description="Make sure to add a + before each command!"))
         )
+
     elif cmd == "ping":
-        await client.send_message(message.channel,
-            embed=EmbedUtil.classic(
-                name="Bot Uptime Check",
-                description=":::::::::::::::::",
-                sectionNames=[
-                    "Pong!"
-                ],
-                sectionContents=[
-                    "🏓"
-                ]
-            )
-        )
+        await client.send_message(message.channel, "🏓")
 
 
 
 # When the bot joins a server:
-@client.event
-async def on_server_join(server):
+#@client.event
+#async def on_server_join(server):
     # Send welcome embed
-    await client.send_message(
-        get_general(),
-        embed=EmbedUtil.classic(
-            name="Server Welcome!",
-            description=":::::::::::::::::",
-            sectionNames=[
-                "Hello!"
-            ],
-            sectionContents=[
-                "Today is a great day, because today I have been invited"
-                +"to this server! I hope to have fun here!"
-            ]
-        )
-    )
+    #await client.send_message(
+    #    get_general(),
+    #    embed=EmbedUtil.prep(title="Server Welcome!", description=":::::::::::::::::")
+    #        sectionNames=[
+    #            "Hello!"
+    #        ],
+    #        sectionContents=[
+    #            "Today is a great day, because today I have been invited"
+    #            +"to this server! I hope to have fun here!"
+    #        ]
+    #    )
+    #)
 
 
 # check if user has a role:
@@ -209,6 +140,7 @@ def get_general(server):
     for e, v in enumerate(check_for):
         if check_for[e] in server.channels:
             return check_for[e]
+
 
 
 # read the token:
