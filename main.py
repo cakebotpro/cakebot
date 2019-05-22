@@ -18,7 +18,6 @@
 
 import discord
 import area4
-import os
 import EmbedUtil
 from discord.utils import get
 from discord.ext.commands import Bot
@@ -30,15 +29,15 @@ web_pool = requests.HTTPSession()
 client = Bot(command_prefix=Bot_Prefix)
 
 
-#class Jokes:
-#    def __init__(self):
-#        self.jokes = []
-#
-#    def download(self):
-#        self.jokes = web_pool.request(
-#            'get',
-#            'https://raw.githubusercontent.com/RDIL/cakebot/master/content/jokes.txt'
-#        ).content.split("\n")
+class Jokes:
+    def __init__(self):
+        self.jokes = []
+
+    def download(self):
+        self.jokes = web_pool.request(
+            'get',
+            'https://raw.githubusercontent.com/RDIL/cakebot/master/content/jokes.txt'
+        ).content.split("\n")
 
 
 @client.event
@@ -54,7 +53,7 @@ async def on_ready():
     print("Changed playing status")
 
     print("Downloading external content...")
-    
+
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @", client.user)
     print(area4.divider(1))
@@ -91,6 +90,11 @@ async def on_message(message):
     if len(args) > 1:
         for i in range(len(args)):
             args[i] = args[i].lower()
+
+    # help
+    if cmd == "help":
+        send_help(message)
+
 
 
 @client.event
@@ -151,7 +155,7 @@ def get_general(server):
     return
 
 
-def send_help(self, m):
+def send_help(m):
     await client.send_message(
         m.channel,
         embed=EmbedUtil.classic(
@@ -169,7 +173,6 @@ def send_help(self, m):
 
 if __name__ == "__main__":
     with open("token.txt", mode="r") as fh:
-        token = fh.readlines()[1].replace("\n", "")
-    client.run(token)
+        client.run(fh.readlines()[1].replace("\n", ""))
 else:
     raise Exception("Bot can't be imported!")
