@@ -17,11 +17,9 @@
 """
 
 import discord
-import area4
 import EmbedUtil
+import area4
 from discord.utils import get
-from discord.ext.commands import Bot
-import requests
 
 Bot_Prefix = "+"
 
@@ -32,48 +30,69 @@ client = discord.Client()
 async def on_ready():
     print("Changing playing status...")
     await client.change_presence(game=discord.Game(name="Being beta tested"))
-    print("Changed playing status")
-
-    print("Downloading external content...")
 
     print(area4.divider(1))
-    print("Ready to roll, I'll see you on Discord: @", client.user)
+    print("Ready to roll, I'll see you on Discord: @" + client.user)
     print(area4.divider(1))
 
 
+# Called on message event
 @client.event
 async def on_message(message):
+    # Check if this message was authored by the bot:
     if message.author == client.user:
-        # cancel own messages
         return
+
+    # Check if message starts with the prefix:
     if not message.content.startswith(Bot_Prefix):
         # normal message
         return
-    # asking for bot
+    
+    # Split the input
     theinput = message.content[len(Bot_Prefix):]
+    
     args = theinput.split()
+    
     # the command, e.x. "help"
     cmd = args[0].lower()
+    
+    # if the user doesn't put in a command with the prefix, cancel:
     if cmd is None:
-        # fix npe
         return
+    
+    # if the user doesn't put in a command with the prefix, cancel:
     if cmd == "" or cmd == " ":
         # fix npe
         return
+    
     # the args (array) e.x. ["hello", "world"]
     args = args[1:]
-    if len(args) > 1:
-        for i in range(len(args)):
-            args[i] = args[i].lower()
+    
+    # make all args lowercase:
+    for i in range(len(args)):
+        args[i] = args[i].lower()
 
-    # help
+    # COMMANDS
     if cmd == "help":
-        send_help(message)
+        await client.send_message(message.channel,
+            embed=EmbedUtil.classic(
+                name="Cakebot Help Menu",
+                description=":::::::::::::::::",
+                sectionNames=[
+                    "Basic Commands"
+                ],
+                sectionContents=[
+                    "`help` - Show this menu"
+                ]
+            )
+        )
 
 
 
+# When the bot joins a server:
 @client.event
 async def on_server_join(server):
+    # Send welcome embed
     await client.send_message(
         get_general(),
         embed=EmbedUtil.classic(
@@ -90,6 +109,7 @@ async def on_server_join(server):
     )
 
 
+# check if user has a role:
 def hasRole(server, role_name, person):
     item = get(server.roles, name=role_name)
     if item in person.roles:
@@ -97,6 +117,7 @@ def hasRole(server, role_name, person):
     return False
 
 
+# get main chat room
 def get_general(server):
     check_for = [
         get(server.channels, name='general'),
@@ -109,30 +130,13 @@ def get_general(server):
         get(server.channels, name='commands')
     ]
 
+    # if a match is found, return the channel object
     for e, v in enumerate(check_for):
         if check_for[e] in server.channels:
             return check_for[e]
-    return
 
 
-def send_help(m):
-    await client.send_message(
-        m.channel,
-        embed=EmbedUtil.classic(
-            name="Cakebot Help Menu",
-            description=":::::::::::::::::",
-            sectionNames=[
-                "Basic Commands"
-            ],
-            sectionContents=[
-                "`help` - Show this menu"
-            ]
-        )
-    )
-
-
-if __name__ == "__main__":
-    with open("token.txt", mode="r") as fh:
-        client.run(fh.readlines()[0].replace("\n", ""))
-else:
-    raise Exception("Bot can't be imported!")
+# read the token:
+with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
+    # run the client with the fetched token (stripped of newlines):
+    client.run(fh.readlines()[0].replace("\n", ""))
