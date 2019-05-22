@@ -173,7 +173,8 @@ def send_help(self, m):
 
 
 if __name__ == "__main__":
-    token = os.getenv("TOKEN")
+    with open("token.txt", mode="r") as fh:
+        token = fh.readlines()[1].replace("\n", "")
     client.run(token)
 else:
     raise Exception("Bot can't be imported!")
