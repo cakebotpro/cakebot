@@ -77,12 +77,27 @@ async def on_message(message):
         await client.send_message(message.channel,
             embed=EmbedUtil.classic(
                 name="Cakebot Help Menu",
-                description=":::::::::::::::::",
+                description="Make sure to add a + before each command",
                 sectionNames=[
-                    "Basic Commands"
+                    "help",
+                    "ping"
                 ],
                 sectionContents=[
-                    "`help` - Show this menu"
+                    "Show this menu.",
+                    "Check if the bot is up."
+                ]
+            )
+        )
+    elif cmd == "ping":
+        await client.send_message(message.channel,
+            embed=EmbedUtil.classic(
+                name="Bot Uptime Check",
+                description=":::::::::::::::::",
+                sectionNames=[
+                    "Pong!"
+                ],
+                sectionContents=[
+                    "🏓"
                 ]
             )
         )
