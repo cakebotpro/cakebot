@@ -49,7 +49,7 @@ class FileHandler:
     # init class
     def __init__(self, abstractFile):
         self.cache = []
-        if type(abstractFile) not AbstractFile:
+        if type(abstractFile) != AbstractFile:
             raise TypeError("'abstractFile' param must be instance of AbstractFile!")
         else:
             self.theFile = abstractFile
