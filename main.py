@@ -127,10 +127,6 @@ def hasRole(server, role_name, person):
     return False
 
 
-def react(m, emoji):
-    await client.add_reaction(m, emoji)
-
-
 def get_general(server):
     """
     Get the general chat room for the server
@@ -156,7 +152,7 @@ def get_general(server):
 
 
 def send_help(self, m):
-    react(m, "❤")  # heart the message
+    await client.add_reaction(m, "❤")  # heart the message
     await client.send_message(
         m.channel,
         embed=EmbedUtil.classic(
