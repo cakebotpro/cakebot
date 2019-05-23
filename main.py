@@ -95,8 +95,6 @@ async def on_message(message):
 
     # todo: servers[message.server.id]["better_stats"]
 
-
-
 # When the bot joins a server:
 @client.event
 async def on_server_join(server):
@@ -141,6 +139,7 @@ def get_general(server):
     for e, v in enumerate(check_for):
         if check_for[e] in server.channels:
             return check_for[e]
+
 
 # read the token:
 with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
