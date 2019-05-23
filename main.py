@@ -22,6 +22,7 @@ import area4
 from discord.utils import get
 import FileUtil
 import ConfigUtil
+import ServerUtil
 
 Bot_Prefix = "+"
 client = discord.Client()
@@ -87,7 +88,10 @@ async def on_message(message):
     if cmd == "help":
         await client.send_message(
             message.channel,
-            embed=EmbedUtil.build_help_menu(EmbedUtil.prep(title="Cakebot Help", description="Make sure to add a + before each command!"))
+            embed=EmbedUtil.build_help_menu(EmbedUtil.prep(
+                title="Cakebot Help",
+                description="Make sure to add a + before each command!"
+            ))
         )
 
     elif cmd == "ping":
@@ -113,8 +117,13 @@ async def on_server_join(server):
     # add the server ID
     ConfigUtil.add_server(server, servers)
     # Send welcome embed
-    await client.send_message(get_general(),
-        embed=build_welcome_embed(base=EmbedUtil.prep(title="Server Welcome!", description=":::::::::::::::::"))
+    await client.send_message(ServerUtil.get_general(server),
+        embed=build_welcome_embed(
+            base=EmbedUtil.prep(
+                title="Server Welcome!",
+                description=":::::::::::::::::"
+            )
+        )
     )
 
 
@@ -124,25 +133,6 @@ def hasRole(server, role_name, person):
     if item in person.roles:
         return True
     return False
-
-
-# get main chat room
-def get_general(server):
-    check_for = [
-        get(server.channels, name='general'),
-        get(server.channels, name='hub'),
-        get(server.channels, name='chat'),
-        get(server.channels, name='talk'),
-        get(server.channels, name='info'),
-        get(server.channels, name='announcements'),
-        get(server.channels, name='welcome'),
-        get(server.channels, name='commands')
-    ]
-
-    # if a match is found, return the channel object
-    for e, v in enumerate(check_for):
-        if check_for[e] in server.channels:
-            return check_for[e]
 
 
 # read the token:
