@@ -20,20 +20,19 @@ import discord
 import EmbedUtil
 import area4
 from discord.utils import get
-from FileUtil import *
+import FileUtil
 import ConfigUtil
 
 Bot_Prefix = "+"
 client = discord.Client()
 log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
-servers = {}
+servers = FileUtil.get_servers
 
 
 @client.event
 async def on_ready():
     print("Changing playing status...")
     await client.change_presence(game=discord.Game(name="Being beta tested"))
-    servers = FileUtil.get_servers
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @" + client.user.name)
     print(area4.divider(1))
@@ -147,4 +146,3 @@ def get_general(server):
 with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
     # run the client with the fetched token (stripped of newlines):
     client.run(fh.readlines()[0].replace("\n", ""))
-
