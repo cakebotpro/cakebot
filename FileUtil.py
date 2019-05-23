@@ -15,6 +15,7 @@
 
 import io
 
+
 class AbstractFile:
     # init class
     def __init__(self, name):
