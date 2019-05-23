@@ -26,4 +26,4 @@ def get_servers():
     return servers["servers"]
 
 
-add_server("test", get_servers())
+##add_server("test", get_servers())
