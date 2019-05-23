@@ -95,23 +95,27 @@ async def on_message(message):
 
     # todo: servers[message.server.id]["better_stats"]
 
+
+# make the welcome embed
+def build_welcome_embed(base):
+    base.add_field(
+        name="Heya!!",
+        value="Today is a great day, "
+              + "because today I get the honor of joining this server :D",
+        inline=False
+    )
+    return base
+
+
 # When the bot joins a server:
 @client.event
 async def on_server_join(server):
+    # add the server ID
     ConfigUtil.add_server(server, servers)
     # Send welcome embed
-    #await client.send_message(
-    #    get_general(),
-    #    embed=EmbedUtil.prep(title="Server Welcome!", description=":::::::::::::::::")
-    #        sectionNames=[
-    #            "Hello!"
-    #        ],
-    #        sectionContents=[
-    #            "Today is a great day, because today I have been invited"
-    #            +"to this server! I hope to have fun here!"
-    #        ]
-    #    )
-    #)
+    await client.send_message(get_general(),
+        embed=build_welcome_embed(base=EmbedUtil.prep(title="Server Welcome!", description=":::::::::::::::::"))
+    )
 
 
 # check if user has a role:
