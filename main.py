@@ -94,6 +94,8 @@ async def on_message(message):
     elif cmd == "ping":
         await client.send_message(message.channel, "🏓")
 
+    # todo: servers[message.server.id]["better_stats"]
+
 
 
 # When the bot joins a server:
