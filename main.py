@@ -140,8 +140,8 @@ def get_general(server):
         if check_for[e] in server.channels:
             return check_for[e]
 
+
 # read the token:
 with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
     # run the client with the fetched token (stripped of newlines):
     client.run(fh.readlines()[0].replace("\n", ""))
-
