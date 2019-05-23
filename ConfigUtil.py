@@ -1,8 +1,10 @@
 import json
 
-default_options = {'option1': True,
-                    'option2': True,
-                    'option3': True}
+default_options = {
+    'option1': True,
+    'option2': True,
+    'option3': True
+}
 
 # add to the server config when a bot joins a new server
 def add_server(server_id, server_list):
@@ -24,6 +26,3 @@ def get_servers():
         servers = json.load(config)
 
     return servers["servers"]
-
-
-##add_server("test", get_servers())
