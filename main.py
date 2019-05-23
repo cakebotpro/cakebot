@@ -20,7 +20,8 @@ import discord
 import EmbedUtil
 import area4
 from discord.utils import get
-import FileUtil
+from FileUtil import *
+import ConfigUtil
 
 Bot_Prefix = "+"
 
@@ -29,12 +30,12 @@ client = discord.Client()
 
 log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
 
-
+servers = {}
 @client.event
 async def on_ready():
     print("Changing playing status...")
     await client.change_presence(game=discord.Game(name="Being beta tested"))
-
+    servers = FileUtil.get_servers
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @" + client.user.name)
     print(area4.divider(1))
@@ -97,9 +98,10 @@ async def on_message(message):
 
 
 
-# When the bot joins a server:
-#@client.event
-#async def on_server_join(server):
+#When the bot joins a server:
+@client.event
+async def on_server_join(server):
+    ConfigUtil.add_server(server, servers)
     # Send welcome embed
     #await client.send_message(
     #    get_general(),
@@ -141,9 +143,8 @@ def get_general(server):
         if check_for[e] in server.channels:
             return check_for[e]
 
-
-
 # read the token:
 with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
     # run the client with the fetched token (stripped of newlines):
     client.run(fh.readlines()[0].replace("\n", ""))
+
