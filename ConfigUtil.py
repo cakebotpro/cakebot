@@ -15,7 +15,8 @@ def add_server(server_id, server_list):
 
     # Write to file
     with open("serveropts.json", "w") as config:
-        json.dump({"servers":server_list}, config)
+        config.write(json.dumps({"servers":server_list}, indent=1))
+        config.close()
 
 # reads in the config
 def get_servers():
@@ -25,4 +26,4 @@ def get_servers():
     return servers["servers"]
 
 
-##add_server("test", get_servers())
+add_server("test", get_servers())
