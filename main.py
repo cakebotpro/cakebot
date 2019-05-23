@@ -24,13 +24,11 @@ from FileUtil import *
 import ConfigUtil
 
 Bot_Prefix = "+"
-
 client = discord.Client()
-
-
 log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
-
 servers = {}
+
+
 @client.event
 async def on_ready():
     print("Changing playing status...")
@@ -98,7 +96,7 @@ async def on_message(message):
 
 
 
-#When the bot joins a server:
+# When the bot joins a server:
 @client.event
 async def on_server_join(server):
     ConfigUtil.add_server(server, servers)
