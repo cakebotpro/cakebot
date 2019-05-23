@@ -95,8 +95,6 @@ async def on_message(message):
 
     # todo: servers[message.server.id]["better_stats"]
 
-
-
 # When the bot joins a server:
 @client.event
 async def on_server_join(server):
@@ -146,3 +144,4 @@ def get_general(server):
 with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
     # run the client with the fetched token (stripped of newlines):
     client.run(fh.readlines()[0].replace("\n", ""))
+
