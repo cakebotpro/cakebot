@@ -1,9 +1,7 @@
 import json
 
 default_options = {
-    'option1': True,
-    'option2': True,
-    'option3': True
+    'better_config': True
 }
 
 # add to the server config when a bot joins a new server
