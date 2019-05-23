@@ -97,7 +97,16 @@ async def on_message(message):
     elif cmd == "ping":
         await client.send_message(message.channel, "🏓")
 
-    # todo: servers[message.server.id]["better_stats"]
+    elif cmd == "beta":
+        # toggle beta command
+        with servers[message.server.id]["better_stats"] as toggle_state:
+            if message.author.permissions.manage_server:
+                # has perms to toggle
+                # switch it to the state it isn't (toggle it)
+                toggle_state = !toggle_state
+            else:
+                # doesnt have perms
+                await client.send_message(message.channel, "**Sorry, but you do not have the manage server permission, have somebody with it use this command instead!**")
 
 
 # make the welcome embed
