@@ -97,6 +97,9 @@ async def on_message(message):
     elif cmd == "ping":
         await client.send_message(message.channel, "🏓")
 
+    elif cmd == "invite":
+        await client.send_message(message.channel, embed=EmbedUtil.prep("Invite CakeBot", "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"))
+
     elif cmd == "beta":
         # toggle beta command
         with servers[message.server.id]["better_stats"] as toggle_state:
