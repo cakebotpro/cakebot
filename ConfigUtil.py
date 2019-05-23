@@ -1,7 +1,7 @@
 import json
 
 default_options = {
-    'better_config': True
+    'beta_features': False
 }
 
 
