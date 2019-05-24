@@ -35,7 +35,7 @@ async def on_ready():
     print("Changing playing status...")
     await client.change_presence(game=discord.Game(name="BETA! Run +help"))
     print(area4.divider(1))
-    print("Ready to roll, I'll see you on Discord: @" + client.user.name)
+    print("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
     print(area4.divider(1))
 
 
@@ -102,7 +102,7 @@ async def on_message(message):
 
     elif cmd == "beta":
         # toggle beta command
-        with servers[message.server.id]["better_stats"] as toggle_state:
+        with servers[message.server.id]["beta_features"] as toggle_state:
             if message.author.permissions.manage_server:
                 # has perms to toggle
                 # switch it to the state it isn't (toggle it)
