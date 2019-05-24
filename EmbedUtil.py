@@ -32,6 +32,7 @@ def prep(
 
 
 def build_help_menu(base):
-    base.add_field("help", "Show this menu.")
-    base.add_field("ping", "Check if bot is online.")
+    base.add_field("help", "Show this menu.", inline=True)
+    base.add_field("ping", "Check if bot is online.", inline=True)
+    base.add_field("invite", "Invite the bot to your server", inline=True)
     return base
