@@ -101,6 +101,7 @@ async def on_message(message):
         await client.send_message(message.channel, embed=EmbedUtil.prep("Invite CakeBot", "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"))
 
     elif cmd == "beta":
+        print (servers[str(message.server.id)]["beta_features"])
         # toggle beta command
         with servers[str(message.server.id)]["beta_features"] as toggle_state:
             if message.author.permissions.manage_server:
