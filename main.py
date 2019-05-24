@@ -27,7 +27,7 @@ import ServerUtil
 Bot_Prefix = "+"
 client = discord.Client()
 log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
-servers = ConfigUtil.get_servers
+servers = ConfigUtil.get_servers()
 
 
 @client.event
@@ -37,8 +37,6 @@ async def on_ready():
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
     print(area4.divider(1))
-    print("test marker")
-    print(type(servers))
 
 
 # Called on message event
