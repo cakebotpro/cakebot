@@ -103,7 +103,8 @@ async def on_message(message):
     elif cmd == "beta":
         # toggle beta command
         with servers[message.server.id]["beta_features"] as toggle_state:
-            print(servers)
+            print("test marker")
+            print(type(servers))
             if message.author.permissions.manage_server:
                 # has perms to toggle
                 # switch it to the state it isn't (toggle it)
