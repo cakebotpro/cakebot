@@ -29,6 +29,7 @@ def add_server(server_id, server_list):
             return
 
     server_list[server_id] = default_options
+    print(server_list)
 
     # Write to file
     with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "w") as config:
