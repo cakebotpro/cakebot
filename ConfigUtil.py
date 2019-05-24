@@ -26,13 +26,13 @@ def add_server(server_id, server_list):
     # Checks for duplicates
     for s_id in server_list.keys():
         if s_id == server_id:
-            return
-
+            return;
+    
     server_list[server_id] = default_options
 
     # Write to file
-    with FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/serveropts.json").wrap() as config:
-        config.write(json.dumps({"servers": server_list}, indent=1))
+    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "w") as config:
+        config.write(json.dumps({"servers":server_list}, indent=1))
         config.close()
 
 
