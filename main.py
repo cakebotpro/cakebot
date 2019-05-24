@@ -130,7 +130,7 @@ def build_welcome_embed(base):
 @client.event
 async def on_server_join(server):
     # add the server ID
-    servers = ConfigUtil.add_server(server, servers)
+    servers = ConfigUtil.add_server(str(server), servers)
     # Send welcome embed
     await client.send_message(ServerUtil.get_general(server),
         embed=build_welcome_embed(
