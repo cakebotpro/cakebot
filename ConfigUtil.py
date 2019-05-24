@@ -34,6 +34,7 @@ def add_server(server_id, server_list):
     with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "w") as config:
         config.write(json.dumps({"servers":server_list}, indent=1))
         config.close()
+    return server_list
 
 
 # reads in the config
