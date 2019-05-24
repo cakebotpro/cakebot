@@ -26,8 +26,8 @@ def add_server(server_id, server_list):
     # Checks for duplicates
     for s_id in server_list.keys():
         if s_id == server_id:
-            return;
-    
+            return
+
     server_list[server_id] = default_options
 
     # Write to file
