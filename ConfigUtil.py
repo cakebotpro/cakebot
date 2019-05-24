@@ -38,4 +38,6 @@ def add_server(server_id, server_list):
 
 # reads in the config
 def get_servers():
-    return json.load(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/serveropts.json").wrap())["servers"]
+    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "r") as config:
+        servers = json.load(config)
+        return servers["servers"]
