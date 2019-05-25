@@ -26,7 +26,7 @@ import ServerUtil
 
 Bot_Prefix = "+"
 client = discord.Client()
-log_file = FileUtil.FileHandler(FileUtil.AbstractFile("rocks.rdil.cakebot.log"))
+log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
 servers = ConfigUtil.get_servers()
 
 
@@ -149,6 +149,6 @@ def hasRole(server, role_name, person):
 
 
 # read the token:
-with open("token.txt", mode="r") as fh:
+with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
     # run the client with the fetched token (stripped of newlines):
     client.run(fh.readlines()[0].replace("\n", ""))
