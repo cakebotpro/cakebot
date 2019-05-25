@@ -30,16 +30,14 @@ def add_server(server_id, server_list):
 
     server_list[server_id] = default_options
     print(server_list)
-    # Write to file
-    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "w") as config:
-        config.write(json.dumps({"servers":server_list}, indent=1))
-        config.close()
+
+    update_file()
     return server_list
 
 
 # reads in the config
 def get_servers():
-    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "r") as config:
+    with open("serveropts.json", "r") as config:
         servers = json.load(config)
         return servers["servers"]
 
@@ -48,7 +46,7 @@ def toggle_state(server, value, mode):
     update_file()
 
 def update_file():
-    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "w") as config:
+    with open("serveropts.json", "w") as config:
         config.write(json.dumps({"servers":server_list}, indent=1))
         config.close()
 

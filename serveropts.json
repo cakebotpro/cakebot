@@ -14,6 +14,12 @@
    "option1": true,
    "option2": true,
    "option3": true
+  },
+  "Test Server": {
+   "beta_features": false
+  },
+  "569636453454184448": {
+   "beta_features": false
   }
  }
 }
