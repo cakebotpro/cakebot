@@ -30,10 +30,8 @@ def add_server(server_id, server_list):
 
     server_list[server_id] = default_options
     print(server_list)
-    # Write to file
-    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "w") as config:
-        config.write(json.dumps({"servers":server_list}, indent=1))
-        config.close()
+
+    update_file()
     return server_list
 
 

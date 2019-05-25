@@ -103,17 +103,14 @@ async def on_message(message):
     elif cmd == "beta":
         print (servers[str(message.server.id)]["beta_features"])
         # toggle beta command
-        with servers[str(message.server.id)]["beta_features"] as toggle_state:
-            if message.author.permissions.manage_server:
-                # has perms to toggle
-                # switch it to the state it isn't (toggle it)
-                if toggle_state:
-                    toggle_state = False
-                else:
-                    toggle_state = True
-            else:
-                # doesnt have perms
-                await client.send_message(message.channel, "**Sorry, but you do not have the manage server permission, have somebody with it use this command instead!**")
+        state = servers[str(message.server.id)]["beta_features"]
+        if False:
+            # has perms to toggle
+            # switch it to the state it isn't (toggle it)
+            ConfigUtil.toggle_state(str(message.server.id), "beta_features", not state)
+        else:
+            # doesnt have perms
+            await client.send_message(message.channel, "**Sorry, but you do not have the manage server permission, have somebody with it use this command instead!**")
 
 
 # make the welcome embed
@@ -131,7 +128,7 @@ def build_welcome_embed(base):
 @client.event
 async def on_server_join(server):
     # add the server ID
-    servers = ConfigUtil.add_server(str(server), ConfigUtil.get_servers())
+    servers = ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers())
     # Send welcome embed
     await client.send_message(ServerUtil.get_general(server),
         embed=build_welcome_embed(
