@@ -1,2 +1,3 @@
 # cakebot
-a discord bot i guess
+
+A brand new Discord bot that is under development.

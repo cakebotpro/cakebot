@@ -19,11 +19,11 @@
 import discord
 import EmbedUtil
 import area4
-import random
 from discord.utils import get
 import FileUtil
 import ConfigUtil
 import ServerUtil
+import TextCommandsUtil
 
 Bot_Prefix = "+"
 client = discord.Client()
@@ -100,29 +100,35 @@ async def on_message(message):
     elif cmd == "invite":
         await client.send_message(message.channel, embed=EmbedUtil.prep(
             "Invite CakeBot",
-            "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"
+            "[Click to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"
         ))
 
-    # TODO
-    #elif cmd == "beta":
-    #    print (servers[str(message.server.id)]["beta_features"])
-    #    # toggle beta command
-    #    state = servers[str(message.server.id)]["beta_features"]
-    #    if False:
-    #        # has perms to toggle
-    #        # switch it to the state it isn't (toggle it)
-    #        ConfigUtil.toggle_state(str(message.server.id), "beta_features", not state)
-    #    else:
-    #        # doesnt have perms
-    #        await client.send_message(message.channel, "**Sorry, but you do not have the manage server permission, have somebody with it use this command instead!**")
+    # TODO: beta toggling
 
     elif cmd == "8":
-        ball = open("/home/jumbocakeyumyum/cakebot/content/8ball.txt", mode="r")
-        ball = ball.readlines()
-        opt = ball[random.randint(0, int(len(ball) - 1))]
         await client.send_message(
             message.channel,
-            embed=EmbedUtil.prep("**" + opt + "**", area4.divider(7) + area4.divider(7) + area4.divider(7))
+            embed=EmbedUtil.prep(
+                "**"
+                + TextCommandsUtil.eightball()
+                + "**",
+                area4.divider(7)
+                + area4.divider(7)
+                + area4.divider(7)
+            )
+        )
+
+    elif cmd == "joke":
+        await client.send_message(
+            message.channel,
+            embed=EmbedUtil.prep(
+                "**"
+                + TextCommandsUtil.jokes()
+                + "**",
+                area4.divider(7)
+                + area4.divider(7)
+                + area4.divider(7)
+            )
         )
         
 
