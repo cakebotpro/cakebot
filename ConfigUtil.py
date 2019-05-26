@@ -13,8 +13,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import json
-import FileUtil
+#import json
+#import FileUtil
 
 default_options = {
     'beta_features': False
@@ -22,31 +22,38 @@ default_options = {
 
 
 # add to the server config when a bot joins a new server
-def add_server(server_id, server_list):
+def add_server(server_id, server_list, sfile):
+    if server_id not in sfile.get_cache():
+        sfile.get_file().wrap().write(server_id)
+
     # Checks for duplicates
-    for s_id in server_list.keys():
-        if s_id == server_id:
-            return
+    #for s_id in server_list.keys():
+        #if s_id == server_id:
+            #return
 
-    server_list[server_id] = default_options
-    print(server_list)
+    #server_list[server_id] = default_options
+    #print(server_list)
 
-    update_file()
+    #update_file()
     return server_list
 
 
+# TODO
+
+
 # reads in the config
-def get_servers():
-    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "r") as config:
-        servers = json.load(config)
-        return servers["servers"]
+#def get_servers():
+#    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "r") as config:
+#        servers = json.load(config)
+#        return servers["servers"]
 
-def toggle_state(server, value, mode):
-    get_servers[server][value] = mode
-    update_file()
 
-def update_file():
-    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "w") as config:
-        config.write(json.dumps({"servers":server_list}, indent=1))
-        config.close()
+#def toggle_state(server, value, mode):
+#    get_servers[server][value] = mode
+#    update_file()
+
+#def update_file():
+#    with open("/home/jumbocakeyumyum/cakebot/serveropts.json", "w") as config:
+#        config.write(json.dumps({"servers":server_list}, indent=1))
+#        config.close()
 

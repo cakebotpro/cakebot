@@ -28,11 +28,18 @@ import TextCommandsUtil
 Bot_Prefix = "+"
 client = discord.Client()
 log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
+servers_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt"))
 servers = ConfigUtil.get_servers()
 
 
 @client.event
 async def on_ready():
+    # update servers
+    for server in client.get_all_channels():
+        if not server.id.__str__() in servers_file.get_cache():
+            servers_file.get_file().wrap().write(server.id.__str__())
+
+    # change RP
     await client.change_presence(game=discord.Game(name="BETA! Run +help", type=1))
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
@@ -149,7 +156,7 @@ def build_welcome_embed(base):
 async def on_server_join(server):
     # add the server ID
     # servers = ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers())
-    ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers())
+    ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers(), servers_file)
     # Send welcome embed
     await client.send_message(
         ServerUtil.get_general(server),
