@@ -98,8 +98,12 @@ async def on_message(message):
         await client.send_message(message.channel, "🏓")
 
     elif cmd == "invite":
-        await client.send_message(message.channel, embed=EmbedUtil.prep("Invite CakeBot", "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"))
+        await client.send_message(message.channel, embed=EmbedUtil.prep(
+            "Invite CakeBot",
+            "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"
+        ))
 
+    # TODO
     #elif cmd == "beta":
     #    print (servers[str(message.server.id)]["beta_features"])
     #    # toggle beta command
@@ -137,9 +141,11 @@ def build_welcome_embed(base):
 @client.event
 async def on_server_join(server):
     # add the server ID
-    servers = ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers())
+    # servers = ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers())
+    ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers())
     # Send welcome embed
-    await client.send_message(ServerUtil.get_general(server),
+    await client.send_message(
+        ServerUtil.get_general(server),
         embed=build_welcome_embed(
             base=EmbedUtil.prep(
                 title="Server Welcome!",
