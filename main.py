@@ -36,6 +36,7 @@ servers_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum
 async def on_ready():
     # update servers
     for server in client.get_all_channels():
+        servers_file.refresh()
         if server.id not in servers_file.get_cache():
             servers_file.get_file().wrap().write(server.id + "\n")
 
