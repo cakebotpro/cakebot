@@ -29,7 +29,7 @@ Bot_Prefix = "+"
 client = discord.Client()
 log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
 servers_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt"))
-servers = ConfigUtil.get_servers()
+#servers = ConfigUtil.get_servers()
 
 
 @client.event
