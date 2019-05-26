@@ -1,3 +1,2 @@
 area4==2.5.6
-requests==2.22.0
 discord.py==0.16.12
