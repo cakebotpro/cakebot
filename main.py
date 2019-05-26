@@ -114,7 +114,7 @@ async def on_message(message):
 
     elif cmd == "8":
         ball = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/content/8ball.txt"))
-        eights = ball.get_file().wrap().readlines()
+        eights = ball.get_file().readlines()
         opt = eights[random.randint(0, int(len(eights)))]
         i = ""
         for arg in args:
