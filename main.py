@@ -115,7 +115,7 @@ async def on_message(message):
     elif cmd == "8":
         ball = open("/home/jumbocakeyumyum/cakebot/content/8ball.txt", mode="r")
         ball = ball.readlines()
-        opt = ball[random.randint(0, int(len(ball)))]
+        opt = ball[random.randint(0, int(len(ball) - 1))]
         await client.send_message(
             message.channel,
             embed=EmbedUtil.prep("**" + opt + "**", area4.divider(7) + area4.divider(7))
