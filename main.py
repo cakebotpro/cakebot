@@ -113,9 +113,9 @@ async def on_message(message):
     #        await client.send_message(message.channel, "**Sorry, but you do not have the manage server permission, have somebody with it use this command instead!**")
 
     elif cmd == "8":
-        ball = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/content/8ball.txt"))
-        eights = ball.get_file().readlines()
-        opt = eights[random.randint(0, int(len(eights)))]
+        ball = open("/home/jumbocakeyumyum/cakebot/content/8ball.txt", mode="r")
+        ball = ball.readlines()
+        opt = ball[random.randint(0, int(len(ball)))]
         i = ""
         for arg in args:
             i.append(args[arg])
