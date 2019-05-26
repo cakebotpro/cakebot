@@ -32,6 +32,7 @@ def build_help_menu(base):
     base.add_field(name="help", value="Show this menu.", inline=False)
     base.add_field(name="ping", value="Check if bot is online.", inline=False)
     base.add_field(name="invite", value="Invite the bot to your server", inline=False)
-    base.add_field(name="8", value="Use our magic 8 ball! (see the docs)", inline=False)
+    base.add_field(name="8", value="Use our magic 8 ball! (see [here]"
+                                   + "(https://rdil.github.io/commands.html#fun) for usage)", inline=False)
     base.add_field(name="joke", value="Have me tell you a joke.", inline=False)
     return base
