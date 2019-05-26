@@ -39,6 +39,7 @@ async def on_ready():
         servers_file.refresh()
         if server.id not in servers_file.get_cache():
             servers_file.get_file().wrap().write(server.id + "\n")
+            servers_file.refresh()
 
     # change RP
     await client.change_presence(game=discord.Game(name="BETA! Run +help", type=1))
