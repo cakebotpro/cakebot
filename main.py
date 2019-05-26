@@ -116,13 +116,9 @@ async def on_message(message):
         ball = open("/home/jumbocakeyumyum/cakebot/content/8ball.txt", mode="r")
         ball = ball.readlines()
         opt = ball[random.randint(0, int(len(ball)))]
-        i = ""
-        for arg in args:
-            i.join(args[arg])
-        e = EmbedUtil.prep("**" + opt + "**", "You asked: " + i)
         await client.send_message(
             message.channel,
-            embed=e
+            embed=EmbedUtil.prep("**" + opt + "**", "--------------")
         )
         
 
