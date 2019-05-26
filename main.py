@@ -37,7 +37,7 @@ async def on_ready():
     # update servers
     for server in client.get_all_channels():
         if not server.id.__str__() in servers_file.get_cache():
-            servers_file.get_file().wrap().write(server.id.__str__())
+            servers_file.get_file().wrap().write(server.id + "\n")
 
     # change RP
     await client.change_presence(game=discord.Game(name="BETA! Run +help", type=1))
