@@ -118,7 +118,7 @@ async def on_message(message):
         opt = ball[random.randint(0, int(len(ball) - 1))]
         await client.send_message(
             message.channel,
-            embed=EmbedUtil.prep("**" + opt + "**", area4.divider(7) + area4.divider(7))
+            embed=EmbedUtil.prep("**" + opt + "**", area4.divider(7) + area4.divider(7) + area4.divider(7))
         )
         
 
