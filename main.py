@@ -100,17 +100,17 @@ async def on_message(message):
     elif cmd == "invite":
         await client.send_message(message.channel, embed=EmbedUtil.prep("Invite CakeBot", "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"))
 
-    elif cmd == "beta":
-        print (servers[str(message.server.id)]["beta_features"])
-        # toggle beta command
-        state = servers[str(message.server.id)]["beta_features"]
-        if False:
-            # has perms to toggle
-            # switch it to the state it isn't (toggle it)
-            ConfigUtil.toggle_state(str(message.server.id), "beta_features", not state)
-        else:
-            # doesnt have perms
-            await client.send_message(message.channel, "**Sorry, but you do not have the manage server permission, have somebody with it use this command instead!**")
+    #elif cmd == "beta":
+    #    print (servers[str(message.server.id)]["beta_features"])
+    #    # toggle beta command
+    #    state = servers[str(message.server.id)]["beta_features"]
+    #    if False:
+    #        # has perms to toggle
+    #        # switch it to the state it isn't (toggle it)
+    #        ConfigUtil.toggle_state(str(message.server.id), "beta_features", not state)
+    #    else:
+    #        # doesnt have perms
+    #        await client.send_message(message.channel, "**Sorry, but you do not have the manage server permission, have somebody with it use this command instead!**")
 
 
 # make the welcome embed
