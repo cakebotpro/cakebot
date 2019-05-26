@@ -100,7 +100,8 @@ async def on_message(message):
     elif cmd == "invite":
         await client.send_message(message.channel, embed=EmbedUtil.prep(
             "Invite CakeBot",
-            "[Click to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"
+            "[Click to invite me!](https://discordapp.com/oauth2/"
+            + "authorize?client_id=580573141898887199&scope=bot&permissions=8)"
         ))
 
     # TODO: beta toggling
