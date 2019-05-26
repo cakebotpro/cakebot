@@ -32,8 +32,7 @@ servers = ConfigUtil.get_servers()
 
 @client.event
 async def on_ready():
-    print("Changing playing status...")
-    await client.change_presence(game=discord.Game(name="BETA! Run +help"))
+    await client.change_presence(game=discord.Game(name="BETA! Run +help", type=1))
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
     print(area4.divider(1))
