@@ -118,7 +118,7 @@ async def on_message(message):
         opt = ball[random.randint(0, int(len(ball)))]
         i = ""
         for arg in args:
-            i.append(args[arg])
+            i.join(args[arg])
         e = EmbedUtil.prep("**" + opt + "**", "You asked: " + i)
         await client.send_message(
             message.channel,
