@@ -37,6 +37,10 @@ def isnt_me(m):
     return m.author != client.user
 
 
+def t():
+    return True
+
+
 @client.event
 async def on_ready():
     # update servers
@@ -147,23 +151,16 @@ async def on_message(message):
         )
 
     elif cmd == "purge":
-        if(
-            (args[0] is not None)
-            and (args[0] != "")
-            and (args[0] != " ")
-        ):
-            deleted = client.send_message(
-                message.channel,
-                'Deleted {} message(s)!'.format(
-                    len(
-                        await client.purge_from(
-                            message.channel,
-                            limit=int(args[0]),
-                            check=isnt_me
-                        )
-                    )
-                )
-            )
+        try:
+            if(
+                (args[0] is not None)
+                and (args[0] != "")
+                and (args[0] != " ")
+            ):
+                c = await client.purge_from(message.channel, limit=int(args[0]), check=t)
+                client.send_message(message.channel, 'Deleted {0} message(s)!'.format(c))
+        except IndexError:
+            pass
 
 
 # make the welcome embed
