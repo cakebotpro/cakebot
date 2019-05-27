@@ -148,7 +148,18 @@ async def on_message(message):
             and (args[0] != "")
             and (args[0] != " ")
         ):
-            deleted = client.send_message(message.channel, 'Deleted {} message(s)!'.format(len(await client.purge_from(message.channel, limit=int(args[0]),check=isnt_me))))
+            deleted = client.send_message(
+                message.channel,
+                'Deleted {} message(s)!'.format(
+                    len(
+                        await client.purge_from(
+                            message.channel,
+                            limit=int(args[0]),
+                            check=(message.author != client.user)
+                        )
+                    )
+                )
+            )
 
 
 # make the welcome embed
