@@ -1,2 +1,3 @@
 area4==2.5.6
 discord.py==0.16.12
+iDoggo==2.1.0
