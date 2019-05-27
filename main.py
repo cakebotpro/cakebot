@@ -33,6 +33,10 @@ servers_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum
 #servers = ConfigUtil.get_servers()
 
 
+def isnt_me(m):
+    return m.author != client.user
+
+
 @client.event
 async def on_ready():
     # update servers
@@ -155,7 +159,7 @@ async def on_message(message):
                         await client.purge_from(
                             message.channel,
                             limit=int(args[0]),
-                            check=(message.author != client.user)
+                            check=isnt_me
                         )
                     )
                 )
