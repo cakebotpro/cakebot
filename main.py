@@ -147,7 +147,7 @@ async def on_message(message):
             if(
                 (k is not None)
                 and (k != "")
-                and (, != " ")
+                and (k != " ")
             ):
                 deleted = client.send_message(message.channel, 'Deleted {} message(s)!'.format(len(await client.purge_from(message.channel, limit=int(args[0]),check=isnt_me))))
 
