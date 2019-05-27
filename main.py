@@ -24,6 +24,7 @@ import FileUtil
 import ConfigUtil
 import ServerUtil
 import TextCommandsUtil
+import LogsUtil
 
 Bot_Prefix = "+"
 client = discord.Client()
