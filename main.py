@@ -143,13 +143,12 @@ async def on_message(message):
         )
 
     elif cmd == "purge":
-        with args[0] as k:
-            if(
-                (k is not None)
-                and (k != "")
-                and (k != " ")
-            ):
-                deleted = client.send_message(message.channel, 'Deleted {} message(s)!'.format(len(await client.purge_from(message.channel, limit=int(args[0]),check=isnt_me))))
+        if(
+            (args[0] is not None)
+            and (args[0] != "")
+            and (args[0] != " ")
+        ):
+            deleted = client.send_message(message.channel, 'Deleted {} message(s)!'.format(len(await client.purge_from(message.channel, limit=int(args[0]),check=isnt_me))))
 
 
 # make the welcome embed
