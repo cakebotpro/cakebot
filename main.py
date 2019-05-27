@@ -141,7 +141,23 @@ async def on_message(message):
                 + area4.divider(7)
             )
         )
-        
+
+    elif cmd == "purge":
+        with args[0] as it:
+            if(it is not None and it != "" and it != " "):
+			    deleted = client.send_message(
+                    message.channel,
+                    'Deleted {} message(s)!'.format(
+                        len(
+                            await client.purge_from(
+                                message.channel,
+                                limit=int(args[0]),
+                                check=isnt_me
+                            )
+                        )
+                    )
+                )
+
 
 # make the welcome embed
 def build_welcome_embed(base):
