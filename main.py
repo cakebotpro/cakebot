@@ -25,12 +25,13 @@ import ConfigUtil
 import ServerUtil
 import TextCommandsUtil
 import LogsUtil
+import iDoggo
 
 Bot_Prefix = "+"
 client = discord.Client()
 log_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/rocks.rdil.cakebot.log"))
 servers_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt"))
-#servers = ConfigUtil.get_servers()
+# servers = ConfigUtil.get_servers()
 
 
 def isnt_me(m):
@@ -39,6 +40,14 @@ def isnt_me(m):
 
 def t():
     return True
+
+
+def get_contributors():
+    return [
+        "jumbocakeyumyum#0001",
+        "Tarsh#0971",
+        "Param#8739"
+    ]
 
 
 @client.event
@@ -149,6 +158,13 @@ async def on_message(message):
                 + area4.divider(7)
             )
         )
+
+    elif cmd == "dog":
+        perms = message.author.__str__() in get_contributors()
+        if perms:
+            await client.send_message(message.channel, iDoggo.dog1())
+        else:
+            await client.send_message(message.channel, ":x: ***You do not have permission to run this!***")
 
     elif cmd == "purge":
         try:
