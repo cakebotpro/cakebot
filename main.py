@@ -160,18 +160,6 @@ async def on_message(message):
             )
         )
 
-    elif cmd == "dog":
-        perms = message.author.__str__() in get_contributors()
-        if perms:
-            lines = iDoggo.dog1().split("\n")
-            lines.remove('')
-            print(lines)
-            for line_item in lines:
-                line_item = line_item.replace("`", "'")
-                await client.send_message(message.channel, str(line_item))
-        else:
-            await client.send_message(message.channel, ":x: ***You do not have permission to run this!***")
-
     #elif cmd == "purge":
     #    try:
     #        if(
