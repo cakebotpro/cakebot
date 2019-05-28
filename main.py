@@ -185,7 +185,17 @@ async def on_message(message):
     #        pass
 
     elif cmd == "info":
-        client.send_message(message.channel, f'**{message.server.name}**\n**Owner:** {message.server.owner}\n**Creation date:** {message.server.created_at}\n**Members:** {len(message.server.members)}\n**Region:** {message.server.region}\n**Server ID:** {message.server.id}')
+        client.send_message(
+            message.channel,
+            '**{0}**\n**Owner:** {1}\n**Creation date:** {2}\n**Members:** {3}\n**Region:** {4}\n**Server ID:** {5}'.format(
+                message.server.name,
+                message.server.owner,
+                message.server.created_at,
+                len(message.server.members),
+                message.server.region,
+                message.server.id
+            )
+        )
 
 
 # make the welcome embed
