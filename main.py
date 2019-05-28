@@ -162,7 +162,9 @@ async def on_message(message):
     elif cmd == "dog":
         perms = message.author.__str__() in get_contributors()
         if perms:
-            await client.send_message(message.channel, iDoggo.dog1())
+            lines = iDoggo.dog1().split("\n")
+            for line_item in lines:
+                await client.send_message(message.channel, lines[line_item])
         else:
             await client.send_message(message.channel, ":x: ***You do not have permission to run this!***")
 
