@@ -172,8 +172,7 @@ async def on_message(message):
     #        pass
 
     elif cmd == "info":
-        print("info")
-        await client.send_message(message.channel, "Owner: " + message.server.owner)
+        log_file.get_file().wrap().write("Attempting to respond to +info command")
         await client.send_message(
             message.channel,
             '***{0}***\n**Owner:** {1}\n**Members:** {2}\n**Region:** {3}\n**Server ID:** {4}'.format(
@@ -184,6 +183,7 @@ async def on_message(message):
                 message.server.id
             )
         )
+        log_file.get_file().wrap().write("Responded to +info command")
 
 
 # make the welcome embed
