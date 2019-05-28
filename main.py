@@ -25,7 +25,6 @@ import ConfigUtil
 import ServerUtil
 import TextCommandsUtil
 import LogsUtil
-import iDoggo
 
 Bot_Prefix = "+"
 client = discord.Client()
