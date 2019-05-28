@@ -184,6 +184,9 @@ async def on_message(message):
         except IndexError:
             pass
 
+    elif cmd == "info":
+        client.send_message(message.channel, f'**{message.server.name}**\n**Owner:** {message.server.owner}\n**Creation date:** {message.server.created_at()}\n**Members:** {len(message.server.members)}\n**Region:** {message.server.region}\n**Server ID:** {message.server.id}')
+
 
 # make the welcome embed
 def build_welcome_embed(base):
