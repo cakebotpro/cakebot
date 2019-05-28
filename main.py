@@ -185,9 +185,9 @@ async def on_message(message):
     #        pass
 
     elif cmd == "info":
-        client.send_message(
+        await client.send_message(
             message.channel,
-            '**{0}**\n**Owner:** {1}\n**Members:** {2}\n**Region:** {3}\n**Server ID:** {4}'.format(
+            '***{0}***\n**Owner:** {1}\n**Members:** {2}\n**Region:** {3}\n**Server ID:** {4}'.format(
                 message.server.name,
                 message.server.owner,
                 len(message.server.members),
