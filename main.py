@@ -164,6 +164,7 @@ async def on_message(message):
         perms = message.author.__str__() in get_contributors()
         if perms:
             lines = iDoggo.dog1().split("\n")
+            lines.remove('')
             print(lines)
             for line_item in lines:
                 print(lines[line_item])
