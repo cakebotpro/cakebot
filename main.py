@@ -187,10 +187,9 @@ async def on_message(message):
     elif cmd == "info":
         client.send_message(
             message.channel,
-            '**{0}**\n**Owner:** {1}\n**Creation date:** {2}\n**Members:** {3}\n**Region:** {4}\n**Server ID:** {5}'.format(
+            '**{0}**\n**Owner:** {1}\n**Members:** {2}\n**Region:** {3}\n**Server ID:** {4}'.format(
                 message.server.name,
                 message.server.owner,
-                message.server.created_at,
                 len(message.server.members),
                 message.server.region,
                 message.server.id
