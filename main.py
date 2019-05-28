@@ -172,20 +172,20 @@ async def on_message(message):
         else:
             await client.send_message(message.channel, ":x: ***You do not have permission to run this!***")
 
-    elif cmd == "purge":
-        try:
-            if(
-                (args[0] is not None)
-                and (args[0] != "")
-                and (args[0] != " ")
-            ):
-                c = await client.purge_from(message.channel, limit=int(args[0]), check=t)
-                client.send_message(message.channel, 'Deleted {0} message(s)!'.format(c))
-        except IndexError:
-            pass
+    #elif cmd == "purge":
+    #    try:
+    #        if(
+    #            (args[0] is not None)
+    #            and (args[0] != "")
+    #            and (args[0] != " ")
+    #        ):
+    #            c = await client.purge_from(message.channel, limit=int(args[0]), check=t)
+    #            client.send_message(message.channel, 'Deleted {0} message(s)!'.format(c))
+    #    except IndexError:
+    #        pass
 
     elif cmd == "info":
-        client.send_message(message.channel, f'**{message.server.name}**\n**Owner:** {message.server.owner}\n**Creation date:** {message.server.created_at()}\n**Members:** {len(message.server.members)}\n**Region:** {message.server.region}\n**Server ID:** {message.server.id}')
+        client.send_message(message.channel, f'**{message.server.name}**\n**Owner:** {message.server.owner}\n**Creation date:** {message.server.created_at}\n**Members:** {len(message.server.members)}\n**Region:** {message.server.region}\n**Server ID:** {message.server.id}')
 
 
 # make the welcome embed
