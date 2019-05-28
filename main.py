@@ -167,8 +167,7 @@ async def on_message(message):
             lines.remove('')
             print(lines)
             for line_item in lines:
-                print(lines[line_item])
-                await client.send_message(message.channel, str(lines[line_item]))
+                await client.send_message(message.channel, str(line_item))
         else:
             await client.send_message(message.channel, ":x: ***You do not have permission to run this!***")
 
