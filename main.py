@@ -43,7 +43,8 @@ def t():
 
 
 def get_contributors():
-    return [
+    return \
+    [
         "jumbocakeyumyum#0001",
         "Tarsh#0971",
         "Param#8739"
@@ -164,6 +165,7 @@ async def on_message(message):
         if perms:
             lines = iDoggo.dog1().split("\n")
             for line_item in lines:
+                print(lines[line_item])
                 await client.send_message(message.channel, str(lines[line_item]))
         else:
             await client.send_message(message.channel, ":x: ***You do not have permission to run this!***")
