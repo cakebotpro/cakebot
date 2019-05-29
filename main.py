@@ -17,13 +17,10 @@
 """
 
 import discord
-import EmbedUtil
 import area4
-from discord.utils import get
-import FileUtil
-import ServerUtil
-import TextCommandsUtil
 import logging
+from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
+from discord.utils import get
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -46,11 +43,11 @@ def t():
 @staticmethod
 def get_contributors():
     return \
-    [
-        "jumbocakeyumyum#0001",
-        "Tarsh#0971",
-        "Param#8739"
-    ]
+        [
+            "jumbocakeyumyum#0001",
+            "Tarsh#0971",
+            "Param#8739"
+        ]
 
 
 @client.event
