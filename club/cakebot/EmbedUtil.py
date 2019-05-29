@@ -28,7 +28,7 @@ def prep(title, description):
 
 
 def build_help_menu(base):
-    with open("/home/jumbocakeyumyum/cakebot/content/help.cfg") as optz:
+    with open("/home/jumbocakeyumyum/cakebot/content/help.cfg", "r") as optz:
         for line in optz.readlines():
             # strip newlines and parse
             itemm = line.replace("\n", "").split(" -> ")
