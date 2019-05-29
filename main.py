@@ -75,16 +75,7 @@ async def on_message(message):
 
     # Check if message starts with the prefix:
     if not message.content.startswith(Bot_Prefix):
-        # log it
-        log_file.get_file().wrap().write(
-            "[Message Log] Sent by "
-            + str(message.author)
-            + " on server "
-            + message.server.name
-            + ": "
-            + message.content
-        )
-        # cancel now
+        # cancel
         return
 
     # Split the input
