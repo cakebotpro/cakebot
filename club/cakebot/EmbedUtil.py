@@ -15,7 +15,6 @@
 
 import discord
 
-
 def prep(title, description):
     # embed metadata
     embed = discord.Embed(
@@ -24,16 +23,14 @@ def prep(title, description):
         color=0x663399
     )
     # footer
-    embed.set_footer(text="Created with ❤ and 🍪 by jumbocakeyumyum#0001")
+    embed.set_footer(text="Created with ❤ and 🍪 by [our dedicated team](https://cakebot.club/contributors.html)")
     return embed
 
 
 def build_help_menu(base):
-    base.add_field(name="help", value="Show this menu.", inline=False)
-    base.add_field(name="ping", value="Check if bot is online.", inline=False)
-    base.add_field(name="invite", value="Invite the bot to your server", inline=False)
-    base.add_field(name="8", value="Use our magic 8 ball! (see [here]"
-                                   + "(https://cakebot.club/commands.html#fun) for usage)", inline=False)
-    base.add_field(name="joke", value="Have me tell you a joke.", inline=False)
-    base.add_field(name="info", value="Get server information.", inline=False)
+    with open("/home/jumbocakeyumyum/cakebot/content/help.cfg") as optz:
+        for line in optz.readlines():
+            # strip newlines and parse
+            itemm = line.replace("\n", "").split(" -> ")
+            base.add_field(name=itemm[0], value=itemm[1], inline=False)
     return base
