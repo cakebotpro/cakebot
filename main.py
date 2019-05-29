@@ -53,10 +53,10 @@ def get_contributors():
 @client.event
 async def on_ready():
     # update servers
-    for server in client.get_all_channels():
+    for channel in client.get_all_channels():
         servers_file.refresh()
-        if server.id not in servers_file.get_cache():
-            servers_file.get_file().wrap().write(server.id + "\n")
+        if channel.server.name not in servers_file.get_cache():
+            servers_file.get_file().wrap().write(channel.server.name + "\n")
             servers_file.refresh()
 
     # change RP
