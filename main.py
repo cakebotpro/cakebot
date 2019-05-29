@@ -116,8 +116,8 @@ async def on_message(message):
 
     elif cmd == "invite":
         await client.send_message(message.channel, embed=EmbedUtil.prep(
-            "Invite CakeBot",
-            "[Click to invite me!](https://discordapp.com/oauth2/"
+            "Invite Cakebot",
+            "[Click here to invite me!](https://discordapp.com/oauth2/"
             + "authorize?client_id=580573141898887199&scope=bot&permissions=8)"
         ))
 
@@ -160,6 +160,7 @@ async def on_message(message):
     #            client.send_message(message.channel, 'Deleted {0} message(s)!'.format(c))
     #    except IndexError:
     #        pass
+    # TODO: perms system
 
     elif cmd == "info":
         await client.send_message(
