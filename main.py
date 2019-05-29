@@ -28,9 +28,7 @@ import logging
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
+logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w'))
 
 Bot_Prefix = "+"
 client = discord.Client()
