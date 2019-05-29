@@ -21,7 +21,6 @@ import EmbedUtil
 import area4
 from discord.utils import get
 import FileUtil
-import ConfigUtil
 import ServerUtil
 import TextCommandsUtil
 import logging
@@ -44,6 +43,7 @@ def t():
     return True
 
 
+@staticmethod
 def get_contributors():
     return \
     [
@@ -193,16 +193,13 @@ def build_welcome_embed(base):
 # When the bot joins a server:
 @client.event
 async def on_server_join(server):
-    # add the server ID
-    # servers = ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers())
-    ConfigUtil.add_server(str(server.id), ConfigUtil.get_servers(), servers_file)
     # Send welcome embed
     await client.send_message(
         ServerUtil.get_general(server),
         embed=build_welcome_embed(
             base=EmbedUtil.prep(
                 title="Server Welcome!",
-                description=":::::::::::::::::"
+                description="================"
             )
         )
     )
