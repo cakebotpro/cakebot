@@ -202,14 +202,6 @@ async def on_server_join(server):
     )
 
 
-# check if user has a role:
-def hasRole(server, role_name, person):
-    item = get(server.roles, name=role_name)
-    if item in person.roles:
-        return True
-    return False
-
-
 # read the token:
 with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
     # run the client with the fetched token (stripped of newlines):
