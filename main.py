@@ -43,11 +43,11 @@ def t():
 @staticmethod
 def get_contributors():
     return \
-    [
-        "jumbocakeyumyum#0001",
-        "Tarsh#0971",
-        "Param#8739"
-    ]
+        [
+            "jumbocakeyumyum#0001",
+            "Tarsh#0971",
+            "Param#8739"
+        ]
 
 
 @client.event
