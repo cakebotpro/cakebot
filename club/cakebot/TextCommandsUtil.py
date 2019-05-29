@@ -30,5 +30,4 @@ def jokes():
 
 
 def common_reader(filename):
-    var1 = open("/home/jumbocakeyumyum/cakebot/content/" + filename, mode="r")
-    return var1.readlines()
+    return open("/home/jumbocakeyumyum/cakebot/content/" + filename, mode="r").readlines()
