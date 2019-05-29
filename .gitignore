@@ -6,13 +6,7 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 .python-version
-.env
-.venv
-env/
 venv/
-ENV/
-env.bak/
 venv.bak/
 token.txt
-serveropts.json
 .idea/
