@@ -23,7 +23,7 @@ def prep(title, description):
         color=0x663399
     )
     # footer
-    embed.set_footer(text="Created with ❤ and 🍪 by [our dedicated team](https://cakebot.club/contributors.html)")
+    embed.set_footer(text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/")
     return embed
 
 
