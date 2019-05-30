@@ -169,7 +169,7 @@ async def on_message(message):
         )
 
     elif cmd == "restart":
-        if message.author == get_admin():
+        if message.author.__str__() == get_admin():
             await client.send_message(message.channel, "***Rebooting all shards, this may take a minute.***")
             await client.change_presence(game=discord.Game(name="! REBOOTING !", type=2))
             asyncio.sleep(15)
