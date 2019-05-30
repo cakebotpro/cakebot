@@ -20,6 +20,7 @@ import discord
 import area4
 import asyncio
 import logging
+import random
 from github import Github
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
 
@@ -176,6 +177,11 @@ async def on_message(message):
             discord.logout()
             asyncio.sleep(15)
             discord.login(open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r").readlines()[0].replace("\n", ""))
+
+    elif cmd == "report":
+        repo = g.get_repo("RDIL/cakebot")
+        repo.create_issue(title="Support ticket #" + random.randint(0, 1000000), body=args)
+        await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
 
 # make the welcome embed
