@@ -169,7 +169,9 @@ async def on_message(message):
         for arg in args:
             arg = str(arg) + " "
             String.join(arg)
+            print(String)
         String = String + "```\n##### Built by the Cakebot team | https://cakebot.club"
+        print(String)
         repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=String)
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
