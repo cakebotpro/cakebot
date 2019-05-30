@@ -167,7 +167,7 @@ async def on_message(message):
         repo = g.get_repo("RDIL/cakebot")
         String = "## Support Ticket\n> Filed by "
         + message.author.__str__()
-        + "\n### Message:\n```none\n{0}```".format(
+        + "\n### Message:\n`{0}`".format(
             String.join(args)
         )
         repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=String)
