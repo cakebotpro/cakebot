@@ -18,6 +18,7 @@
 
 import discord
 import area4
+import asyncio
 import logging
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
 
@@ -38,10 +39,15 @@ def t():
 
 
 @staticmethod
+def get_admin():
+    return "jumbocakeyumyum#0001"
+
+
+@staticmethod
 def get_contributors():
     return \
         [
-            "jumbocakeyumyum#0001",
+            get_admin()
             "Tarsh#0971",
             "Param#8739"
         ]
@@ -158,6 +164,15 @@ async def on_message(message):
                 message.server.id
             )
         )
+
+    elif cmd == "restart":
+        if message.author == get_admin():
+            await client.send_message(message.channel, "***Rebooting all shards, this may take a minute.***")
+            await client.change_presence(game=discord.Game(name="! REBOOTING !", type=2))
+            asyncio.sleep(15)
+            discord.logout()
+            asyncio.sleep(15)
+            discord.login(open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r").readlines()[0].replace("\n", ""))
 
 
 # make the welcome embed
