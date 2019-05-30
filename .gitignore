@@ -10,3 +10,4 @@ venv/
 venv.bak/
 token.txt
 .idea/
+ghtoken.txt
