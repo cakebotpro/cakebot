@@ -90,10 +90,6 @@ async def on_message(message):
     # the args (array) e.x. ["hello", "world"]
     args = args[1:]
 
-    # make all args lowercase:
-    for i in range(len(args)):
-        args[i] = args[i].lower()
-
     # COMMANDS
     if cmd == "help":
         await client.send_message(
@@ -169,8 +165,12 @@ async def on_message(message):
 
     elif cmd == "report":
         repo = g.get_repo("RDIL/cakebot")
-        String = ""
-        repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=String.join(args))
+        String = "## Support Ticket\n> Filed by " + message.author.__str__() + "\n### Message:\n```none"
+        for arg in args:
+            arg = str(arg) + " "
+        String.join(args)
+        String = String + "```\n##### Built by the Cakebot team | https://cakebot.club"
+        repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=String)
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
 
