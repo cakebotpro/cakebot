@@ -73,7 +73,7 @@ async def on_ready():
     print(area4.divider(1))
 
 
-def f(c:
+def f():
     await client.close()
     await asyncio.sleep(5)
     with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
