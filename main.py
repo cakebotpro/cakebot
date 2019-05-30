@@ -166,6 +166,8 @@ async def on_message(message):
     elif cmd == "report":
         repo = g.get_repo("RDIL/cakebot")
         String = ""
+        for e, z in enumerate(args):
+            args[e] = str(args[e]) + " "
         repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`"))
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
