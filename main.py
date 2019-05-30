@@ -21,6 +21,7 @@ import area4
 import asyncio
 import logging
 import random
+from multiprocessing import Pool
 from github import Github
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
 
@@ -71,6 +72,13 @@ async def on_ready():
     print("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
     print(area4.divider(1))
 
+
+def f():
+    await client.close()
+    await asyncio.sleep(5)
+    with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
+        client.run(fh.readlines()[0].replace("\n", ""))
+    
 
 # Called on message event
 @client.event
@@ -173,10 +181,9 @@ async def on_message(message):
             await client.send_message(message.channel, "***Rebooting all shards, this may take a minute.***")
             await client.change_presence(game=discord.Game(name="! REBOOTING !", type=3))
             await asyncio.sleep(15)
-            await client.close()
-            await asyncio.sleep(15)
-            with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
-                client.run(fh.readlines()[0].replace("\n", ""))
+            pool = Pool(processes=1)
+            result = pool.apply_async(f, [10], callback)
+            return
 
     elif cmd == "report":
         repo = g.get_repo("RDIL/cakebot")
