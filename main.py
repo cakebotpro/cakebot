@@ -47,7 +47,7 @@ def get_admin():
 def get_contributors():
     return \
         [
-            get_admin()
+            get_admin(),
             "Tarsh#0971",
             "Param#8739"
         ]
