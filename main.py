@@ -42,7 +42,6 @@ def t():
     return True
 
 
-@staticmethod
 def get_admin():
     return "jumbocakeyumyum#0001"
 
