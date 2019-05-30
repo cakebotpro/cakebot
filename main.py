@@ -173,9 +173,9 @@ async def on_message(message):
             await client.send_message(message.channel, "***Rebooting all shards, this may take a minute.***")
             await client.change_presence(game=discord.Game(name="! REBOOTING !", type=3))
             asyncio.sleep(15)
-            client.logout()
+            await client.close()
             asyncio.sleep(15)
-            client.login(open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r").readlines()[0].replace("\n", ""))
+            await client.login(open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r").readlines()[0].replace("\n", ""))
 
     elif cmd == "report":
         repo = g.get_repo("RDIL/cakebot")
