@@ -20,7 +20,6 @@ import discord
 import area4
 import logging
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
-from discord.utils import get
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -32,10 +31,8 @@ servers_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum
 # servers = ConfigUtil.get_servers()
 
 
-def isnt_me(m):
-    return m.author != client.user
-
-
+# this *needs* to be a runnable object,
+# so just ignore it please
 def t():
     return True
 
@@ -69,10 +66,6 @@ async def on_ready():
 # Called on message event
 @client.event
 async def on_message(message):
-    # Check if this message was authored by the bot:
-    if message.author == client.user:
-        return
-
     # Check if message starts with the prefix:
     if not message.content.startswith(Bot_Prefix):
         # cancel
@@ -85,15 +78,6 @@ async def on_message(message):
 
     # the command, e.x. "help"
     cmd = args[0].lower()
-
-    # if the user doesn't put in a command with the prefix, cancel:
-    if cmd is None:
-        return
-
-    # if the user doesn't put in a command with the prefix, cancel:
-    if cmd == "" or cmd == " ":
-        # fix npe
-        return
 
     # the args (array) e.x. ["hello", "world"]
     args = args[1:]
