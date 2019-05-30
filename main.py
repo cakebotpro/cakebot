@@ -165,10 +165,10 @@ async def on_message(message):
 
     elif cmd == "report":
         repo = g.get_repo("RDIL/cakebot")
-        String = "## Support Ticket\n> Filed by " + message.author.__str__() + "\n### Message:\n```none"
+        String = "## Support Ticket\n> Filed by " + message.author.__str__() + "\n### Message:\n```"
         for arg in args:
             arg = str(arg) + " "
-        String.join(args)
+            String.join(arg)
         String = String + "```\n##### Built by the Cakebot team | https://cakebot.club"
         repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=String)
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
