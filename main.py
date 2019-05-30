@@ -73,7 +73,7 @@ async def on_ready():
     print(area4.divider(1))
 
 
-def f():
+def f(c:
     await client.close()
     await asyncio.sleep(5)
     with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
@@ -182,7 +182,7 @@ async def on_message(message):
             await client.change_presence(game=discord.Game(name="! REBOOTING !", type=3))
             await asyncio.sleep(15)
             pool = Pool(processes=1)
-            result = pool.apply_async(f, [10], callback)
+            result = pool.apply_async(f, [], callback)
             return
 
     elif cmd == "report":
