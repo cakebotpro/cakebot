@@ -27,6 +27,7 @@ logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w'))
 
+# github endpoint
 g = Github(open("/home/jumbocakeyumyum/cakebot/tokengh.txt", mode="r").readlines()[0].replace("\n", ""))
 
 Bot_Prefix = "+"
