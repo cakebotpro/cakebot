@@ -20,7 +20,7 @@ import discord
 import area4
 import logging
 import random
-from github import Github
+import github
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
 
 logger = logging.getLogger('bot')
@@ -28,7 +28,8 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w'))
 
 # github endpoint
-g = Github(open("/home/jumbocakeyumyum/cakebot/tokengh.txt", mode="r").readlines()[0].replace("\n", ""))
+g = github.Github(open("/home/jumbocakeyumyum/cakebot/tokengh.txt", mode="r").readlines()[0].replace("\n", ""))
+github.enable_console_debug_logging()
 
 Bot_Prefix = "+"
 client = discord.Client()
