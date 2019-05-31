@@ -14,13 +14,15 @@
 """
 
 import discord
+import club.cakebot.HexBuilder
+
 
 def prep(title, description):
     # embed metadata
     embed = discord.Embed(
         title=title,
         description=description,
-        color=0x663399
+        color=int(HexBuilder.r())
     )
     # footer
     embed.set_footer(text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/")
