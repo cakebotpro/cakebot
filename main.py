@@ -147,8 +147,7 @@ async def on_message(message):
     #            and (args[0] != "")
     #            and (args[0] != " ")
     #        ):
-    #            c = await client.purge_from(message.channel, limit=int(args[0]), check=t)
-    #            client.send_message(message.channel, 'Deleted {0} message(s)!'.format(c))
+    #            await client.purge_from(message.channel, limit=int(args[0]), check=t)
     #    except IndexError:
     #        pass
     # TODO: perms system
@@ -170,7 +169,7 @@ async def on_message(message):
         String = ""
         for e, z in enumerate(args):
             args[e] = str(args[e]) + " "
-        repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`"))
+        repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"))
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
 
