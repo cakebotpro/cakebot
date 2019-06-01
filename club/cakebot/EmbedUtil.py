@@ -26,6 +26,7 @@ def prep(title, description):
     )
     # footer
     embed.set_footer(text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/")
+    embed.set_author(name="Cakebot", url="https://cakebot.club", icon_url="https://raw.githubusercontent.com/RDIL/cakebot/master/content/cake.png")
     return embed
 
 
