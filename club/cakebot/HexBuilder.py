@@ -32,4 +32,4 @@ class Imp:
 def r():
     i = Imp()
     pec = i.__done__()
-    return float("0x" + pec[0] + pec[1] + pec[2])
+    return int(float("0x" + pec[0] + pec[1] + pec[2]))
