@@ -23,7 +23,7 @@ class Imp:
     def __str__(self):
         values = IntBuilder.random_hex()
         for v in values:
-            self.c.append(str(v))
+            self.c.append(hex(v))
 
     def __done__(self):
         self.__str__()
