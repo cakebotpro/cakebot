@@ -14,7 +14,7 @@
 """
 
 import discord
-import club.cakebot.HexBuilder
+from club.cakebot import HexBuilder
 
 
 def prep(title, description):
