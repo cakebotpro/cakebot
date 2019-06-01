@@ -30,4 +30,5 @@ class Imp:
         return self.c
 
 def r():
-    return int("0x" + Imp.__done__())
+    i = Imp()
+    return int("0x" + i.__done__())
