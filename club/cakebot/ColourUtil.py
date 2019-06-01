@@ -14,7 +14,7 @@
 """
 
 from discord import Color
-from club.cakebot.colours import Tan
+from club.cakebot.colours import Tan, ChiliPepper
 import random
 
 
@@ -38,7 +38,8 @@ def randomcolor():
         Color.dark_red(),
         Color.lighter_grey(),
         Color.darker_grey(),
-        Tan.tan()
+        Tan.tan(),
+        ChiliPepper.chili_pepper()
     ]
     intobj = random.randint(0, len(colors) - 1)
     return colors[intobj]
