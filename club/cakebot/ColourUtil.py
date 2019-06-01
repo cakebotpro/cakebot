@@ -38,5 +38,5 @@ def randomcolor():
         Color.lighter_grey(),
         Color.darker_grey()
     ]
-    intobj = random.randint(len(colors))
+    intobj = random.randint(0, len(colors) - 1)
     return colors[intobj]
