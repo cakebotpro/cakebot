@@ -13,7 +13,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import club.cakebot.IntBuilder
+from club.cakebot import IntBuilder
 
 
 class Imp:
