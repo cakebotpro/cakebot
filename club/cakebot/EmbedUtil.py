@@ -14,7 +14,7 @@
 """
 
 import discord
-from club.cakebot import HexBuilder
+from club.cakebot import ColourUtil
 
 
 def prep(title, description):
@@ -22,7 +22,7 @@ def prep(title, description):
     embed = discord.Embed(
         title=title,
         description=description,
-        color=int(HexBuilder.r())
+        color=ColourUtil.randomcolor()
     )
     # footer
     embed.set_footer(text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/")
