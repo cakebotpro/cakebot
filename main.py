@@ -21,7 +21,7 @@ import area4
 import logging
 import random
 import github
-from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, HexBuilder
+from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
