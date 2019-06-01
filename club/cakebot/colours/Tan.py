@@ -13,7 +13,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from discord import Color
+import discord
 
 
 the_color = discord.Color(0xbeaa3e)
