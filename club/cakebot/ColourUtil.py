@@ -39,7 +39,7 @@ def randomcolor():
         Color.lighter_grey(),
         Color.darker_grey(),
         Tan.tan(),
-        ChiliPepper.chili_pepper()
+        ChiliPepper.chilipepper()
     ]
     intobj = random.randint(0, len(colors) - 1)
     return colors[intobj]
