@@ -36,7 +36,7 @@ def randomcolor():
         c.dark_orange(),
         c.red(),
         c.dark_red(),
-        c.lighter_grey()
+        c.lighter_grey(),
         c.darker_grey()
     ]
     intobj = random.randint(len(colors))
