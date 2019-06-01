@@ -18,26 +18,25 @@ import random
 
 
 def randomcolor():
-    c = Color()
     colors = [
-        c.teal(),
-        c.dark_teal(),
-        c.green(),
-        c.dark_green(),
-        c.blue(),
-        c.dark_blue(),
-        c.purple(),
-        c.dark_purple(),
-        c.magenta(),
-        c.dark_magenta(),
-        c.gold(),
-        c.dark_gold(),
-        c.orange(),
-        c.dark_orange(),
-        c.red(),
-        c.dark_red(),
-        c.lighter_grey(),
-        c.darker_grey()
+        Color.teal(),
+        Color.dark_teal(),
+        Color.green(),
+        Color.dark_green(),
+        Color.blue(),
+        Color.dark_blue(),
+        Color.purple(),
+        Color.dark_purple(),
+        Color.magenta(),
+        Color.dark_magenta(),
+        Color.gold(),
+        Color.dark_gold(),
+        Color.orange(),
+        Color.dark_orange(),
+        Color.red(),
+        Color.dark_red(),
+        Color.lighter_grey(),
+        Color.darker_grey()
     ]
     intobj = random.randint(len(colors))
     return colors[intobj]
