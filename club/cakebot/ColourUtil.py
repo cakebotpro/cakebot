@@ -27,7 +27,7 @@ def randomcolor():
         c.blue(),
         c.dark_blue(),
         c.purple(),
-        c.dark_purple()
+        c.dark_purple(),
         c.magenta(),
         c.dark_magenta(),
         c.gold(),
