@@ -14,7 +14,7 @@
 """
 
 from discord import Color
-from colour import Tan
+from colours import Tan
 import random
 
 
