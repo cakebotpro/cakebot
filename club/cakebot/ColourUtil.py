@@ -14,6 +14,7 @@
 """
 
 from discord import Color
+from colour import Tan
 import random
 
 
@@ -36,7 +37,8 @@ def randomcolor():
         Color.red(),
         Color.dark_red(),
         Color.lighter_grey(),
-        Color.darker_grey()
+        Color.darker_grey(),
+        Tan.tan()
     ]
     intobj = random.randint(0, len(colors) - 1)
     return colors[intobj]
