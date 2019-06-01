@@ -14,7 +14,7 @@
 """
 
 from discord import Color
-from colours import Tan
+from club.cakebot.colours import Tan
 import random
 
 
