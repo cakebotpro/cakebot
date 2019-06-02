@@ -22,7 +22,7 @@ import logging
 import random
 import github
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
-from club.cakebot.external.NASAData import isslat, isslon
+from club.cakebot.external.NASAData import ApiImp
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -163,9 +163,10 @@ async def on_message(message):
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
     elif cmd == "iss":
+        imp = ApiImp()
         embed = EmbedUtil.prep("International Space Station", "Where it is at right now!")
-        embed.add_field(name="Latitude", value=str(isslat()), inline=False)
-        embed.add_field(name="Longitude", value=str(isslon()), inline=False)
+        embed.add_field(name="Latitude", value=str(imp.isslat()), inline=False)
+        embed.add_field(name="Longitude", value=str(imp.isslon()), inline=False)
         await client.send_message(message.channel, embed=embed)
 
 
