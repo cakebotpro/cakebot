@@ -168,7 +168,7 @@ async def on_message(message):
         imp = ApiImp()
         lat = imp.isslat()
         lon = imp.isslon()
-        geodata = rg.search(lat, lon)
+        geodata = rg.search((lat, lon))
         location = "{}, {}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
         embed = EmbedUtil.prep("International Space Station", "Where it is at right now!")
