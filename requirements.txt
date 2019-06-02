@@ -1,3 +1,4 @@
 area4==2.5.7
 discord.py==0.16.12
 PyGithub==1.43.7
+reverse_geocoder==1.5.1
