@@ -163,7 +163,10 @@ async def on_message(message):
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
     elif cmd == "iss":
-        await client.send_message(message.channel, f"The ISS is at {isslat()}, {isslon()} right now!")
+        embed = EmbedUtil.prep("International Space Station", "Where it is at right now!")
+        embed.add_field(name="Latitude", value=str(isslat()), inline=False)
+        embed.add_field(name="Longitude", value=str(isslon()), inline=False)
+        await client.send_message(message.channel, embed=embed)
 
 
 # make the welcome embed
