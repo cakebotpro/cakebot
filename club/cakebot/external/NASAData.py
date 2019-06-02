@@ -16,15 +16,23 @@
 import urllib
 import json
 
-req = urllib.request.Request("http://api.open-notify.org/iss-now.json")
-response = urllib.request.urlopen(req)
 
-obj = json.loads(response.read())
+class ApiImp:
+    def __init__(self):
+        self.refresh()
+
+    def refresh(self):
+        urllib.request.urlcleanup()
+        self.req = urllib.request.Request("http://api.open-notify.org/iss-now.json")
+        self.response = urllib.request.urlopen(self.req)
+        self.obj = json.loads(self.response.read())
 
 
-def isslat():
-    return obj['iss_position']['latitude']
+        def isslat(self):
+            self.refresh()
+            return self.obj['iss_position']['latitude']
 
 
-def isslon():
-    return obj['iss_position']['longitude']
+        def isslon(self):
+            return self.obj['iss_position']['longitude']
+        
