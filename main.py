@@ -22,6 +22,7 @@ import logging
 import random
 import github
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
+from club.cakebot.external.NASAData import isslat, isslon
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -136,20 +137,9 @@ async def on_message(message):
                 + "**",
                 area4.divider(7)
                 + area4.divider(7)
-                + area4.divider(7)
             )
         )
 
-    #elif cmd == "purge":
-    #    try:
-    #        if(
-    #            (args[0] is not None)
-    #            and (args[0] != "")
-    #            and (args[0] != " ")
-    #        ):
-    #            await client.purge_from(message.channel, limit=int(args[0]), check=t)
-    #    except IndexError:
-    #        pass
     # TODO: perms system
 
     elif cmd == "info":
@@ -171,6 +161,9 @@ async def on_message(message):
             args[e] = str(args[e]) + " "
         repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"))
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
+
+    elif cmd == "iss":
+        await client.send_message(message.channel, f"The ISS is at {isslat()}, {isslon()} right now!")
 
 
 # make the welcome embed
