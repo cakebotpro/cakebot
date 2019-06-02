@@ -21,6 +21,7 @@ import area4
 import logging
 import random
 import github
+import reverse_geocoder as rg
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
 from club.cakebot.external.NASAData import ApiImp
 
@@ -163,11 +164,19 @@ async def on_message(message):
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
     elif cmd == "iss":
+        m = await client.send_message(message.channel, "Calculating...")
         imp = ApiImp()
+        lat = imp.isslat()
+        lon = imp.isslon()
+        geodata = rg.search(lat, lon)
+        location = "{}, {}".format(geodata[0]["admin1"], geodata[0]["cc"])
+
         embed = EmbedUtil.prep("International Space Station", "Where it is at right now!")
-        embed.add_field(name="Latitude", value=str(imp.isslat()), inline=False)
-        embed.add_field(name="Longitude", value=str(imp.isslon()), inline=False)
+        embed.add_field(name="Location above Earth", value=str(location), inline=False)
+        embed.add_field(name="Latitude", value=str(lat), inline=False)
+        embed.add_field(name="Longitude", value=str(lon), inline=False)
         await client.send_message(message.channel, embed=embed)
+        await client.delete_message(m)
 
 
 # make the welcome embed
