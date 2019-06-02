@@ -164,6 +164,7 @@ async def on_message(message):
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
     elif cmd == "iss":
+        m = await client.send_message(message.channel, "Calculating...")
         imp = ApiImp()
         lat = imp.isslat()
         lon = imp.isslon()
@@ -175,6 +176,7 @@ async def on_message(message):
         embed.add_field(name="Latitude", value=str(lat), inline=False)
         embed.add_field(name="Longitude", value=str(lon), inline=False)
         await client.send_message(message.channel, embed=embed)
+        await client.delete_message(m)
 
 
 # make the welcome embed
