@@ -13,13 +13,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import discord
-
 
 def bootstrap(c, s):
     for channel in c.get_all_channels():
         s.refresh()
         if channel.server.name not in s.get_cache():
             s.get_file().wrap().write(channel.server.name + "\n")
-    await c.change_presence(game=discord.Game(name="Heya! Run +help", type=1))
-    print("Ready to roll, I'll see you on Discord: @" + c.user.__str__())
