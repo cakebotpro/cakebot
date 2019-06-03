@@ -22,7 +22,7 @@ import logging
 import random
 import github
 import reverse_geocoder as rg
-from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, UserUtil, Bootstrap
+from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
 from club.cakebot.external.NASAData import ApiImp
 from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
