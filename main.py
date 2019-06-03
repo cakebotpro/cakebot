@@ -22,7 +22,7 @@ import logging
 import random
 import github
 import reverse_geocoder as rg
-from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil
+from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, UserUtil
 from club.cakebot.external.NASAData import ApiImp
 
 logger = logging.getLogger('bot')
@@ -43,20 +43,6 @@ servers_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum
 # so just ignore it please
 def t():
     return True
-
-
-def get_admin():
-    return "jumbocakeyumyum#0001"
-
-
-@staticmethod
-def get_contributors():
-    return \
-        [
-            get_admin(),
-            "Tarsh#0971",
-            "Param#8739"
-        ]
 
 
 @client.event
