@@ -22,7 +22,7 @@ import logging
 import random
 import github
 import reverse_geocoder as rg
-from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, UserUtil
+from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, UserUtil, Bootstrap
 from club.cakebot.external.NASAData import ApiImp
 from club.cakebot.external.FactData import ApiImpTwo
 
@@ -31,12 +31,11 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w'))
 
 # github endpoint
-g = github.Github(open("/home/jumbocakeyumyum/cakebot/tokengh.txt", mode="r").readlines()[0].replace("\n", ""))
 github.enable_console_debug_logging()
+g = github.Github(open("/home/jumbocakeyumyum/cakebot/tokengh.txt", mode="r").readlines()[0].replace("\n", ""))
 
 Bot_Prefix = "+"
 client = discord.Client()
-servers_file = FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt"))
 # servers = ConfigUtil.get_servers()
 
 
@@ -48,18 +47,7 @@ def t():
 
 @client.event
 async def on_ready():
-    # update servers
-    for channel in client.get_all_channels():
-        servers_file.refresh()
-        if channel.server.name not in servers_file.get_cache():
-            servers_file.get_file().wrap().write(channel.server.name + "\n")
-            servers_file.refresh()
-
-    # change RP
-    await client.change_presence(game=discord.Game(name="Heya! Run +help", type=1))
-    print(area4.divider(1))
-    print("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
-    print(area4.divider(1))
+    Bootstrap.bootstrap(client, FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
 
 
 # Called on message event
