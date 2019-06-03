@@ -24,6 +24,7 @@ import github
 import reverse_geocoder as rg
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, UserUtil
 from club.cakebot.external.NASAData import ApiImp
+from club.cakebot.external.FactData import ApiImpTwo
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -163,6 +164,9 @@ async def on_message(message):
         embed.add_field(name="Longitude", value=str(lon), inline=False)
         await client.send_message(message.channel, embed=embed)
         await client.delete_message(m)
+
+    elif cmd == "fact":
+        await client.send_message(message.channel, embed=EmbedUtil.prep("Random Fact", ApiImpTwo().fact()))
 
 
 # make the welcome embed
