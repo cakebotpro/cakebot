@@ -22,9 +22,7 @@ def bootstrap(c, s):
         s.refresh()
         if channel.server.name not in s.get_cache():
             s.get_file().wrap().write(channel.server.name + "\n")
-            s.refresh()
 
-    # change RP
     await c.change_presence(game=discord.Game(name="Heya! Run +help", type=1))
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @" + c.user.__str__())
