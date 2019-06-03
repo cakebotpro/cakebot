@@ -25,6 +25,7 @@ import reverse_geocoder as rg
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, UserUtil, Bootstrap
 from club.cakebot.external.NASAData import ApiImp
 from club.cakebot.external.FactData import ApiImpTwo
+from lcbools import true, false
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -42,7 +43,7 @@ client = discord.Client()
 # this *needs* to be a runnable object,
 # so just ignore it please
 def t():
-    return True
+    return true
 
 
 @client.event
@@ -151,9 +152,9 @@ async def on_message(message):
         location = "{}, {}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
         embed = EmbedUtil.prep("International Space Station", "Where it is at right now!")
-        embed.add_field(name="Location above Earth", value=str(location), inline=False)
-        embed.add_field(name="Latitude", value=str(lat), inline=False)
-        embed.add_field(name="Longitude", value=str(lon), inline=False)
+        embed.add_field(name="Location above Earth", value=str(location), inline=false)
+        embed.add_field(name="Latitude", value=str(lat), inline=false)
+        embed.add_field(name="Longitude", value=str(lon), inline=false)
         await client.send_message(message.channel, embed=embed)
         await client.delete_message(m)
 
@@ -167,7 +168,7 @@ def build_welcome_embed(base):
         name="Heya!!",
         value="Today is a great day, "
               + "because today I get the honor of joining this server :D",
-        inline=False
+        inline=false
     )
     return base
 
