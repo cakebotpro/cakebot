@@ -161,45 +161,6 @@ async def on_message(message):
     elif cmd == "fact":
         await client.send_message(message.channel, embed=EmbedUtil.prep("Random Fact", ApiImpTwo().fact()))
 
-    elif cmd == "cookie":
-        if "give" in args:
-            for member in message.server.members:
-                if "<@{0}>".format(member.id) in args:
-                    await client.send_message(message.channel, ":up: You gave " + member.id.__str__() + " a cookie!"))
-                    with open("/home/jumbocakeyumyum/cakebot/content/Cookiefile", mode="r") as cf:
-                        lines = cf.readlines()
-                        # requested
-                        for line in lines:
-                            if member.id in line:
-                                # in file
-                                c = int(line.split(" - ")[1])
-                                cf.write(f"{member.id} - {c + 1}")
-                            else:
-                                cf.write(f"{member.id} - 1")  # first cookie :D
-        elif "count" in args:
-            # get count
-            with open("/home/jumbocakeyumyum/cakebot/content/Cookiefile", mode="r") as cf:
-                lines = cf.readlines()
-                for member in message.server.members:
-                    if "<@{0}>".format(member.id) in args:
-                        # requested
-                        for line in lines:
-                            if member.id in line:
-                                # in file
-                                st = " - "
-                                await client.send_message(message.channel, f"person has {line.split(st)[1]} cookies"))
-                            else:
-                                await client.send_message(message.channel, "person has no cookies"))
-        else:
-            if len(args) == 0:
-                await client.send_message(message.channel, "I'm confused!" +
-                                          "[See the docs please](https://cakebot.club/commands.html)."
-                                         )
-            else:
-                await client.send_message(message.channel, "Hmm... I don't understand what '" + "' means." +
-                                          "[See the docs please](https://cakebot.club/commands.html)."
-                                         )
-
 
 # make the welcome embed
 def build_welcome_embed(base):
