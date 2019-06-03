@@ -14,6 +14,7 @@
 """
 
 import area4
+import discord
 
 
 def bootstrap(c, s):
