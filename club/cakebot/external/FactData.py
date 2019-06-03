@@ -17,7 +17,7 @@ import urllib
 import json
 
 
-class ApiImp:
+class ApiImpTwo:
     def __init__(self):
         urllib.request.urlcleanup()
         self.req = urllib.request.Request("http://randomuselessfact.appspot.com/random.json?language=en")
