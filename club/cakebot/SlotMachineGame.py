@@ -50,6 +50,6 @@ def result():
             results = arraything()
             ic = str(random.choice(get_emojis()))
             results[1] = str(ic + ic + ic)
-            return [2, arraything()]
+            return [2, results]
         else:
             return [0, results]
