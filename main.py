@@ -165,18 +165,15 @@ async def on_message(message):
 
     elif cmd == "slots":
         slotz = SlotMachineGame.result()
+        top = SlotMachineGame.arraything()
+        btm = SlotMachineGame.arraything()
         await client.send_message(
-            message.channel, f""
-            + f"  {SlotMachineGame.arraything()}"
+            message.channel, ""
+            + f"  {top[0]}{top[1]}{top[2]}"
             + f"> {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} <"
-            + f"  {SlotMachineGame.arraything()}"
-        )  # send display in chat room
-        formatted = ""
-        if slotz[0] == 0:
-            formatted = "lose"
-        else:
-            formatted = "win"
-        await client.send_message(message.channel, f"**You {formatted}!**")
+            + f"  {btm[0]}{btm[1]}{btm[2]}"
+        )
+        await client.send_message(message.channel, f"**You {"lose" if slotz[0] == 0 else "win"}!**")
 
 
 # make the welcome embed
