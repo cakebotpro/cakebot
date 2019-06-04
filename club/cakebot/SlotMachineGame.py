@@ -49,7 +49,7 @@ def result():
         if buff == 4:
             results = arraything()
             ic = str(random.choice(get_emojis()))
-            results = [ic + ic + ic]
+            results = [ic, ic, ic]
             return [2, results]
         else:
             return [0, results]
