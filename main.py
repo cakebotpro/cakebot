@@ -22,7 +22,7 @@ import logging
 import random
 import github
 import reverse_geocoder as rg
-from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
+from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, SlotMachineGame, Bootstrap
 from club.cakebot.external.NASAData import ApiImp
 from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
@@ -87,7 +87,7 @@ async def on_message(message):
 
     elif cmd == "ping":
         start = dt.timestamp(d.now())
-        await client.send_message(message.channel, f"🏓 - {( dt.timestamp( dt.now() ) - start ) * 1000 }ms")
+        await client.send_message(message.channel, f"🏓 - {( dt.timestamp(dt.now()) - start ) * 1000 }ms")
 
     elif cmd == "invite":
         await client.send_message(message.channel, embed=EmbedUtil.prep(
@@ -162,6 +162,22 @@ async def on_message(message):
 
     elif cmd == "fact":
         await client.send_message(message.channel, embed=EmbedUtil.prep("Random Fact", ApiImpTwo().fact()))
+
+    elif cmd == "slots":
+        slotz = SlotMachineGame.result()
+        await client.send_message(
+            message.channel, f""
+            + f"  {SlotMachineGame.arraything()}"
+            + f"> {slotz[1][0]}{slotz[1][1]}{slotz[1][2]}"
+            + f"  {SlotMachineGame.arraything()}"
+        )  # send display in chat room
+        formatted = ""
+        with slotz[0] as jk:
+            if jk == 0:
+                formatted = "lose"
+            else:
+                formatted = "win"
+        await client.send_message(message.channel, f"**You {result}!**")
 
 
 # make the welcome embed
