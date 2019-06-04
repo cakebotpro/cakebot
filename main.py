@@ -26,6 +26,7 @@ from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, Boot
 from club.cakebot.external.NASAData import ApiImp
 from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
+from datetime import datetime as dt
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -85,7 +86,8 @@ async def on_message(message):
         )
 
     elif cmd == "ping":
-        await client.send_message(message.channel, "🏓")
+        start = d.timestamp(d.now())
+        await client.send_message(message.channel, f"🏓 - {( d.timestamp( d.now() ) - start ) * 1000 }ms")
 
     elif cmd == "invite":
         await client.send_message(message.channel, embed=EmbedUtil.prep(
