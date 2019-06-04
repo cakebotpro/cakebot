@@ -173,7 +173,10 @@ async def on_message(message):
             + f"> {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} <"
             + f"  {btm[0]}{btm[1]}{btm[2]}"
         )
-        await client.send_message(message.channel, f"**You {"lose" if slotz[0] == 0 else "win"}!**")
+        form = "lose"
+        if slotz[0] != 0:
+            form = "win"
+        await client.send_message(message.channel, f"**You {form}!**")
 
 
 # make the welcome embed
