@@ -1,6 +1,6 @@
 # Cakebot
 
-![Twitter Follow](https://img.shields.io/twitter/follow/Cakebotpro.svg?style=social)
+[![Twitter Follow](https://img.shields.io/twitter/follow/Cakebotpro.svg?style=social)](https://twitter.com/Cakebotpro)
 
 A brand new Discord bot that is under development.
 
