@@ -86,7 +86,7 @@ async def on_message(message):
         )
 
     elif cmd == "ping":
-        start = dt.timestamp(d.now())
+        start = dt.timestamp(dt.now())
         await client.send_message(message.channel, f"🏓 - {( dt.timestamp(dt.now()) - start ) * 1000 }ms")
 
     elif cmd == "invite":
