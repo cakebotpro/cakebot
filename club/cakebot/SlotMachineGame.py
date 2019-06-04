@@ -34,7 +34,6 @@ def result():
     """
     Return codes:
     0 = None in a row     (loss)
-    1 = Two in a row      (win)
     2 = All matching      (win)
     :return: whichever int is picked
     :rtype: int
@@ -45,11 +44,5 @@ def result():
         results[0] == results[1] == results[2]
     ):
         return [2, results]
-    elif (
-        (results[0] == results[1]) or
-        (results[0] == results[2]) or
-        (results[1] == results[2])
-    ):
-        return [1, results]
     else:
         return [0, results]
