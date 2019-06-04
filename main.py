@@ -168,7 +168,7 @@ async def on_message(message):
         await client.send_message(
             message.channel, f""
             + f"  {SlotMachineGame.arraything()}"
-            + f"> {slotz[1][0]}{slotz[1][1]}{slotz[1][2]}"
+            + f"> {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} <"
             + f"  {SlotMachineGame.arraything()}"
         )  # send display in chat room
         formatted = ""
