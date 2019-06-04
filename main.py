@@ -87,7 +87,7 @@ async def on_message(message):
 
     elif cmd == "ping":
         start = dt.timestamp(dt.now())
-        await client.send_message(message.channel, f"🏓 - {round((dt.timestamp(dt.now()) - start) * 1000)}ms")
+        await client.send_message(message.channel, f"🏓 - Took *{round(((dt.timestamp(dt.now()) - start) * 1000), 5)}ms* to process.")
 
     elif cmd == "invite":
         await client.send_message(message.channel, embed=EmbedUtil.prep(
