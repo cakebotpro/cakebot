@@ -149,7 +149,7 @@ async def on_message(message):
         lat = imp.isslat()
         lon = imp.isslon()
         geodata = rg.search((lat, lon))
-        location = "{}, {}".format(geodata[0]["admin1"], geodata[0]["cc"])
+        location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
         embed = EmbedUtil.prep("International Space Station", "Where it is at right now!")
         embed.add_field(name="Location above Earth", value=str(location), inline=false)
