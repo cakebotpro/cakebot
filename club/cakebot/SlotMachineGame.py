@@ -35,18 +35,14 @@ def result():
     Return codes:
     0 = None in a row     (loss)
     2 = All matching      (win)
-    :return: whichever int is picked
-    :rtype: int
     """
     results = arraything()
 
-    if (
-        results[0] == results[1] == results[2]
-    ):
+    if (results[0] == results[1] == results[2]):
         return [2, results]
     else:
-        buff = random.randint(0, 5)
-        if buff == 4:
+        if random.randint(0, 5) == 4:
+            # give player an actual chance
             results = arraything()
             ic = str(random.choice(get_emojis()))
             results = [ic, ic, ic]
