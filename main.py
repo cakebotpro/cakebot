@@ -170,6 +170,7 @@ async def on_message(message):
         await client.send_message(
             message.channel, ""
             + f"⠀{top[0]}{top[1]}{top[2]}\n"
+            # the line above contains unicode, DO NOT REMOVE IT
             + f"**>** {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} **<**\n"
             + f"   {btm[0]}{btm[1]}{btm[2]}"
         )
