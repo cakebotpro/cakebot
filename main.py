@@ -180,17 +180,19 @@ async def on_message(message):
     elif cmd == "math":
         var1 = args[2]
         if var1 == "+":
-            await client.send_message(message.channel, f"{args[1]} {var1} {args[3]} = {str(int(args[1]) + int(args[3]))}")
+            await client.send_message(message.channel, f"{args[1]} *{var1}* {args[3]} = {str(int(args[1]) + int(args[3]))}")
         elif var1 == "-":
-            await client.send_message(message.channel, f"{args[1]} {var1} {args[3]} = {str(int(args[1]) - int(args[3]))}")
+            await client.send_message(message.channel, f"{args[1]} *{var1}* {args[3]} = {str(int(args[1]) - int(args[3]))}")
         elif var1 == "x" or var1 == "*":
-            await client.send_message(message.channel, f"{args[1]} {var1} {args[3]} = {str(int(args[1]) * int(args[3]))}")
+            await client.send_message(message.channel, f"{args[1]} *{var1}* {args[3]} = {str(int(args[1]) * int(args[3]))}")
         elif var1 == "/" or var1 == "\\":
-            await client.send_message(message.channel, f"{args[1]} {var1} {args[3]} = {str(int(args[1]) / int(args[3]))}")
+            await client.send_message(message.channel, f"{args[1]} *{var1}* {args[3]} = {str(int(args[1]) / int(args[3]))}")
         elif var1 == "**" or var1 == "pow":
             await client.send_message(message.channel,
-                                      f"{args[1]} to the {args[3]} power = {str(int(args[1]) ** int(args[3]))}"
+                                      f"{args[1]} *to the {args[3]} power* = {str(int(args[1]) ** int(args[3]))}"
                                      )
+        elif var1 == "round" or var1 == "~":
+            await client.send_message(message.channel, f"{args[1]} rounded is {str(round(int(args[1])))}")
         else:
             await client.send_message(
                 message.channel,
