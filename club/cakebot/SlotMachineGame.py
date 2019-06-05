@@ -33,8 +33,8 @@ def arraything():
 def result():
     """
     Return codes:
-    0 = None in a row     (loss)
-    2 = All matching      (win)
+    0 = None in a row   (loss)
+    2 = All matching    (win)
     """
     results = arraything()
 
@@ -45,7 +45,6 @@ def result():
             # give player an actual chance
             results = arraything()
             ic = str(random.choice(get_emojis()))
-            results = [ic, ic, ic]
-            return [2, results]
+            return [2, [ic, ic, ic]]
         else:
             return [0, results]
