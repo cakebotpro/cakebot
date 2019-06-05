@@ -63,10 +63,9 @@ async def on_message(message):
     # the command, e.x. "help"
     cmd = args[0].lower()
 
-    # the args (array) e.x. ["hello", "world"]
+    # the arg (array) e.x. ["hello", "world"]
     args = args[1:]
 
-    # COMMANDS
     if cmd == "help":
         await client.send_message(
             message.channel,
@@ -143,7 +142,7 @@ async def on_message(message):
         geodata = rg.search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
-        embed = EmbedUtil.prep("International Space Station", "Where it is at right now!")
+        embed = EmbedUtil.prep("International Space Station", "Where it is right now!")
         embed.add_field(name="Location above Earth", value=str(location), inline=false)
         embed.add_field(name="Latitude", value=str(lat), inline=false)
         embed.add_field(name="Longitude", value=str(lon), inline=false)
@@ -179,28 +178,16 @@ async def on_message(message):
         await client.send_message(message.channel, f"{args[1]} - {s}")
 
 
-# make the welcome embed
-def build_welcome_embed(base):
-    base.add_field(
-        name="Heya!!",
-        value="Today is a great day, "
-              + "because today I get the honor of joining this server :D",
-        inline=false
-    )
-    return base
-
-
 # When the bot joins a server:
 @client.event
 async def on_server_join(server):
     # Send welcome embed
     await client.send_message(
         ServerUtil.get_general(server),
-        embed=build_welcome_embed(
-            base=EmbedUtil.prep(
-                title="Server Welcome!",
-                description="================"
-            )
+        embed=EmbedUtil.prep(title="Server Welcome", description="").add_field(
+            name="Heya!!",
+            value="Today is a great day, because I get the honor of joining this server :D",
+            inline=false
         )
     )
 
