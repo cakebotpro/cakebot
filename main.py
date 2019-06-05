@@ -26,7 +26,6 @@ from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, Slot
 from club.cakebot.external.NASAData import ApiImp
 from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
-from datetime import datetime as dt
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -38,13 +37,6 @@ g = github.Github(open("/home/jumbocakeyumyum/cakebot/tokengh.txt", mode="r").re
 
 Bot_Prefix = "+"
 client = discord.Client()
-# servers = ConfigUtil.get_servers()
-
-
-# this *needs* to be a runnable object,
-# so just ignore it please
-def t():
-    return true
 
 
 @client.event
@@ -61,13 +53,10 @@ async def on_ready():
 async def on_message(message):
     # Check if message starts with the prefix:
     if not message.content.startswith(Bot_Prefix):
-        # cancel
         return
 
     # Split the input
-    theinput = message.content[len(Bot_Prefix):]
-
-    args = theinput.split()
+    args = message.content[len(Bot_Prefix):].split()
 
     # the command, e.x. "help"
     cmd = args[0].lower()
@@ -86,8 +75,7 @@ async def on_message(message):
         )
 
     elif cmd == "ping":
-        start = dt.timestamp(dt.now())
-        await client.send_message(message.channel, f"🏓 - Took *{round(((dt.timestamp(dt.now()) - start) * 1000), 5)}ms* to process.")
+        await client.send_message(message.channel, "🏓")
 
     elif cmd == "invite":
         await client.send_message(message.channel, embed=EmbedUtil.prep(
@@ -170,7 +158,7 @@ async def on_message(message):
         await client.send_message(
             message.channel, ""
             + f"⠀{top[0]}{top[1]}{top[2]}\n"
-            # the line above contains unicode, DO NOT REMOVE IT
+            # the line above contains unicode, DO NOT REMOVE
             + f"**>** {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} **<**\n"
             + f"   {btm[0]}{btm[1]}{btm[2]}"
         )
