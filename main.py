@@ -127,7 +127,7 @@ async def on_message(message):
         )
 
     elif cmd == "report":
-        repo = g.get_repo("RDIL/cakebot")
+        repo = g.get_repo("cakebotpro/cakebot")
         String = ""
         for e, z in enumerate(args):
             args[e] = str(args[e]) + " "
