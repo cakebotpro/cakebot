@@ -177,6 +177,27 @@ async def on_message(message):
         ).text
         await client.send_message(message.channel, f"{args[1]} - {s}")
 
+    elif cmd == "math":
+        var1 = args[2]
+        if var1 == "+":
+            await client.send_message(message.channel, f"{args[1]} {var1} {args[3]} = {str(int(args[1]) + int(args[3]))}")
+        elif var1 == "-":
+            await client.send_message(message.channel, f"{args[1]} {var1} {args[3]} = {str(int(args[1]) - int(args[3]))}")
+        elif var1 == "x" or var1 == "*":
+            await client.send_message(message.channel, f"{args[1]} {var1} {args[3]} = {str(int(args[1]) * int(args[3]))}")
+        elif var1 == "/" or var1 == "\\":
+            await client.send_message(message.channel, f"{args[1]} {var1} {args[3]} = {str(int(args[1]) / int(args[3]))}")
+        elif var1 == "**" or var1 == "pow":
+            await client.send_message(message.channel,
+                                      f"{args[1]} to the {args[3]} power = {str(int(args[1]) ** int(args[3]))}"
+                                     )
+        else:
+            await client.send_message(
+                message.channel,
+                f":x: I'm not sure what {var1} means... please [see the docs](https://cakebot.club/commands.html#math)"
+            )
+
+
 
 # When the bot joins a server:
 @client.event
