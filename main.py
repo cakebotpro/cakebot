@@ -21,11 +21,13 @@ import area4
 import logging
 import random
 import github
+import requests
 import reverse_geocoder as rg
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, SlotMachineGame, Bootstrap
 from club.cakebot.external.NASAData import ApiImp
 from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
+from bs4 import BeautifulSoup as HTML
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -155,17 +157,26 @@ async def on_message(message):
         slotz = SlotMachineGame.result()
         top = SlotMachineGame.arraything()
         btm = SlotMachineGame.arraything()
+        form = "lose"
+        if slotz[0] != 0:
+            form = "win"
         await client.send_message(
             message.channel, ""
             + f"⠀{top[0]}{top[1]}{top[2]}\n"
             # the line above contains unicode, DO NOT REMOVE
             + f"**>** {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} **<**\n"
             + f"   {btm[0]}{btm[1]}{btm[2]}"
+            + f"\n**You {form}!**"
         )
-        form = "lose"
-        if slotz[0] != 0:
-            form = "win"
-        await client.send_message(message.channel, f"**You {form}!**")
+
+    elif cmd == "define":
+        if len(args < 2):
+            await client.send_message(message.channel, ":x: *You need to specify a word!*")
+        s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{args[1]}").content, "html.parser").find(
+            "span",
+            attrs={"class":"dtText"}
+        ).text
+        await client.send_message(message.channel, f"{args[1]} - {s}")
 
 
 # make the welcome embed
