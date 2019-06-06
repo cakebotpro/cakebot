@@ -183,7 +183,7 @@ async def on_message(message):
         if len(args < 2):
             await client.send_message(message.channel, ":x: *You need to specify a website!*")
         else:
-            data = PyOpenGraph.PyOpenGraph.PyOpenGraph(args[1]).metadata
+            data = PyOpenGraph.ParserMain(args[1]).metadata
             for i, z in enumerate(data.metadata):
                 await client.send_message(
                     message.channel,
