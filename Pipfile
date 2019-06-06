@@ -15,8 +15,8 @@ python_version = "3.6"
 area4 = '*'
 discord.py = '0.16.12'
 PyGithub = '*'
-reverse_geocoder = '1.5.1'
-lcbools = '1.0.2'
+reverse_geocoder = { version = '1.5.1', index="pypi" }
+lcbools = '*'
 beautifulsoup4 = '4.7.1'
 
 [dev-packages]
