@@ -1,5 +1,4 @@
 --extra-index-url 'https://cakebot.mycloudrepo.io/public/repositories/py'
---find-links 'https://cakebot.mycloudrepo.io/public/repositories/py'
 setuptools==41.0.1
 wheel==0.33.4
 area4==2.5.7
