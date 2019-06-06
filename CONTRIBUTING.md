@@ -27,6 +27,13 @@ If adding new `.py` files, please add the following copyright header to the top:
 
 This is *required* by the license this repository is under.
 
+### Installing Dependencies
+
+Please run this in a terminal:
+```none
+python3.6 -m pip install --upgrade --user --extra-index-url 'https://cakebot.mycloudrepo.io/public/repositories/py' -r requirements.txt
+```
+
 ### Starting The Bot
 
 The bot is built to work on our server, and because of that, some paths/files may be wrong on your computer.
