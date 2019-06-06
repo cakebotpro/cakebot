@@ -22,9 +22,9 @@ import logging
 import random
 import github
 import requests
+import iss
 import reverse_geocoder as rg
 from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, SlotMachineGame, Bootstrap
-from club.cakebot.external.NASAData import ApiImp
 from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
 from bs4 import BeautifulSoup as HTML
@@ -136,7 +136,7 @@ async def on_message(message):
 
     elif cmd == "iss":
         m = await client.send_message(message.channel, "Calculating...")
-        imp = ApiImp()
+        imp = iss.Imp()
         lat = imp.isslat()
         lon = imp.isslon()
         geodata = rg.search((lat, lon))
