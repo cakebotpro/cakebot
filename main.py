@@ -20,11 +20,12 @@ import discord
 import area4
 import logging
 import random
+import filehandlers as fhm
 import github
 import requests
 import iss
 import reverse_geocoder as rg
-from club.cakebot import FileUtil, EmbedUtil, ServerUtil, TextCommandsUtil, SlotMachineGame, Bootstrap
+from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, SlotMachineGame, Bootstrap
 from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
 from bs4 import BeautifulSoup as HTML
@@ -43,7 +44,7 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    Bootstrap.bootstrap(client, FileUtil.FileHandler(FileUtil.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
+    Bootstrap.bootstrap(client, fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
     await client.change_presence(game=discord.Game(name="Heya! Run +help", type=1))
     print(area4.divider(1))
     print("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
