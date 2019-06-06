@@ -31,7 +31,7 @@ This is *required* by the license this repository is under.
 
 Please run this in a terminal:
 ```none
-python3.6 -m pip install --upgrade --user --extra-index-url 'https://cakebot.mycloudrepo.io/public/repositories/py' -r requirements.txt
+python3.6 -m pip install --upgrade --user -r requirements.txt
 ```
 
 ### Starting The Bot
