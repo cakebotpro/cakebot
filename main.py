@@ -137,8 +137,8 @@ async def on_message(message):
     elif cmd == "iss":
         m = await client.send_message(message.channel, "Calculating...")
         imp = iss.Imp()
-        lat = imp.isslat()
-        lon = imp.isslon()
+        lat = imp.lat()
+        lon = imp.lon()
         geodata = rg.search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
