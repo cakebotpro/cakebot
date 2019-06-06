@@ -14,3 +14,11 @@ python_version = "3.6"
 [dev-packages]
 setuptools = '*'
 wheel = '*'
+
+[packages]
+area4 = "*"
+lcbools = "*"
+pygithub = "*"
+reverse-geocoder = "*"
+beautifulsoup4 = "*"
+discord.py = "==0.16.12"
