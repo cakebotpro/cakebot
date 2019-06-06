@@ -13,7 +13,7 @@ python_version = "3.6"
 
 [packages]
 area4 = '*'
-'discord.py' = '0.16.12'
+discord.py = '<=0.16.12'
 PyGithub = '*'
 'reverse_geocoder' = '>=1.5.0'
 lcbools = '*'
