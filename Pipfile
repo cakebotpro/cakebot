@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = "https://cakebot.mycloudrepo.io/public/repositories/py"
+verify_ssl = true
+name = "cloudrepo"
+
+[requires]
+python_version = "3.6"
+
+[packages]
+area4 = {version = '2.5.7'}
+discord.py = {version = '0.16.12'}
+PyGithub = {version = '1.43.7'}
+reverse_geocoder = {version = '1.5.1'}
+lcbools = {version = '1.0.2'}
+beautifulsoup4 = {version = '4.7.1'}
+
+[dev-packages]
+setuptools = '*'
+wheel = '*'
