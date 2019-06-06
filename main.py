@@ -23,7 +23,6 @@ import random
 import filehandlers as fhm
 import github
 import requests
-import PyOpenGraph
 import iss
 import reverse_geocoder as rg
 from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, SlotMachineGame, Bootstrap
@@ -178,17 +177,6 @@ async def on_message(message):
             "span", attrs={"class":"dtText"}
         ).text
         await client.send_message(message.channel, f"{args[1]} - {s}")
-
-    elif cmd == "webinfo":
-        if len(args < 2):
-            await client.send_message(message.channel, ":x: *You need to specify a website!*")
-        else:
-            data = PyOpenGraph.ParserMain(args[1]).metadata
-            for i, z in enumerate(data.metadata):
-                await client.send_message(
-                    message.channel,
-                    f"Title: {data.__str__()}\nAuthor: {data['author']}\nDescription: {data['description']}"
-                )
 
 
 
