@@ -24,8 +24,9 @@ import filehandlers as fhm
 import github
 import requests
 import iss
+import slots
 import reverse_geocoder as rg
-from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, SlotMachineGame, Bootstrap
+from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
 from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
 from bs4 import BeautifulSoup as HTML
@@ -154,9 +155,9 @@ async def on_message(message):
         await client.send_message(message.channel, embed=EmbedUtil.prep("Random Fact", ApiImpTwo().fact()))
 
     elif cmd == "slots":
-        slotz = SlotMachineGame.result()
-        top = SlotMachineGame.arraything()
-        btm = SlotMachineGame.arraything()
+        slotz = slots.result()
+        top = slots.row()
+        btm = slots.row()
         form = "lose"
         if slotz[0] != 0:
             form = "win"
@@ -177,7 +178,6 @@ async def on_message(message):
             "span", attrs={"class":"dtText"}
         ).text
         await client.send_message(message.channel, f"{args[1]} - {s}")
-
 
 
 # When the bot joins a server:
