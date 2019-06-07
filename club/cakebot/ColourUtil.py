@@ -15,11 +15,11 @@
 
 from discord import Color
 from club.cakebot.colours import Tan, ChiliPepper, IcedCoffee
-import random
+from random import randint
 
 
-def randomcolor():
-    colors = [
+def random():
+    c = [
         Color.teal(),
         Color.dark_teal(),
         Color.green(),
@@ -42,4 +42,4 @@ def randomcolor():
         ChiliPepper.chilipepper(),
         IcedCoffee.icedcoffee()
     ]
-    return colors[random.randint(0, len(colors) - 1)]
+    return c[randint(0, len(c) - 1)]
