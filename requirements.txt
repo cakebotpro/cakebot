@@ -11,3 +11,4 @@ beautifulsoup4==4.7.1
 iss_api==1.1
 filehandlers==1.0
 slots==1.0
+factdata==1.0
