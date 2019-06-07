@@ -24,6 +24,7 @@ import filehandlers as fhm
 import github
 import requests
 import iss
+import datetime
 import slots
 import reverse_geocoder as rg
 from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
@@ -47,9 +48,7 @@ client = discord.Client()
 async def on_ready():
     Bootstrap.bootstrap(client, fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
     await client.change_presence(game=discord.Game(name="Heya! Run +help", type=1))
-    logger.debug(area4.divider(1))
-    logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
-    logger.debug(area4.divider(1))
+    logger.info(datetime.datetime.now() + ": Ready to roll, I'll see you on Discord: @" + client.user.__str__())
 
 
 # Called on message event
