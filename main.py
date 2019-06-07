@@ -75,13 +75,7 @@ async def on_message(message):
     args = args[1:]
 
     if cmd == "help":
-        await client.send_message(
-            message.channel,
-            embed=EmbedUtil.build_help_menu(EmbedUtil.prep(
-                title="Cakebot Help",
-                description="Make sure to add a + before each command!"
-            ))
-        )
+        await client.send_message(message.channel, embed=EmbedUtil.help_menu())
 
     elif cmd == "ping":
         await client.send_message(message.channel, "🏓")
