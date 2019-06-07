@@ -30,7 +30,7 @@ def prep(title, description):
     return embed
 
 
-def build_help_menu():
+def help_menu():
     with open("/home/jumbocakeyumyum/cakebot/content/help.cfg", "r") as opz:
         k = prep(title="Cakebot Help", description="Make sure to add a + before each command!")
         for line in opz.readlines():
