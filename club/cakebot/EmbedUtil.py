@@ -22,7 +22,7 @@ def prep(title, description):
     embed = discord.Embed(
         title=title,
         description=description,
-        color=ColourUtil.randomcolor()
+        color=ColourUtil.random()
     )
     # footer
     embed.set_footer(text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/")
@@ -34,7 +34,6 @@ def help_menu():
     with open("/home/jumbocakeyumyum/cakebot/content/help.cfg", "r") as opz:
         k = prep(title="Cakebot Help", description="Make sure to add a + before each command!")
         for line in opz.readlines():
-            # strip newlines and parse
             itm = line.replace("\n", "").split(" -> ")
             k.add_field(name=itm[0], value=itm[1], inline=False)
         return k
