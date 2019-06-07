@@ -58,7 +58,6 @@ async def on_ready():
     logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
 
 
-# Called on message event
 @client.event
 async def on_message(message):
     Bot_Prefix = "+"
