@@ -24,11 +24,11 @@ import filehandlers as fhm
 import github
 import requests
 import iss
+import factdata
 import slots
 import sys
 import reverse_geocoder as rg
 from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
-from club.cakebot.external.FactData import ApiImpTwo
 from lcbools import true, false
 from bs4 import BeautifulSoup as HTML
 
@@ -159,7 +159,7 @@ async def on_message(message):
         await client.delete_message(m)
 
     elif cmd == "fact":
-        await client.send_message(message.channel, embed=EmbedUtil.prep("Random Fact", ApiImpTwo().fact()))
+        await client.send_message(message.channel, embed=EmbedUtil.prep("Random Fact", factdata.FactImp().fact()))
 
     elif cmd == "slots":
         slotz = slots.result()
