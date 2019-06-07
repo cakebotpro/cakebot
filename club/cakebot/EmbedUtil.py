@@ -30,10 +30,11 @@ def prep(title, description):
     return embed
 
 
-def build_help_menu(base):
-    with open("/home/jumbocakeyumyum/cakebot/content/help.cfg", "r") as optz:
-        for line in optz.readlines():
+def build_help_menu():
+    with open("/home/jumbocakeyumyum/cakebot/content/help.cfg", "r") as opz:
+        k = prep(title="Cakebot Help", description="Make sure to add a + before each command!")
+        for line in opz.readlines():
             # strip newlines and parse
-            itemm = line.replace("\n", "").split(" -> ")
-            base.add_field(name=itemm[0], value=itemm[1], inline=False)
-    return base
+            itm = line.replace("\n", "").split(" -> ")
+            k.add_field(name=itm[0], value=itm[1], inline=False)
+        return k
