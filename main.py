@@ -25,6 +25,7 @@ import github
 import requests
 import iss
 import slots
+import sys
 import reverse_geocoder as rg
 from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
 from club.cakebot.external.FactData import ApiImpTwo
@@ -34,6 +35,7 @@ from bs4 import BeautifulSoup as HTML
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w'))
+logger.addHandler(logging.StreamHandler(sys.stdout))
 
 # github endpoint
 github.enable_console_debug_logging()
