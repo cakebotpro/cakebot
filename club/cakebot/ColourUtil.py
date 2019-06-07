@@ -42,5 +42,4 @@ def randomcolor():
         ChiliPepper.chilipepper(),
         IcedCoffee.icedcoffee()
     ]
-    intobj = random.randint(0, len(colors) - 1)
-    return colors[intobj]
+    return colors[random.randint(0, len(colors) - 1)]
