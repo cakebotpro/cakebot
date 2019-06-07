@@ -37,11 +37,17 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w'))
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
-# github endpoint
-github.enable_console_debug_logging()
-g = github.Github(open("/home/jumbocakeyumyum/cakebot/tokengh.txt", mode="r").readlines()[0].replace("\n", ""))
+def funcJ():
+    b = open("/home/jumbocakeyumyum/cakebot/tokens.txt", mode="r").readlines()
+    for i, l in enumerate(b):
+        b[i] = b[i].replace("\n", "")
+    return b
 
-Bot_Prefix = "+"
+
+j = funcJ()
+
+github.enable_console_debug_logging()
+g = github.Github(j[1])
 client = discord.Client()
 
 
@@ -55,6 +61,7 @@ async def on_ready():
 # Called on message event
 @client.event
 async def on_message(message):
+    Bot_Prefix = "+"
     # Check if message starts with the prefix:
     if not message.content.startswith(Bot_Prefix):
         return
@@ -194,7 +201,4 @@ async def on_server_join(server):
     )
 
 
-# read the token:
-with open("/home/jumbocakeyumyum/cakebot/token.txt", mode="r") as fh:
-    # run the client with the fetched token (stripped of newlines):
-    client.run(fh.readlines()[0].replace("\n", ""))
+client.run(j[0])
