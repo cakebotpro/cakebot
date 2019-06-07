@@ -103,16 +103,7 @@ async def on_message(message):
         )
 
     elif cmd == "joke":
-        await client.send_message(
-            message.channel,
-            embed=EmbedUtil.prep(
-                "**"
-                + TextCommandsUtil.jokes()
-                + "**",
-                area4.divider(7)
-                + area4.divider(7)
-            )
-        )
+        await client.send_message(message.channel, embed=EmbedUtil.prep(f'**{TextCommandsUtil.jokes()}**', f'{area4.divider(7)}{area4.divider(7)}'))
 
     # TODO: perms system
 
