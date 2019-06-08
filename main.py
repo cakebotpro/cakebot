@@ -162,7 +162,7 @@ async def on_message(message):
         s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{args[0]}").content, "html.parser").find(
             "span", attrs={"class":"dtText"}
         ).text
-        await client.send_message(message.channel, f"{args[0]} - {s}")
+        await client.send_message(message.channel, f"{args[0]}{s}")
 
 
 # When the bot joins a server:
