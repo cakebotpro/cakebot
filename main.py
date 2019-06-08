@@ -65,8 +65,6 @@ async def on_message(message):
     if not message.content.startswith(Bot_Prefix):
         return
 
-    logger.warn(args)
-
     # Split the input
     args = message.content[len(Bot_Prefix):].split()
 
@@ -75,6 +73,8 @@ async def on_message(message):
 
     # the arg (array) e.x. ["hello", "world"]
     args = args[1:]
+
+    logger.warn(args)
 
     if cmd == "help":
         await client.send_message(message.channel, embed=EmbedUtil.help_menu())
