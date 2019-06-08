@@ -161,7 +161,7 @@ async def on_message(message):
         if len(args) < 1:
             await client.send_message(message.channel, ":x: *You need to specify a word!*")
             return
-        s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{args[1]}").content, "html.parser").find(
+        s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{args[0]}").content, "html.parser").find(
             "span", attrs={"class":"dtText"}
         ).text
         await client.send_message(message.channel, f"{args[1]} - {s}")
