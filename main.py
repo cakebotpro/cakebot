@@ -65,6 +65,8 @@ async def on_message(message):
     if not message.content.startswith(Bot_Prefix):
         return
 
+    logger.warn(args)
+
     # Split the input
     args = message.content[len(Bot_Prefix):].split()
 
