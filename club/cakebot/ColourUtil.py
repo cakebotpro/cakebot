@@ -14,7 +14,7 @@
 """
 
 from discord import Color
-from club.cakebot.colours import tan, icedcoffee, chillipepper
+from club.cakebot.colours import tan, icedcoffee, chilipepper
 from random import randint
 
 
@@ -40,6 +40,6 @@ def random():
         Color.darker_grey(),
         tan,
         icedcoffee,
-        chillipepper
+        chilipepper
     ]
     return c[randint(0, len(c) - 1)]
