@@ -37,14 +37,15 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w'))
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
-def funcJ():
+
+def func_tokens():
     b = open("/home/jumbocakeyumyum/cakebot/tokens.txt", mode="r").readlines()
     for i, l in enumerate(b):
         b[i] = b[i].replace("\n", "")
     return b
 
 
-j = funcJ()
+j = func_tokens()
 
 github.enable_console_debug_logging()
 g = github.Github(j[1])
