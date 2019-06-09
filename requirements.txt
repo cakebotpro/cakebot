@@ -9,6 +9,6 @@ reverse_geocoder==1.5.1
 lcbools==1.0.2
 beautifulsoup4==4.7.1
 iss_api==1.1
-filehandlers==1.1
+filehandlers==1.2
 slots==1.0
 factdata==1.0
