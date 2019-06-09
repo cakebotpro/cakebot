@@ -156,10 +156,16 @@ async def on_message(message):
         )
 
     elif cmd == "define":
+        c = ""
         if len(args) < 1:
             await client.send_message(message.channel, ":x: *You need to specify a word!*")
             return
-        s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{args[0]}").content, "html.parser").find(
+        if len(args) > 1:
+            for i, h in enumerate(args):
+                c = str(c + args[i] + "%20")
+        else:
+            c = args[0]
+        s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
             "span", attrs={"class":"dtText"}
         ).text
         await client.send_message(message.channel, f"{args[0]}{s}")
