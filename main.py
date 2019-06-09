@@ -62,17 +62,16 @@ async def on_ready():
 @client.event
 async def on_message(message):
     Bot_Prefix = "+"
-    # Check if message starts with the prefix:
     if not message.content.startswith(Bot_Prefix):
         return
 
     # Split the input
     args = message.content[len(Bot_Prefix):].split()
 
-    # the command, e.x. "help"
+    # the command, ex. "help"
     cmd = args[0].lower()
 
-    # the arg (array) e.x. ["hello", "world"]
+    # the arg (array) ex. ["hello", "world"]
     args = args[1:]
 
     if cmd == "help":
@@ -119,7 +118,7 @@ async def on_message(message):
         String = ""
         for e, z in enumerate(args):
             args[e] = str(args[e]) + " "
-        repo.create_issue(title="Support ticket #" + str(random.randint(0, 1000000)), body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"))
+        repo.create_issue(title="Support ticket #" + str(random.randint(0, 100000)), body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"))
         await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
 
     elif cmd == "iss":
