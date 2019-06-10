@@ -56,7 +56,7 @@ client = discord.AutoShardedClient()
 @client.event
 async def on_ready():
     Bootstrap.bootstrap(client, fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
-    await client.change_presence(activity=discord.Streaming(name="Heya! Run +help"))
+    await client.change_presence(activity=discord.Streaming(name="Heya! Run +help", url="https://cakebot.club"))
     logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
 
 
