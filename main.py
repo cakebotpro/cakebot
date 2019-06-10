@@ -32,6 +32,7 @@ import reverse_geocoder as rg
 from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
 from lcbools import false
 from bs4 import BeautifulSoup as HTML
+from cookies import Cookie
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -174,6 +175,24 @@ async def on_message(message):
         await s(arson.__str__(2010))
         await s(arson.__str__(2011))
 
+    elif cmd == "cookie":
+        cookies = Cookie()
+
+        if args[0] == "give":
+            try:
+                amount = args[2]
+            except IndexError:
+                amount = 1
+
+            cookies.give(message.author, args[1], amount)
+
+        if args[0] == "balance":
+            try:
+                user = args[1]
+            except IndexError:
+                user = message.author
+
+            cookies.get_balance(user)
 
 @client.event
 async def on_guild_join(guild):
