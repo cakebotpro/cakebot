@@ -12,4 +12,4 @@ iss_api==1.1
 filehandlers==1.2
 slots==1.0
 factdata==1.0
-crime==0.2
+crime==0.1
