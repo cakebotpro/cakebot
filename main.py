@@ -180,9 +180,7 @@ async def on_message(message):
 
 @client.event
 async def on_guild_join(guild):
-    await ServerUtil.get_general(guild).send_message(embed=EmbedUtil.prep(title="Server Welcome", description="").add_field(
-        name="Heya!!", value="Today is a great day, because I get the honor of joining this server :D", inline=false
-    ))
+    await ServerUtil.get_general(guild).send_message(embed=EmbedUtil.prep(title="Heya!", description="Today is a great day, because I get the honor of joining this server :D"))
 
 
 client.run(j[0])
