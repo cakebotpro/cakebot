@@ -166,10 +166,10 @@ async def on_message(message):
                 c = str(c + args[i] + "%20")
         else:
             c = args[0]
-        s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
+        sm = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
             "span", attrs={"class": "dtText"}
         ).text
-        await s(f"{c}{s}")
+        await s(f"{c}{sm}")
 
     elif cmd == "crimestats":
         arson = CrimeImp("arson", j[2])
