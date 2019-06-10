@@ -69,7 +69,6 @@ async def on_message(message):
     # Split the input
     args = message.content[len(Bot_Prefix):].split()
 
-    # the command, ex. "help"
     cmd = args[0].lower()
 
     # the arg (array) ex. ["hello", "world"]
@@ -87,8 +86,6 @@ async def on_message(message):
             "[Click here to invite me!](https://discordapp.com/oauth2/"
             + "authorize?client_id=580573141898887199&scope=bot&permissions=8)"
         ))
-
-    # TODO: beta toggling
 
     elif cmd == "8":
         await client.send_message(
