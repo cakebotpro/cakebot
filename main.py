@@ -29,7 +29,7 @@ import slots
 import sys
 import reverse_geocoder as rg
 from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
-from lcbools import true, false
+from lcbools import false
 from bs4 import BeautifulSoup as HTML
 
 logger = logging.getLogger('bot')
