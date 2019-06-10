@@ -17,19 +17,19 @@ from discord.utils import get
 
 
 # get main chat room
-def get_general(server):
+def get_general(guild):
     check_for = [
-        get(server.channels, name='general'),
-        get(server.channels, name='hub'),
-        get(server.channels, name='chat'),
-        get(server.channels, name='talk'),
-        get(server.channels, name='info'),
-        get(server.channels, name='announcements'),
-        get(server.channels, name='welcome'),
-        get(server.channels, name='commands')
+        get(guild.channels, name='general'),
+        get(guild.channels, name='hub'),
+        get(guild.channels, name='chat'),
+        get(guild.channels, name='talk'),
+        get(guild.channels, name='info'),
+        get(guild.channels, name='announcements'),
+        get(guild.channels, name='welcome'),
+        get(guild.channels, name='commands')
     ]
 
     # if a match is found, return the channel object
     for e, v in enumerate(check_for):
-        if check_for[e] in server.channels:
+        if check_for[e] in guild.channels:
             return check_for[e]

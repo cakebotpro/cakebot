@@ -2,7 +2,7 @@
 setuptools==41.0.1
 wheel==0.33.4
 area4==2.7.0
-discord.py==0.16.12
+discord.py==1.2.2
 PyGithub==1.43.7
 reverse_geocoder==1.5.1
 lcbools==1.0.2
