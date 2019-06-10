@@ -29,7 +29,7 @@ from crime import CrimeImp
 import slots
 import sys
 import reverse_geocoder as rg
-from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
+from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, UserUtil, Bootstrap
 from lcbools import false
 from bs4 import BeautifulSoup as HTML
 from cookies import Cookie
@@ -177,22 +177,28 @@ async def on_message(message):
 
     elif cmd == "cookie":
         cookies = Cookie()
-
         if args[0] == "give":
             try:
                 amount = args[2]
             except IndexError:
                 amount = 1
-
             cookies.give(message.author, args[1], amount)
-
-        if args[0] == "balance":
+        elif args[0] == "balance":
             try:
                 user = args[1]
             except IndexError:
-                user = message.author
-
-            cookies.get_balance(user)
+                user = message.author.__str__()
+            await s(cookies.get_balance(user))
+        elif args[0] == "set" and message.author.__str__() == UserUtil.get_admin():
+            # admin only
+            try:
+                user = args[1]
+            except:
+                user = message.author.__str__()
+            try:
+                cookies.set(user, args[2])
+            except:
+                logger.warn("Use of admin command failed")
 
 
 @client.event
