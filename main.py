@@ -74,25 +74,25 @@ async def on_message(message):
 
     # the arg (array) ex. ["hello", "world"]
     args = args[1:]
+    
+    # channel
+    s = message.channel.send
 
     if cmd == "help":
-        await client.send_message(message.channel, embed=EmbedUtil.help_menu())
+        await s(embed=EmbedUtil.help_menu())
 
     elif cmd == "ping":
-        await client.send_message(message.channel, "🏓")
+        await s("🏓")
 
     elif cmd == "invite":
-        await client.send_message(message.channel, embed=EmbedUtil.prep(
-            "Invite Cakebot",
-            "[Click here to invite me!](https://discordapp.com/oauth2/"
-            + "authorize?client_id=580573141898887199&scope=bot&permissions=8)"
+        await s(embed=EmbedUtil.prep("Invite Cakebot",
+            "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"
         ))
 
     # TODO: beta toggling
 
     elif cmd == "8":
-        await client.send_message(
-            message.channel,
+        await s(
             embed=EmbedUtil.prep(
                 "**"
                 + TextCommandsUtil.eightball()
@@ -104,12 +104,11 @@ async def on_message(message):
         )
 
     elif cmd == "joke":
-        await client.send_message(message.channel, embed=EmbedUtil.prep(f'**{TextCommandsUtil.jokes()}**', f'{area4.divider(7)}{area4.divider(7)}'))
+        await s(embed=EmbedUtil.prep(f'**{TextCommandsUtil.jokes()}**', f'{area4.divider(7)}{area4.divider(7)}'))
 
     elif cmd == "info":
-        await client.send_message(
-            message.channel,
-            f'***{message.server.name}***\n**Owner:** {message.server.owner}\n**Members:** {len(message.server.members)}\n**Region:** {message.server.region}\n**Server ID:** {message.server.id}'
+        await s(
+            f'***{message.guild.name}***\n**Owner:** {message.guild.owner}\n**Members:** {len(message.guild.members)}\n**Region:** {message.guild.region}\n**Server ID:** {message.guild.id}'
         )
 
     elif cmd == "report":
@@ -117,26 +116,29 @@ async def on_message(message):
         String = ""
         for e, z in enumerate(args):
             args[e] = str(args[e]) + " "
-        repo.create_issue(title="Support ticket #" + str(random.randint(0, 100000)), body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"))
-        await client.send_message(message.channel, ":white_check_mark: **Our team has been notified.**")
+        repo.create_issue(
+            title="Support ticket #" + str(random.randint(0, 100000)),
+            body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club")
+        )
+        await s(":white_check_mark: **Our team has been notified.**")
 
     elif cmd == "iss":
-        m = await client.send_message(message.channel, "Calculating...")
+        m = await s("Calculating...")
         imp = iss.Imp()
         lat = imp.lat()
         lon = imp.lon()
         geodata = rg.search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
-        embed = EmbedUtil.prep("International Space Station", "Where it is right now!")
-        embed.add_field(name="Location above Earth", value=str(location), inline=false)
-        embed.add_field(name="Latitude", value=str(lat), inline=false)
-        embed.add_field(name="Longitude", value=str(lon), inline=false)
-        await client.send_message(message.channel, embed=embed)
-        await client.delete_message(m)
+        p = EmbedUtil.prep("International Space Station", "Where it is right now!")
+        p.add_field(name="Location above Earth", value=str(location), inline=false)
+        p.add_field(name="Latitude", value=str(lat), inline=false)
+        p.add_field(name="Longitude", value=str(lon), inline=false)
+        await s(embed=p)
+        await m.delete()
 
     elif cmd == "fact":
-        await client.send_message(message.channel, embed=EmbedUtil.prep("Random Fact", factdata.FactImp().fact()))
+        await s(embed=EmbedUtil.prep("Random Fact", factdata.FactImp().fact()))
 
     elif cmd == "slots":
         slotz = slots.result()
@@ -145,8 +147,8 @@ async def on_message(message):
         form = "lose"
         if slotz[0] != 0:
             form = "win"
-        await client.send_message(
-            message.channel, ""
+        await s(
+            ""
             + f"⠀{top[0]}{top[1]}{top[2]}\n"
             # the line above contains unicode, DO NOT REMOVE
             + f"**>** {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} **<**\n"
@@ -157,7 +159,7 @@ async def on_message(message):
     elif cmd == "define":
         c = ""
         if len(args) < 1:
-            await client.send_message(message.channel, ":x: *You need to specify a word!*")
+            await s(":x: *You need to specify a word!*")
             return
         if len(args) > 1:
             for i, h in enumerate(args):
@@ -167,19 +169,20 @@ async def on_message(message):
         s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
             "span", attrs={"class":"dtText"}
         ).text
-        await client.send_message(message.channel, f"{c}{s}")
+        await s(f"{c}{s}")
 
     elif cmd == "crimestats":
         arson = CrimeImp("arson", j[2])
-        await client.send_message(message.channel, arson.__str__(2009))
-        await client.send_message(message.channel, arson.__str__(2010))
-        await client.send_message(message.channel, arson.__str__(2011))
+        await s(arson.__str__(2009))
+        await s(arson.__str__(2010))
+        await s(arson.__str__(2011))
 
 
-# When the bot joins a server:
 @client.event
 async def on_guild_join(guild):
-    await ServerUtil.get_general(guild).send_message(embed=EmbedUtil.prep(title="Server Welcome", description="").add_field(name="Heya!!", value="Today is a great day, because I get the honor of joining this server :D", inline=false))
+    await ServerUtil.get_general(guild).send_message(embed=EmbedUtil.prep(title="Server Welcome", description="").add_field(
+        name="Heya!!", value="Today is a great day, because I get the honor of joining this server :D", inline=false
+    ))
 
 
 client.run(j[0])
