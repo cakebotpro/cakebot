@@ -74,7 +74,7 @@ async def on_message(message):
 
     # the arg (array) ex. ["hello", "world"]
     args = args[1:]
-    
+
     # channel
     s = message.channel.send
 
@@ -167,7 +167,7 @@ async def on_message(message):
         else:
             c = args[0]
         s = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
-            "span", attrs={"class":"dtText"}
+            "span", attrs={"class": "dtText"}
         ).text
         await s(f"{c}{s}")
 
