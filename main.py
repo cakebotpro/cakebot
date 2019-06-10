@@ -50,13 +50,13 @@ j = func_tokens()
 
 github.enable_console_debug_logging()
 g = github.Github(j[1])
-client = discord.AutoShardedBot()
+client = discord.AutoShardedClient()
 
 
 @client.event
 async def on_ready():
     Bootstrap.bootstrap(client, fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
-    await client.change_presence(game=discord.Game(name="Heya! Run +help", type=1))
+    await client.change_presence(activity=discord.Game(name="Heya! Run +help", type=1))
     logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
 
 
