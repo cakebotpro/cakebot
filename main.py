@@ -25,7 +25,7 @@ import github
 import requests
 import iss
 import factdata
-import crime
+from crime import CrimeImp
 import slots
 import sys
 import reverse_geocoder as rg
