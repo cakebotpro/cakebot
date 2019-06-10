@@ -2,7 +2,7 @@
 --extra-index-url 'https://pypi.org/simple'
 setuptools==41.0.1
 wheel==0.33.4
-area4==2.5.7
+area4==2.5.9
 discord.py==0.16.12
 PyGithub==1.43.7
 reverse_geocoder==1.5.1
