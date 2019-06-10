@@ -17,5 +17,5 @@
 def bootstrap(c, s):
     for channel in c.get_all_channels():
         s.refresh()
-        if channel.server.name not in s.get_cache():
-            s.get_file().wrap().write(channel.server.name + "\n")
+        if channel.guild.name not in s.get_cache():
+            s.get_file().wrap().write(channel.guild.name + "\n")
