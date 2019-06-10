@@ -25,6 +25,7 @@ import github
 import requests
 import iss
 import factdata
+import crime
 import slots
 import sys
 import reverse_geocoder as rg
@@ -169,6 +170,12 @@ async def on_message(message):
             "span", attrs={"class":"dtText"}
         ).text
         await client.send_message(message.channel, f"{c}{s}")
+
+    elif cmd == "crimestats":
+        arson = CrimeImp("arson", j[2])
+        await client.send_message(message.channel, arson.__str__(2009))
+        await client.send_message(message.channel, arson.__str__(2010))
+        await client.send_message(message.channel, arson.__str__(2011))
 
 
 # When the bot joins a server:
