@@ -50,7 +50,7 @@ j = func_tokens()
 
 github.enable_console_debug_logging()
 g = github.Github(j[1])
-client = discord.Client()
+client = discord.AutoShardedClient(shards=20)
 
 
 @client.event
@@ -178,16 +178,8 @@ async def on_message(message):
 
 # When the bot joins a server:
 @client.event
-async def on_server_join(server):
-    # Send welcome embed
-    await client.send_message(
-        ServerUtil.get_general(server),
-        embed=EmbedUtil.prep(title="Server Welcome", description="").add_field(
-            name="Heya!!",
-            value="Today is a great day, because I get the honor of joining this server :D",
-            inline=false
-        )
-    )
+async def on_guild_join(guild):
+    await ServerUtil.get_general(guild).send_message(embed=EmbedUtil.prep(title="Server Welcome", description="").add_field(name="Heya!!", value="Today is a great day, because I get the honor of joining this server :D", inline=false))
 
 
 client.run(j[0])
