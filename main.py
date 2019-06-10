@@ -50,7 +50,7 @@ j = func_tokens()
 
 github.enable_console_debug_logging()
 g = github.Github(j[1])
-client = discord.AutoShardedClient(shard_count=30)
+client = discord.AutoShardedBot(shard_count=30)
 
 
 @client.event
