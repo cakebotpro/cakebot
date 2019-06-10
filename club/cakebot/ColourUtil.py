@@ -14,8 +14,11 @@
 """
 
 from discord import Color
-from club.cakebot.colours import tan, icedcoffee, chilipepper
 from random import randint
+
+chilipepper = Color(0x9b1b30)
+tan = Color(0xbeaa3e)
+icedcoffee = Color(0xb18f6a)
 
 
 def random():
