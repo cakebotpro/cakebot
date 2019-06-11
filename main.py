@@ -17,13 +17,12 @@
 """
 
 import discord
-import area4
 import logging
 import filehandlers as fhm
 import github
 import sys
 import fbootstrap
-from club.cakebot import OnMessage, ServerUtil
+from club.cakebot import OnMessage, ServerUtil, EmbedUtil
 
 
 logger = logging.getLogger('bot')
