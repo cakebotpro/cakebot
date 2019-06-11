@@ -42,7 +42,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 j = open("/home/jumbocakeyumyum/cakebot/tokens.txt", mode="r").readlines()
 for i, l in enumerate(j):
-    j[i].replace("\n", "")
+    j[i] = j[i].replace("\n", "")
 
 
 github.enable_console_debug_logging()
