@@ -40,7 +40,6 @@ def random():
         Color.red(),
         Color.dark_red(),
         Color.lighter_grey(),
-        Color.light_gray(),
         Color.dark_gray(),
         Color.darker_grey(),
         Color.blurple(),
