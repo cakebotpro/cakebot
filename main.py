@@ -16,7 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import asyncio
 import discord
 import logging
 import filehandlers as fhm
@@ -179,9 +178,6 @@ async def on_message(message):
             "span", attrs={"class": "dtText"}
         ).text
         await s(f"{c}{sm}")
-
-    elif cmd == "run":
-        
 
     elif cmd == "cookie":
         cookie_class = cookies.Cookie("/home/jumbocakeyumyum/cakebot/Cookiefile")
