@@ -189,10 +189,9 @@ async def on_message(message):
                 user = message.author.__str__()
             await s(cookies.get_balance(user))
         elif args[0] == "set" and message.author.__str__() == UserUtil.get_admin():
-            # admin only
             try:
                 user = args[1]
-            except:
+            except IndexError:
                 user = message.author.__str__()
             try:
                 cookies.set(user, args[2])
