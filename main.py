@@ -16,6 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+
+
+
+
 import discord
 import area4
 import logging
@@ -25,13 +29,17 @@ import github
 import requests
 import iss
 import factdata
-from crime import CrimeImp
 import slots
 import sys
+import fbootstrap
 import reverse_geocoder as rg
-from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil, Bootstrap
+from club.cakebot import EmbedUtil, ServerUtil, TextCommandsUtil
 from lcbools import false
 from bs4 import BeautifulSoup as HTML
+
+
+
+
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
@@ -39,25 +47,34 @@ logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/di
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
-def func_tokens():
-    b = open("/home/jumbocakeyumyum/cakebot/tokens.txt", mode="r").readlines()
-    for i, l in enumerate(b):
-        b[i] = b[i].replace("\n", "")
-    return b
 
 
-j = func_tokens()
+
+j = open("/home/jumbocakeyumyum/cakebot/tokens.txt", mode="r").readlines()
+for i, l in enumerate(j):
+    j[i].replace("\n", "")
+
+
+
 
 github.enable_console_debug_logging()
 g = github.Github(j[1])
+
+
+
+
 client = discord.AutoShardedClient()
+
 
 
 @client.event
 async def on_ready():
-    Bootstrap.bootstrap(client, fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
+    fbootstrap.bootstrap(client, fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
     await client.change_presence(activity=discord.Streaming(name="Heya! Run +help", url="https://cakebot.club"))
     logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
+
+
+
 
 
 @client.event
@@ -127,12 +144,18 @@ async def on_message(message):
         geodata = rg.search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
-        p = EmbedUtil.prep("International Space Station", "Where it is right now!")
-        p.add_field(name="Location above Earth", value=str(location), inline=false)
-        p.add_field(name="Latitude", value=str(lat), inline=false)
-        p.add_field(name="Longitude", value=str(lon), inline=false)
-        await s(embed=p)
         await m.delete()
+        await s(
+            embed=EmbedUtil.prep(
+                "International Space Station", "Where it is right now!"
+            ).add_field(
+                name="Location above Earth", value=str(location), inline=false
+            ).add_field(
+                name="Latitude", value=str(lat), inline=false
+            ).add_field(
+                name="Longitude", value=str(lon), inline=false
+           )
+        )
 
     elif cmd == "fact":
         await s(embed=EmbedUtil.prep("Random Fact", factdata.FactImp().fact()))
@@ -168,16 +191,15 @@ async def on_message(message):
         ).text
         await s(f"{c}{sm}")
 
-    elif cmd == "crimestats":
-        arson = CrimeImp("arson", j[2])
-        await s(arson.__str__(2009))
-        await s(arson.__str__(2010))
-        await s(arson.__str__(2011))
+
 
 
 @client.event
 async def on_guild_join(guild):
     await ServerUtil.get_general(guild).send_message(embed=EmbedUtil.prep(title="Heya!", description="Today is a great day, because I get the honor of joining this server :D"))
+
+
+
 
 
 client.run(j[0])
