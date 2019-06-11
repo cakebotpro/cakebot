@@ -179,7 +179,7 @@ async def on_message(message):
         await s(arson.__str__(2011))
 
     elif cmd == "cookie":
-        cookies = Cookie()
+        cookies = Cookie("/home/jumbocakeyumyum/cakebot/Cookiefile")
         if args[0] == "give":
             try:
                 cookies.give(args[1], None)
