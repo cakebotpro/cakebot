@@ -195,7 +195,7 @@ async def on_message(message):
             if message.author.__str__() != UserUtil.get_admin():
                 await s(":x: **Only bot admins can use this.**")
                 return
-            cookies.set(args[1], args[2])
+            cookies.give(args[1], args[2])
 
 
 @client.event
