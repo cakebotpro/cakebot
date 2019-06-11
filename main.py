@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import asyncio
 import discord
 import logging
 import filehandlers as fhm
@@ -24,13 +25,14 @@ import sys
 import fbootstrap
 import area4
 import random
+import subprocess
 import requests
 import iss
 import factdata
 import cookies
 import slots
 import reverse_geocoder as rg
-from lcbools import false
+from lcbools import false, true
 from club.cakebot import TextCommandsUtil, ServerUtil, EmbedUtil
 
 
@@ -141,7 +143,7 @@ async def on_message(message):
                 name="Latitude", value=str(lat), inline=false
             ).add_field(
                 name="Longitude", value=str(lon), inline=false
-           )
+            )
         )
 
     elif cmd == "fact":
@@ -177,6 +179,9 @@ async def on_message(message):
             "span", attrs={"class": "dtText"}
         ).text
         await s(f"{c}{sm}")
+
+    elif cmd == "run":
+        
 
     elif cmd == "cookie":
         cookie_class = cookies.Cookie("/home/jumbocakeyumyum/cakebot/Cookiefile")
