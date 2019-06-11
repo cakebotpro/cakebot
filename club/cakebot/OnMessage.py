@@ -19,6 +19,7 @@ import github
 import requests
 import iss
 import factdata
+import cookies
 import slots
 import reverse_geocoder as rg
 from club.cakebot import EmbedUtil, TextCommandsUtil
@@ -136,3 +137,22 @@ def om(client, github, message, logger, j)
             "span", attrs={"class": "dtText"}
         ).text
         await s(f"{c}{sm}")
+
+    elif cmd == "cookie":
+        cookie_class = cookies.Cookie("/home/jumbocakeyumyum/cakebot/Cookiefile")
+        if args[0] == "give":
+            try:
+                cookie_class.give(args[1], None)
+            except IndexError:
+                await s(":x: **Failed to run command.**")
+        elif args[0] == "balance":
+            try:
+                user = args[1]
+            except IndexError:
+                user = message.author.__str__()
+            await s(f"{message.author__str__()} has {cookie_class.get_balance(user)} cookies.")
+        elif args[0] == "set":
+            if message.author.__str__() != UserUtil.get_admin():
+                await s(":x: **Only bot admins can use this.**")
+                return
+            cookie_class.give(args[1], args[2])

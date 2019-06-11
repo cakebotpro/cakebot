@@ -12,4 +12,5 @@ filehandlers==1.2
 slots==1.1
 factdata==1.0
 crime==0.2
+cookies==0.1
 bootstrap<=1.0
