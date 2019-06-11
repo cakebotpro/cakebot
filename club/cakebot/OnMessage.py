@@ -13,6 +13,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import discord
 import area4
 import random
 import github
