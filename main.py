@@ -182,7 +182,7 @@ async def on_message(message):
         cookies = Cookie()
         if args[0] == "give":
             try:
-                cookies.give(args[1])
+                cookies.give(args[1], None)
             except IndexError:
                 await s(":x: **Failed to run command.**")
         elif args[0] == "balance":
