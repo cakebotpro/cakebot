@@ -85,9 +85,12 @@ async def on_message(message):
         await s("🏓")
 
     elif cmd == "invite":
-        await s(embed=EmbedUtil.prep("Invite Cakebot",
-            "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"
-        ))
+        await s(
+            embed=EmbedUtil.prep(
+                "Invite Cakebot",
+                "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"
+            )
+        )
 
     elif cmd == "8":
         await s(
