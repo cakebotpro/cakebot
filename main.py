@@ -193,7 +193,6 @@ async def on_message(message):
             cookie_class.give(args[1], args[2])
 
 
-
 @client.event
 async def on_guild_join(guild):
     await ServerUtil.get_general(guild).send_message(embed=EmbedUtil.prep(title="Heya!", description="Today is a great day, because I get the honor of joining this server :D"))
