@@ -32,7 +32,7 @@ import cookies
 import slots
 import reverse_geocoder as rg
 from lcbools import false, true
-from club.cakebot import TextCommandsUtil, ServerUtil, EmbedUtil
+from club.cakebot import TextCommandsUtil, ServerUtil, EmbedUtil, UserUtil
 
 
 logger = logging.getLogger('bot')
