@@ -1,7 +1,7 @@
 --extra-index-url 'https://cakebot.mycloudrepo.io/public/repositories/py'
 setuptools==41.0.1
 wheel==0.33.4
-area4==2.7.0
+area4>=2.5.9,<=2.7.0
 discord.py==1.2.2
 PyGithub==1.43.7
 reverse_geocoder==1.5.1
@@ -13,3 +13,4 @@ slots==1.1
 factdata==1.0
 crime==0.2
 cookies==0.1
+bootstrap<=1.0
