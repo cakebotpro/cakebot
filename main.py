@@ -45,6 +45,8 @@ for i, l in enumerate(j):
     j[i] = j[i].replace("\n", "")
 
 
+servers = fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt"))
+
 github.enable_console_debug_logging()
 g = github.Github(j[1])
 
@@ -54,7 +56,7 @@ client = discord.AutoShardedClient()
 
 @client.event
 async def on_ready():
-    fbootstrap.bootstrap(client, fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt")))
+    fbootstrap.bootstrap(client, servers)
     await client.change_presence(activity=discord.Streaming(name="Heya! Run +help", url="https://cakebot.club"))
     logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
 
@@ -83,9 +85,12 @@ async def on_message(message):
         await s("🏓")
 
     elif cmd == "invite":
-        await s(embed=EmbedUtil.prep("Invite Cakebot",
-            "[Click here to invite me!](https://discordapp.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=8)"
-        ))
+        await s(
+            embed=EmbedUtil.prep(
+                "Invite Cakebot",
+                f"[Click here to invite me!]({discord.utils.oauth_url(580573141898887199, permissions=discord.Permissions.all())})"
+            )
+        )
 
     elif cmd == "8":
         await s(
@@ -196,6 +201,13 @@ async def on_message(message):
 @client.event
 async def on_guild_join(guild):
     await ServerUtil.get_general(guild).send_message(embed=EmbedUtil.prep(title="Heya!", description="Today is a great day, because I get the honor of joining this server :D"))
+
+
+@client.event
+async def on_guild_remove(guild):
+    # refresh stuff
+    fbootstrap.bootstrap(client, servers)
+    servers.refresh()
 
 
 client.run(j[0])
