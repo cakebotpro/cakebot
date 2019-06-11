@@ -25,7 +25,7 @@ import reverse_geocoder as rg
 from club.cakebot import EmbedUtil, TextCommandsUtil
 from lcbools import false
 
-def om(client, github, message, logger, j)
+def om(client, github, message, logger, j):
     Bot_Prefix = "+"
     if not message.content.startswith(Bot_Prefix):
         return
