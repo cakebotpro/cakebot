@@ -8,6 +8,8 @@ pip-delete-this-directory.txt
 .python-version
 venv/
 venv.bak/
-token.txt
+tokens.txt
 .idea/
-tokengh.txt
+content/Cookiefile
+servers.txt
+discord.log
