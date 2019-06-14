@@ -183,6 +183,7 @@ async def on_message(message):
         cookie_class = cookies.Cookie("/home/jumbocakeyumyum/cakebot/Cookiefile")
         if args[0] == "give":
             try:
+                logger.warn(f"trying to give cookie to {args[1]}")
                 cookie_class.give(args[1], None)
             except IndexError:
                 await s(":x: **Failed to run command.**")
