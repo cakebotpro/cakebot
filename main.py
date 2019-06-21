@@ -37,16 +37,16 @@ from club.cakebot import TextCommandsUtil, ServerUtil, EmbedUtil, UserUtil
 
 logger = logging.getLogger('bot')
 logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.FileHandler(filename='/home/jumbocakeyumyum/cakebot/discord.log', encoding='utf-8', mode='w'))
+logger.addHandler(logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'))
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
-j = open("/home/jumbocakeyumyum/cakebot/tokens.txt", mode="r").readlines()
+j = open("tokens.txt", mode="r").readlines()
 for i, l in enumerate(j):
     j[i] = j[i].replace("\n", "")
 
 
-servers = fhm.FileHandler(fhm.AbstractFile("/home/jumbocakeyumyum/cakebot/servers.txt"))
+servers = fhm.FileHandler(fhm.AbstractFile("servers.txt"))
 
 github.enable_console_debug_logging()
 g = github.Github(j[1])
@@ -180,7 +180,7 @@ async def on_message(message):
         await s(f"{c}{sm}")
 
     elif cmd == "cookie":
-        cookie_class = cookies.Cookie("/home/jumbocakeyumyum/cakebot/Cookiefile")
+        cookie_class = cookies.Cookie("Cookiefile")
         if args[0] == "give":
             try:
                 logger.warn(f"trying to give cookie to {args[1]}")
