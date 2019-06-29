@@ -5,7 +5,7 @@ area4>=2.5.9,<=2.7.0
 discord.py==1.2.2
 PyGithub==1.43.7
 reverse_geocoder==1.5.1
-lcpy==0.1
+lc-py==1.0.0
 beautifulsoup4==4.7.1
 iss_api==1.1
 filehandlers==1.2
