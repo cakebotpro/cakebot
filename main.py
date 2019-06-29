@@ -31,7 +31,7 @@ import factdata
 import cookies
 import slots
 import reverse_geocoder as rg
-from lcpy import false, true
+from lc-py import false, true
 from club.cakebot import TextCommandsUtil, ServerUtil, EmbedUtil, UserUtil
 
 
