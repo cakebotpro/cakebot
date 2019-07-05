@@ -30,6 +30,7 @@ import factdata
 import cookies
 import slots
 import reverse_geocoder as rg
+from bs4 import BeautifulSoup as HTML
 from lcpy import false
 from club.cakebot import TextCommandsUtil, ServerUtil, EmbedUtil, UserUtil
 
