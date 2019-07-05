@@ -24,7 +24,6 @@ import sys
 import fbootstrap
 import area4
 import random
-import subprocess
 import requests
 import iss
 import factdata
