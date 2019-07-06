@@ -193,11 +193,6 @@ async def on_message(message):
             except IndexError:
                 user = message.author.__str__()
             await s(f"{message.author.__str__()} has {cookie_class.get_balance(user)} cookies.")
-        elif args[0] == "set":
-            if message.author.__str__() != UserUtil.get_admin():
-                await s(":x: **Only bot admins can use this.**")
-                return
-            cookie_class.give(args[1], args[2])
 
 
 @client.event
