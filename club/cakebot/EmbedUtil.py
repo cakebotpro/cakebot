@@ -13,13 +13,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import discord
+from discord import Embed
 from club.cakebot import ColourUtil
 
 
 def prep(title, description):
     # embed metadata
-    embed = discord.Embed(
+    embed = Embed(
         title=title,
         description=description,
         color=ColourUtil.random()
