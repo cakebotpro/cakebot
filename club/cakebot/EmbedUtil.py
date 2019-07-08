@@ -31,7 +31,7 @@ def prep(title, description):
 
 
 def help_menu():
-    with open("/home/jumbocakeyumyum/cakebot/content/help.cfg", "r") as opz:
+    with open("content/help.cfg", "r") as opz:
         k = prep(title="Cakebot Help", description="Make sure to add a + before each command!")
         for line in opz.readlines():
             itm = line.replace("\n", "").split(" -> ")
