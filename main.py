@@ -68,7 +68,7 @@ async def on_ready():
 
 @client.event
 async def on_shard_ready(shard_id):
-    logger.debug(f"Shard {shard_id} is now ready.")
+    logger.info(f"Shard {shard_id} is now ready.")
 
 
 @client.event
