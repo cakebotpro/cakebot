@@ -51,7 +51,6 @@ servers = fhm.FileHandler(fhm.AbstractFile("servers.txt"))
 github.enable_console_debug_logging()
 g = github.Github(j[1])
 
-
 client = discord.AutoShardedClient()
 
 
@@ -65,6 +64,11 @@ async def on_ready():
     fbootstrap.bootstrap(client, servers)
     await client.change_presence(activity=discord.Streaming(name="Heya! Run +help", url="https://cakebot.club"))
     logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
+
+
+@client.event
+async def on_shard_ready(shard_id):
+    logger.debug(f"Shard {shard_id} is now ready.")
 
 
 @client.event
