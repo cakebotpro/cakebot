@@ -55,6 +55,11 @@ g = github.Github(j[1])
 client = discord.AutoShardedClient()
 
 
+def update_servers():
+    fbootstrap.bootstrap(client, servers)
+    servers.refresh()
+
+
 @client.event
 async def on_ready():
     fbootstrap.bootstrap(client, servers)
@@ -197,19 +202,18 @@ async def on_message(message):
 
 @client.event
 async def on_guild_join(guild):
+    update_servers()
     await ServerUtil.get_general(guild).send(embed=EmbedUtil.prep(title="Heya!", description="Today is a great day, because I get the honor of joining this server :D"))
 
 
 @client.event
 async def on_guild_remove(guild):
-    fbootstrap.bootstrap(client, servers)
-    servers.refresh()
+    update_servers()
 
 
 @client.event
 async def on_guild_update(guild):
-    fbootstrap.bootstrap(client, servers)
-    servers.refresh()
+    update_servers()
 
 
 client.run(j[0])
