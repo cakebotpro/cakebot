@@ -16,18 +16,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import random
+from random import randint
 
 
 def eightball():
-    var1 = common_reader("8ball.txt")
-    return var1[random.randint(0, int(len(var1) - 1))]
+    var1 = common_reader("8ball")
+    return var1[randint(0, int(len(var1) - 1))]
 
 
 def jokes():
-    var1 = common_reader("jokes.txt")
-    return var1[random.randint(0, int(len(var1) - 1))]
+    var1 = common_reader("jokes")
+    return var1[randint(0, int(len(var1) - 1))]
 
 
 def common_reader(filename):
-    return open("content/" + filename, mode="r").readlines()
+    return open("content/" + filename + ".txt", mode="r").readlines()
