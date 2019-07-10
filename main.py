@@ -32,7 +32,7 @@ import slots
 import reverse_geocoder as rg
 from bs4 import BeautifulSoup as HTML
 from lcpy import false
-from club.cakebot import TextCommandsUtil, ServerUtil, EmbedUtil, UserUtil
+from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
 
 
 logger = logging.getLogger('bot')
@@ -207,7 +207,7 @@ async def on_message(message):
 @client.event
 async def on_guild_join(guild):
     update_servers()
-    await ServerUtil.get_general(guild).send(embed=EmbedUtil.prep(title="Heya!", description="Today is a great day, because I get the honor of joining this server :D"))
+    await guild.channels[0].send(embed=EmbedUtil.prep(title="Heya!", description="Today is a great day, because I get the honor of joining this server :D"))
 
 
 @client.event
