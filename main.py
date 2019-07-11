@@ -23,11 +23,11 @@ import github
 import sys
 import fbootstrap
 import area4
-import iss
-import factdata
 import cookies
 import slots
 import reverse_geocoder as rg
+from iss import Imp as ISSimp
+from factdata import FactImp
 from random import randint
 from requests import get
 from bs4 import BeautifulSoup as HTML
@@ -136,7 +136,7 @@ async def on_message(message):
 
     elif cmd == "iss":
         m = await s("Calculating...")
-        imp = iss.Imp()
+        imp = ISSimp()
         lat = imp.lat()
         lon = imp.lon()
         geodata = rg.search((lat, lon))
