@@ -23,13 +23,13 @@ import github
 import sys
 import fbootstrap
 import area4
-import random
-from requests import get
 import iss
 import factdata
 import cookies
 import slots
 import reverse_geocoder as rg
+from random import randint
+from requests import get
 from bs4 import BeautifulSoup as HTML
 from lcpy import false
 from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
@@ -128,7 +128,7 @@ async def on_message(message):
         for e, z in enumerate(args):
             args[e] = str(args[e]) + " "
         repo.create_issue(
-            title="Support ticket #" + str(random.randint(0, 100000)),
+            title="Support ticket #" + str(randint(0, 100000)),
             body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"),
             labels=[repo.get_label("ticket")]
         )
