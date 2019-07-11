@@ -24,7 +24,7 @@ import sys
 import fbootstrap
 import area4
 import random
-import requests
+from requests import get
 import iss
 import factdata
 import cookies
@@ -129,7 +129,8 @@ async def on_message(message):
             args[e] = str(args[e]) + " "
         repo.create_issue(
             title="Support ticket #" + str(random.randint(0, 100000)),
-            body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club")
+            body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"),
+            labels=[repo.get_label("ticket")]
         )
         await s(":white_check_mark: **Our team has been notified.**")
 
@@ -183,7 +184,7 @@ async def on_message(message):
                 c = str(c + args[i] + "%20")
         else:
             c = args[0]
-        sm = HTML(requests.get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
+        sm = HTML(get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
             "span", attrs={"class": "dtText"}
         ).text
         await s(f"{c}{sm}")
@@ -202,6 +203,14 @@ async def on_message(message):
             except IndexError:
                 user = message.author.__str__()
             await s(f"{message.author.__str__()} has {cookie_class.get_balance(user)} cookies.")
+
+    elif cmd == "restart":
+        if str(message.author) in UserUtil.get_contributors():
+            await s("Restarting. *This may take up to 5 minutes*.")
+            # make the bot crash, forcing our server to turn it back on
+            sys.exit(1)
+        else:
+            await s("**You are not authorized to run this!**")
 
 
 @client.event
