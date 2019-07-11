@@ -62,7 +62,7 @@ def update_servers():
 @client.event
 async def on_ready():
     fbootstrap.bootstrap(client, servers)
-    await client.change_presence(activity=discord.Streaming(name="Heya! Run +help", url="https://cakebot.club"))
+    await client.change_presence(activity=discord.Game(name="Heya! Run +help"))
     logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
 
 
