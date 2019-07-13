@@ -17,6 +17,7 @@
 """
 
 import discord
+import json
 import logging
 import filehandlers as fhm
 import sys
@@ -31,9 +32,9 @@ from iss import Imp as ISSimp
 from factdata import FactImp
 from random import randint
 from requests import get
-from bs4 import BeautifulSoup as HTML
+from bs4 import BeautifulSoup as bs4
 from lcpy import false
-from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
+from .club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
 
 
 logger = logging.getLogger('bot')
@@ -62,9 +63,9 @@ def update_servers():
 
 @client.event
 async def on_ready():
-    fbootstrap.bootstrap(client, servers)
+    bootstrap(client, servers)
     await client.change_presence(activity=discord.Game(name="Heya! Run +help"))
-    logger.info("Ready to roll, I'll see you on Discord: @" + client.user.__str__())
+    logger.info("Ready to roll, I'll see you on Discord: @" + str(client.user))
 
 
 @client.event
@@ -104,9 +105,9 @@ async def on_message(message):
                 "**"
                 + TextCommandsUtil.eightball()
                 + "**",
-                area4.divider(7)
-                + area4.divider(7)
-                + area4.divider(7)
+                divider(7)
+                + divider(7)
+                + divider(7)
             )
         )
 
@@ -125,7 +126,9 @@ async def on_message(message):
             args[e] = str(args[e]) + " "
         repo.create_issue(
             title="Support ticket #" + str(randint(0, 100000)),
-            body=str(f"## Support Ticket\n> Filed by {message.author.__str__()}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"),
+            body=str(
+                f"## Support Ticket\n> Filed by {str(message.author)}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"
+            ),
             labels=[repo.get_label("ticket")]
         )
         await s(":white_check_mark: **Our team has been notified.**")
@@ -180,7 +183,7 @@ async def on_message(message):
                 c = str(c + args[i] + "%20")
         else:
             c = args[0]
-        sm = HTML(get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
+        sm = bs4(get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
             "span", attrs={"class": "dtText"}
         ).text
         await s(f"{c}{sm}")
@@ -209,12 +212,16 @@ async def on_message(message):
             await s("**You are not authorized to run this!**")
 
     elif cmd == "catpic":
+        h = get(
+            "https://api.thecatapi.com/v1/images/search",
+            headers={"x-api-key": j[3]}
+        )
         await s(
             embed=EmbedUtil.prep(
                 title="Random Cat Picture",
                 description="Here you go."
             ).set_image(
-                url="https://cataas.com/cat"
+                url=json.load(h.raw)["url"]
             )
         )
 
@@ -222,7 +229,12 @@ async def on_message(message):
 @client.event
 async def on_guild_join(guild):
     update_servers()
-    await guild.channels[0].send(embed=EmbedUtil.prep(title="Heya!", description="Today is a great day, because I get the honor of joining this server :D"))
+    await guild.channels[0].send(
+        embed=EmbedUtil.prep(
+            title="Heya!",
+            description="Today is a great day, because I get the honor of joining this server :D"
+        )
+    )
 
 
 @client.event
