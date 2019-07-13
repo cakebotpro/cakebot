@@ -208,6 +208,16 @@ async def on_message(message):
         else:
             await s("**You are not authorized to run this!**")
 
+    elif cmd == "catpic":
+        await s(
+            embed=EmbedUtil.prep(
+                title="Random Cat Picture",
+                description="Here you go."
+            ).set_image(
+                url="https://cataas.com/cat"
+            )
+        )
+
 
 @client.event
 async def on_guild_join(guild):
