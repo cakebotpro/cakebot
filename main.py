@@ -68,11 +68,6 @@ async def on_ready():
 
 
 @client.event
-async def on_shard_ready(shard_id):
-    logger.info(f"Shard {shard_id} is now ready.")
-
-
-@client.event
 async def on_message(message):
     Bot_Prefix = "+"
     if not message.content.startswith(Bot_Prefix):
