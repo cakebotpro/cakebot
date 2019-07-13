@@ -156,7 +156,7 @@ async def on_message(message):
         )
 
     elif cmd == "fact":
-        await s(embed=EmbedUtil.prep("Random Fact", factdata.FactImp().fact()))
+        await s(embed=EmbedUtil.prep("Random Fact", FactImp().fact()))
 
     elif cmd == "slots":
         slotz = slots.result()
