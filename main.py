@@ -24,7 +24,8 @@ import sys
 import fbootstrap
 import area4
 import cookies
-import reverse_geocoder as rg
+from reverse_geocoder import search
+from discord.utils import oauth_url
 from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
@@ -77,12 +78,12 @@ async def on_message(message):
     if not message.content.startswith(Bot_Prefix):
         return
 
-    # Split the input
+    # Split input
     args = message.content[len(Bot_Prefix):].split()
 
     cmd = args[0].lower()
 
-    # the arg (array) ex. ["hello", "world"]
+    # the arg array ex. ["hello", "world"]
     args = args[1:]
 
     # channel
@@ -98,7 +99,7 @@ async def on_message(message):
         await s(
             embed=EmbedUtil.prep(
                 "Invite Cakebot",
-                f"[Click here to invite me!]({discord.utils.oauth_url(580573141898887199, permissions=discord.Permissions.all())})"
+                f"[Click here to invite me!]({oauth_url(580573141898887199, permissions=discord.Permissions.all())})"
             )
         )
 
@@ -139,7 +140,7 @@ async def on_message(message):
         imp = ISSimp()
         lat = imp.lat()
         lon = imp.lon()
-        geodata = rg.search((lat, lon))
+        geodata = search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
         await m.delete()
