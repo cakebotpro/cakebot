@@ -19,8 +19,8 @@
 import discord
 import logging
 import filehandlers as fhm
-import github
 import sys
+from github import enable_console_debug_logging, Github
 from cookies import Cookie
 from area4 import divider
 from fbootstrap import bootstrap
@@ -49,8 +49,8 @@ for i, l in enumerate(j):
 
 servers = fhm.FileHandler(fhm.AbstractFile("servers.txt"))
 
-github.enable_console_debug_logging()
-g = github.Github(j[1])
+enable_console_debug_logging()
+g = Github(j[1])
 
 client = discord.AutoShardedClient()
 
