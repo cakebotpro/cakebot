@@ -21,7 +21,7 @@ import logging
 import filehandlers as fhm
 import github
 import sys
-import cookies
+from cookies import Cookie
 from area4 import divider
 from fbootstrap import bootstrap
 from reverse_geocoder import search
@@ -191,7 +191,7 @@ async def on_message(message):
         await s(f"{c}{sm}")
 
     elif cmd == "cookie":
-        cookie_class = cookies.Cookie("Cookiefile")
+        cookie_class = Cookie("Cookiefile")
         if args[0] == "give":
             try:
                 logger.warn(f"trying to give cookie to {args[1]}")
