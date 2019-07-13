@@ -24,8 +24,8 @@ import sys
 import fbootstrap
 import area4
 import cookies
-import slots
 import reverse_geocoder as rg
+from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
 from random import randint
@@ -159,9 +159,9 @@ async def on_message(message):
         await s(embed=EmbedUtil.prep("Random Fact", FactImp().fact()))
 
     elif cmd == "slots":
-        slotz = slots.result()
-        top = slots.row()
-        btm = slots.row()
+        slotz = result()
+        top = row()
+        btm = row()
         form = "lose"
         if slotz[0] != 0:
             form = "win"
@@ -201,8 +201,8 @@ async def on_message(message):
             try:
                 user = args[1]
             except IndexError:
-                user = message.author.__str__()
-            await s(f"{message.author.__str__()} has {cookie_class.get_balance(user)} cookies.")
+                user = str(message.author)
+            await s(f"{str(message.author)} has {cookie_class.get_balance(user)} cookies.")
 
     elif cmd == "restart":
         if str(message.author) in UserUtil.get_contributors():
