@@ -21,8 +21,8 @@ import logging
 import filehandlers as fhm
 import github
 import sys
-import area4
 import cookies
+from area4 import divider
 from fbootstrap import bootstrap
 from reverse_geocoder import search
 from discord.utils import oauth_url
@@ -116,7 +116,7 @@ async def on_message(message):
         )
 
     elif cmd == "joke":
-        await s(embed=EmbedUtil.prep(f'**{TextCommandsUtil.jokes()}**', f'{area4.divider(7)}{area4.divider(7)}'))
+        await s(embed=EmbedUtil.prep(f'**{TextCommandsUtil.jokes()}**', f'{divider(7)}{divider(7)}'))
 
     elif cmd == "info":
         await s(
