@@ -34,7 +34,7 @@ from random import randint
 from requests import get
 from bs4 import BeautifulSoup as bs4
 from lcpy import false
-from .club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
+from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
 
 
 logger = logging.getLogger('bot')
