@@ -21,9 +21,9 @@ import logging
 import filehandlers as fhm
 import github
 import sys
-import fbootstrap
 import area4
 import cookies
+from fbootstrap import bootstrap
 from reverse_geocoder import search
 from discord.utils import oauth_url
 from slots import row, result
@@ -56,7 +56,7 @@ client = discord.AutoShardedClient()
 
 
 def update_servers():
-    fbootstrap.bootstrap(client, servers)
+    bootstrap(client, servers)
     servers.refresh()
 
 
