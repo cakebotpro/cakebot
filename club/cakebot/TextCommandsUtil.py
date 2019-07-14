@@ -19,15 +19,6 @@
 from random import randint
 
 
-def eightball():
-    var1 = common_reader("8ball")
+def common(n):
+    var1 = open("content/" + n + ".txt", mode="r").readlines()
     return var1[randint(0, int(len(var1) - 1))]
-
-
-def jokes():
-    var1 = common_reader("jokes")
-    return var1[randint(0, int(len(var1) - 1))]
-
-
-def common_reader(filename):
-    return open("content/" + filename + ".txt", mode="r").readlines()

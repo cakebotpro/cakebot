@@ -103,7 +103,7 @@ async def on_message(message):
         await s(
             embed=EmbedUtil.prep(
                 "**"
-                + TextCommandsUtil.eightball()
+                + TextCommandsUtil.common("8ball")
                 + "**",
                 divider(7)
                 + divider(7)
@@ -112,7 +112,11 @@ async def on_message(message):
         )
 
     elif cmd == "joke":
-        await s(embed=EmbedUtil.prep(f'**{TextCommandsUtil.jokes()}**', f'{divider(7)}{divider(7)}'))
+        await s(
+            embed=EmbedUtil.prep(
+                f'**{TextCommandsUtil.common("jokes")}**', f'{divider(7)}{divider(7)}'
+            )
+        )
 
     elif cmd == "info":
         await s(
