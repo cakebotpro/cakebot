@@ -189,19 +189,19 @@ async def on_message(message):
         await s(f"{c}{sm}")
 
     elif cmd == "cookie":
-        cookie_class = Cookie("Cookiefile")
+        cookieclass = Cookie("Cookiefile")
         if args[0] == "give":
             try:
                 logger.warn(f"trying to give cookie to {args[1]}")
-                cookie_class.give(args[1])
+                cookieclass.give(args[1])
             except IndexError:
                 await s(":x: **Failed to run command.**")
-        elif args[0] == "balance":
-            try:
-                user = args[1]
-            except IndexError:
-                user = str(message.author)
-            await s(f"{str(message.author)} has {cookie_class.get_balance(user)} cookies.")
+            return
+        try:
+            user = args[1]
+        except IndexError:
+            user = str(message.author)
+        await s(f"{str(message.author)} has {cookieclass.get_balance(user)} cookies.")
 
     elif cmd == "restart":
         print("here 1")
