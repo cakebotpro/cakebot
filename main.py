@@ -23,7 +23,6 @@ from asyncio import TimeoutError
 from json import load
 from filehandlers import AbstractFile, FileHandler
 from github import enable_console_debug_logging, Github
-from cookies import Cookie
 from area4 import divider
 from fbootstrap import bootstrap
 from reverse_geocoder import search
@@ -229,21 +228,6 @@ async def on_message(message):
         if int(usr_input) == num:
             return await s("**Nice job, you win :blobjoy:**")
         return await s("*You failed*. Better luck next time!")
-
-    elif cmd == "cookie":
-        cookieclass = Cookie("Cookiefile")
-        if args[0] == "give":
-            try:
-                logger.warning(f"trying to give cookie to {args[1]}")
-                cookieclass.give(args[1])
-            except IndexError:
-                await s(":x: **Failed to run command.**")
-            return
-        try:
-            user = args[1]
-        except IndexError:
-            user = str(message.author)
-        await s(f"{user} has {cookieclass.get_balance(user)} cookies.")
 
     elif cmd == "catpic":
         h = get(
