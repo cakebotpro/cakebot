@@ -188,7 +188,7 @@ async def on_message(message):
         ).text
         await s(f"{c}{sm}")
 
-    elif cmd == "restart":
+    elif cmd == "reboot":
         print("here 1")
         if str(message.author) in UserUtil.get_contributors():
             print("here 2")
