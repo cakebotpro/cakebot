@@ -189,7 +189,6 @@ async def on_message(message):
         await s(f"{c}{sm}")
 
     elif cmd == "reboot":
-        print("here 1")
         if str(message.author) in UserUtil.contributors():
             print("here 2")
             await s("Restarting. *This may take up to 5 minutes*.")

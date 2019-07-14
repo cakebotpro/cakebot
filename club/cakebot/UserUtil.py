@@ -16,7 +16,7 @@
 
 def admins():
     return [
-        "jumbocakeyumyum#0001"
+        "rdil#0001"
     ]
 
 
