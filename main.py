@@ -30,7 +30,7 @@ from discord.utils import oauth_url
 from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
-from random import randint
+from random import randint, choice
 from requests import get
 from bs4 import BeautifulSoup as Bs4
 from lcpy import false
@@ -204,6 +204,9 @@ async def on_message(message):
         await s(
             "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
         )
+
+    elif cmd == "coinflip":
+        await s(choice(["**Heads**.", "**Tails**."]))
 
     elif cmd == "guess":
         num = randint(0, 10)
