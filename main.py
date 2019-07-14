@@ -194,10 +194,8 @@ async def on_message(message):
 
     elif cmd == "reboot":
         if str(message.author) in UserUtil.contributors():
-            print("here 2")
             await s("Restarting. *This may take up to 5 minutes*.")
             # make the bot crash, forcing our server to turn it back on
-            print("here 3")
             sys.exit(1)
         else:
             await s("**You are not authorized to run this!**")
