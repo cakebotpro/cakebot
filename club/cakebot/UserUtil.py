@@ -13,15 +13,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-def get_admin():
-    return "jumbocakeyumyum#0001"
+
+def admins():
+    return [
+        "jumbocakeyumyum#0001"
+    ]
 
 
-@staticmethod
-def get_contributors():
-    return \
-        [
-            get_admin(),
-            "Tarsh#0971",
-            "Param#8739"
-        ]
+def contributors():
+    return [
+        "Tarsh#0971",
+        "Param#8739"
+    ] + [admin for admin in admins()]

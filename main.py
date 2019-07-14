@@ -17,9 +17,9 @@
 """
 
 import discord
-import json
 import logging
 import sys
+from json import load
 from filehandlers import AbstractFile, FileHandler
 from github import enable_console_debug_logging, Github
 from cookies import Cookie
@@ -224,7 +224,7 @@ async def on_message(message):
                 title="Random Cat Picture",
                 description="Here you go."
             ).set_image(
-                url=json.load(h.raw)["url"]
+                url=load(h.raw)["url"]
             )
         )
 
