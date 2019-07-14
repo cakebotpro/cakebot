@@ -190,7 +190,7 @@ async def on_message(message):
 
     elif cmd == "reboot":
         print("here 1")
-        if str(message.author) in UserUtil.get_contributors():
+        if str(message.author) in UserUtil.contributors():
             print("here 2")
             await s("Restarting. *This may take up to 5 minutes*.")
             # make the bot crash, forcing our server to turn it back on
@@ -199,12 +199,11 @@ async def on_message(message):
         else:
             await s("**You are not authorized to run this!**")
 
-
     elif cmd == "cookie":
         cookieclass = Cookie("Cookiefile")
         if args[0] == "give":
             try:
-                logger.warn(f"trying to give cookie to {args[1]}")
+                logger.warning(f"trying to give cookie to {args[1]}")
                 cookieclass.give(args[1])
             except IndexError:
                 await s(":x: **Failed to run command.**")
