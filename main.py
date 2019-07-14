@@ -188,6 +188,18 @@ async def on_message(message):
         ).text
         await s(f"{c}{sm}")
 
+    elif cmd == "restart":
+        print("here 1")
+        if str(message.author) in UserUtil.get_contributors():
+            print("here 2")
+            await s("Restarting. *This may take up to 5 minutes*.")
+            # make the bot crash, forcing our server to turn it back on
+            print("here 3")
+            sys.exit(1)
+        else:
+            await s("**You are not authorized to run this!**")
+
+
     elif cmd == "cookie":
         cookieclass = Cookie("Cookiefile")
         if args[0] == "give":
@@ -202,17 +214,6 @@ async def on_message(message):
         except IndexError:
             user = str(message.author)
         await s(f"{user} has {cookieclass.get_balance(user)} cookies.")
-
-    elif cmd == "restart":
-        print("here 1")
-        if str(message.author) in UserUtil.get_contributors():
-            print("here 2")
-            await s("Restarting. *This may take up to 5 minutes*.")
-            # make the bot crash, forcing our server to turn it back on
-            print("here 3")
-            sys.exit(1)
-        else:
-            await s("**You are not authorized to run this!**")
 
     elif cmd == "catpic":
         h = get(
