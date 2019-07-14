@@ -19,8 +19,8 @@
 import discord
 import json
 import logging
-import filehandlers as fhm
 import sys
+from filehandlers import AbstractFile, FileHandler
 from github import enable_console_debug_logging, Github
 from cookies import Cookie
 from area4 import divider
@@ -32,7 +32,7 @@ from iss import Imp as ISSimp
 from factdata import FactImp
 from random import randint
 from requests import get
-from bs4 import BeautifulSoup as bs4
+from bs4 import BeautifulSoup as Bs4
 from lcpy import false
 from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
 
@@ -48,7 +48,7 @@ for i, l in enumerate(j):
     j[i] = j[i].replace("\n", "")
 
 
-servers = fhm.FileHandler(fhm.AbstractFile("servers.txt"))
+servers = FileHandler(AbstractFile("servers.txt"))
 
 enable_console_debug_logging()
 g = Github(j[1])
@@ -179,11 +179,11 @@ async def on_message(message):
             await s(":x: *You need to specify a word!*")
             return
         if len(args) > 1:
-            for i, h in enumerate(args):
-                c = str(c + args[i] + "%20")
+            for b, h in enumerate(args):
+                c = str(c + args[b] + "%20")
         else:
             c = args[0]
-        sm = bs4(get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
+        sm = Bs4(get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
             "span", attrs={"class": "dtText"}
         ).text
         await s(f"{c}{sm}")
@@ -204,9 +204,12 @@ async def on_message(message):
             await s(f"{str(message.author)} has {cookie_class.get_balance(user)} cookies.")
 
     elif cmd == "restart":
+        print("here 1")
         if str(message.author) in UserUtil.get_contributors():
+            print("here 2")
             await s("Restarting. *This may take up to 5 minutes*.")
             # make the bot crash, forcing our server to turn it back on
+            print("here 3")
             sys.exit(1)
         else:
             await s("**You are not authorized to run this!**")
