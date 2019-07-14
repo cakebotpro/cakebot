@@ -201,7 +201,7 @@ async def on_message(message):
             user = args[1]
         except IndexError:
             user = str(message.author)
-        await s(f"{str(message.author)} has {cookieclass.get_balance(user)} cookies.")
+        await s(f"{user} has {cookieclass.get_balance(user)} cookies.")
 
     elif cmd == "restart":
         print("here 1")
