@@ -19,6 +19,7 @@
 import discord
 import logging
 import sys
+from asyncio import TimeoutError
 from json import load
 from filehandlers import AbstractFile, FileHandler
 from github import enable_console_debug_logging, Github
@@ -199,6 +200,29 @@ async def on_message(message):
             sys.exit(1)
         else:
             await s("**You are not authorized to run this!**")
+
+    elif cmd == "guess":
+        num = randint(0, 10)
+        await s(
+            "**Okay, got my number.**"
+            + "\n*Go ahead and guess it by typing in a number between 1 and 10 now...*"
+        )
+
+        def possible(m):
+            return m.author == message.author and m.content.isdigit()
+
+        for i in range(3):
+            try:
+                usr_input = await client.wait_for('message', check=possible, timeout=10.0)
+            except TimeoutError:
+                return await s("*Timed out.* Respond faster next time!")
+
+            if int(usr_input) == num:
+                return await s("**Nice job, you win :blobjoy:**")
+            else:
+                await s(f"Nope, you have {i} tries left!")
+        return await s("*You failed*. Better luck next time!")
+
 
     elif cmd == "cookie":
         cookieclass = Cookie("Cookiefile")
