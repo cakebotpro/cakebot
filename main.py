@@ -201,6 +201,16 @@ async def on_message(message):
         else:
             await s("**You are not authorized to run this!**")
 
+    elif cmd == "pi":
+        await s(
+            embed=EmbedUtil.prep(
+                title="First Few Digits of Pi",
+                description=get(
+                    "https://cakebot.club/pi.txt"
+                ).raw
+            )
+        )
+
     elif cmd == "guess":
         num = randint(0, 10)
         await s(
@@ -219,16 +229,6 @@ async def on_message(message):
         if int(usr_input) == num:
             return await s("**Nice job, you win :blobjoy:**")
         return await s("*You failed*. Better luck next time!")
-
-    elif cmd == "pi":
-        return await s(
-            embed=EmbedUtil.prep(
-                title="First Few Digits of Pi",
-                description=get(
-                    "https://cakebot.club/pi.txt"
-                ).raw
-            )
-        )
 
     elif cmd == "cookie":
         cookieclass = Cookie("Cookiefile")
