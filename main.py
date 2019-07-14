@@ -211,16 +211,13 @@ async def on_message(message):
         def possible(m):
             return m.author == message.author and m.content.isdigit()
 
-        for i in range(3):
-            try:
-                usr_input = await client.wait_for('message', check=possible, timeout=10.0)
-            except TimeoutError:
-                return await s("*Timed out.* Respond faster next time!")
+        try:
+            usr_input = await client.wait_for('message', check=possible, timeout=7.5)
+        except TimeoutError:
+            return await s("*Timed out.* Respond faster next time!")
 
-            if int(usr_input) == num:
-                return await s("**Nice job, you win :blobjoy:**")
-            else:
-                await s(f"Nope, you have {i} tries left!")
+        if int(usr_input) == num:
+            return await s("**Nice job, you win :blobjoy:**")
         return await s("*You failed*. Better luck next time!")
 
 
