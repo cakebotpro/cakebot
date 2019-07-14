@@ -220,6 +220,15 @@ async def on_message(message):
             return await s("**Nice job, you win :blobjoy:**")
         return await s("*You failed*. Better luck next time!")
 
+    elif cmd == "pi":
+        return await s(
+            embed=EmbedUtil.prep(
+                title="First Few Digits of Pi",
+                description=get(
+                    "https://cakebot.club/pi.txt"
+                ).raw
+            )
+        )
 
     elif cmd == "cookie":
         cookieclass = Cookie("Cookiefile")
