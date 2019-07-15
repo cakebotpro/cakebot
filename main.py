@@ -229,7 +229,7 @@ async def on_message(message):
         )
 
         def possible(m):
-            return m.author == message.author and m.content.isdigit()
+            return m.author == message.author and int(m.content) in range(0, 10)
 
         try:
             usr_input = await client.wait_for('message', check=possible, timeout=7.5)
