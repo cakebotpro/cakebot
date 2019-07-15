@@ -120,7 +120,14 @@ async def on_message(message):
 
     elif cmd == "info":
         await s(
-            f'***{message.guild.name}***\n**Owner:** {message.guild.owner}\n**Members:** {len(message.guild.members)}\n**Region:** {message.guild.region}\n**Server ID:** {message.guild.id}'
+            str(
+                f'***{message.guild.name}***\n' +
+                f'**Owner:** {message.guild.owner}\n' +
+                f'**Members:** {len(message.guild.members)}\n' +
+                f'**Region:** {message.guild.region}\n' +
+                f'**Server ID:** {message.guild.id}' +
+                f'**Nitro Booster Count:** {message.guild.premium_subscription_count}'
+            )
         )
 
     elif cmd == "report":
