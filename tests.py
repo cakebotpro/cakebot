@@ -11,3 +11,7 @@ class Tests(unittest.TestCase):
         self.assertIsNotNone(slots.result())
         self.assertIsNotNone(slots.row())
         self.assertEqual(slots.emojis, "🍎🍊🍐🍋🍉🍇🍒")
+
+
+if __name__ == "__main__":
+    unittest.main()
