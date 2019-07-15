@@ -125,7 +125,7 @@ async def on_message(message):
                 f'**Owner:** {message.guild.owner}\n' +
                 f'**Members:** {len(message.guild.members)}\n' +
                 f'**Region:** {message.guild.region}\n' +
-                f'**Server ID:** {message.guild.id}' +
+                f'**Server ID:** {message.guild.id}\n' +
                 f'**Nitro Booster Count:** {message.guild.premium_subscription_count}'
             )
         )
