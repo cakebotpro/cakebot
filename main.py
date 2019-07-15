@@ -208,6 +208,12 @@ async def on_message(message):
     elif cmd == "coinflip":
         await s(choice(["**Heads**.", "**Tails**."]))
 
+    elif cmd == "stars":
+        if len(args) < 1:
+            await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
+        else:
+            await s(f"{args[0]} has {g.get_repo(args[0]).stargazers_count} stars.")
+
     elif cmd == "guess":
         num = randint(0, 10)
         await s(
