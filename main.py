@@ -37,7 +37,7 @@ from lcpy import false
 from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
 
 
-logger = logging.getLogger('bot')
+logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'))
 logger.addHandler(logging.StreamHandler(sys.stdout))
