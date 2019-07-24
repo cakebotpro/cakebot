@@ -21,7 +21,7 @@ import logging
 import sys
 from asyncio import TimeoutError
 from json import load
-from filehandlers import AbstractFile, FileHandler
+from filehandlers import AbstractFile, FileManipulator
 from github import enable_console_debug_logging, Github
 from area4 import divider
 from fbootstrap import bootstrap
@@ -48,7 +48,7 @@ for i, l in enumerate(j):
     j[i] = j[i].replace("\n", "")
 
 
-servers = FileHandler(AbstractFile("servers.txt"))
+servers = FileManipulator(AbstractFile("servers.txt"))
 
 enable_console_debug_logging()
 g = Github(j[1])
