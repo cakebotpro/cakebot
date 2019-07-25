@@ -8,7 +8,7 @@ reverse_geocoder==1.5.1
 lc-py==1.0.0
 beautifulsoup4==4.8.0
 iss_api==1.1
-filehandlers==2.3
+filehandlers==2.5
 slots==1.2
 factdata==1.0
 crime==0.2
