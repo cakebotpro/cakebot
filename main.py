@@ -258,12 +258,6 @@ async def on_message(message):
 @client.event
 async def on_guild_join(guild):
     update_servers()
-    await guild.channels[0].send(
-        embed=EmbedUtil.prep(
-            title="Heya!",
-            description="Today is a great day, because I get the honor of joining this server :D"
-        )
-    )
 
 
 @client.event
