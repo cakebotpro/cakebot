@@ -19,7 +19,6 @@
 import discord
 import logging
 import sys
-from asyncio import TimeoutError
 from json import load
 from filehandlers import AbstractFile, FileManipulator
 from github import enable_console_debug_logging, Github
@@ -220,25 +219,6 @@ async def on_message(message):
             await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
         else:
             await s(f"{args[0]} has {g.get_repo(args[0]).stargazers_count} stars.")
-
-    elif cmd == "guess":
-        num = randint(0, 10)
-        await s(
-            "**Okay, got my number.**"
-            + "\n*Go ahead and guess it by typing in a number between 1 and 10 now...*"
-        )
-
-        def possible(m):
-            return m.author == message.author and int(m.content) in range(0, 10)
-
-        try:
-            usr_input = await client.wait_for('message', check=possible, timeout=7.5)
-        except TimeoutError:
-            return await s("*Timed out.* Respond faster next time!")
-
-        if int(usr_input) == num:
-            return await s("**Nice job, you win :blobjoy:**")
-        return await s("*You failed*. Better luck next time!")
 
     elif cmd == "catpic":
         h = get(
