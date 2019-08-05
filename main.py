@@ -34,6 +34,7 @@ from requests import get
 from bs4 import BeautifulSoup as Bs4
 from lcpy import false
 from steampowered import SteamStatusResolver
+from DiscordWC import DiscordWC
 from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
 
 
@@ -221,19 +222,11 @@ async def on_message(message):
         else:
             await s(f"{args[0]} has {g.get_repo(args[0]).stargazers_count} stars.")
 
-    elif cmd == "csgo":
-        logger.info(args)
-        sstr = SteamStatusResolver()
-        if args == []:
-            await s(":x: **You must specify a sub command!**")
-        else:
-            if args[1] == "online":
-                await s(
-                    f"**CS:GO**:\n*Searching for games:* {sstr.csgo_players_searching()}\n*In-game: {sstr.csgo_players_ingame()}*"
-                )
-            else:
-                await s(f":x: **Unknown sub command: '{args[0]}'**")
-            
+    elif cmd == "wordcloud":
+        wc = DiscordWC(message.channel)
+        rn = randint(0, 20000)
+        wg.generate().save(f"wordcloud-{rng}")
+        await s(file=discord.File(open(f"wordcloud-{rng}", mode="rb")))
 
     elif cmd == "catpic":
         h = get(
