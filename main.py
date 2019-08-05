@@ -229,7 +229,7 @@ async def on_message(message):
         else:
             if args[1] == "online":
                 await s(
-                    f"**CS:GO**:\n*Searching for games:* {csgo_players_searching}\n*In-game: {csgo_players_ingame}*"
+                    f"**CS:GO**:\n*Searching for games:* {sstr.csgo_players_searching()}\n*In-game: {sstr.csgo_players_ingame()}*"
                 )
             else:
                 await s(f":x: **Unknown sub command: '{args[0]}'**")
