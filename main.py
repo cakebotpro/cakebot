@@ -222,7 +222,7 @@ async def on_message(message):
             await s(f"{args[0]} has {g.get_repo(args[0]).stargazers_count} stars.")
 
     elif cmd == "csgo":
-        print(args)
+        logger.info(args)
         try:
             if args[0] == "online":
                 sstr = SteamStatusResolver()
