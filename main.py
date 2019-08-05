@@ -33,6 +33,7 @@ from random import randint, choice
 from requests import get
 from bs4 import BeautifulSoup as Bs4
 from lcpy import false
+from steampowered import SteamStatusResolver
 from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
 
 
@@ -219,6 +220,18 @@ async def on_message(message):
             await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
         else:
             await s(f"{args[0]} has {g.get_repo(args[0]).stargazers_count} stars.")
+
+    elif cmd == "csgo":
+        try:
+            if args[0] == "online":
+                sstr = SteamStatusResolver()
+                await s(
+                    f"**CS:GO**:\n*Searching for games:* {csgo_players_searching}\n*In-game: {csgo_players_ingame}*"
+                )
+            else:
+                await s(f":x: **Unknown sub command: '{args[0]}'**")
+        except:
+            await s(":x: **Unknown sub command: ''**")
 
     elif cmd == "catpic":
         h = get(
