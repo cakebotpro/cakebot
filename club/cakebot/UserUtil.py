@@ -23,5 +23,6 @@ def admins():
 def contributors():
     return [
         "Tarsh#0971",
-        "Param#8739"
+        "Param#8739",
+        "blizma#2528"
     ] + [admin for admin in admins()]
