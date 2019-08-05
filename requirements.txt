@@ -15,3 +15,4 @@ crime==0.2
 bootstrap<=1.0
 SteamStatus>=0.2
 pynacl==1.3.0
+DiscordWC>=1.0
