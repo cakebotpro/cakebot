@@ -127,7 +127,10 @@ async def on_message(message):
                 f'**Members:** {len(message.guild.members)}\n' +
                 f'**Region:** {message.guild.region}\n' +
                 f'**Server ID:** {message.guild.id}\n' +
-                f'**Nitro Booster Count:** {message.guild.premium_subscription_count}'
+                f'**Nitro Booster Count:** {message.guild.premium_subscription_count}\n' +
+                f'**Icon Is Animated:** {str(message.guild.is_icon_animated())}\n' +
+                f'**Created At:** {str(message.guild.created_at)}\n' +
+                f'**More than 250 members:** {str(message.guild.large)}'
             )
         )
 
@@ -136,10 +139,11 @@ async def on_message(message):
         String = ""
         for e, z in enumerate(args):
             args[e] = str(args[e]) + " "
+        f = str(String.join(args))
         repo.create_issue(
             title="Support ticket #" + str(randint(0, 100000)),
             body=str(
-                f"## Support Ticket\n> Filed by {str(message.author)}\n### Message:\n`{str(String.join(args))}`\n##### Powered by Cakebot | https://cakebot.club"
+                f"## Support Ticket\n> Filed by {str(message.author)}\n### Message:\n`{f}`\n##### Powered by Cakebot | https://cakebot.club"
             ),
             labels=[repo.get_label("ticket")]
         )
@@ -177,8 +181,7 @@ async def on_message(message):
         if slotz[0] != 0:
             form = "win"
         await s(
-            ""
-            + f"⠀{top[0]}{top[1]}{top[2]}\n"
+            f"⠀{top[0]}{top[1]}{top[2]}\n"
             # the line above contains unicode, DO NOT REMOVE
             + f"**>** {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} **<**\n"
             + f"   {btm[0]}{btm[1]}{btm[2]}"
