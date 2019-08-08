@@ -225,27 +225,13 @@ async def on_message(message):
         if len(args) < 1:
             await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
         else:
-            await s(f"{args[0]} has {g.get_repo(args[0]).stargazers_count} stars.")
+            await s(f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars.")
 
     elif cmd == "wordcloud":
         wc = DiscordWC(message.channel)
         rn = randint(0, 20000)
         wg.generate().save(f"wordcloud-{rng}")
         await s(file=discord.File(open(f"wordcloud-{rng}", mode="rb")))
-
-    elif cmd == "catpic":
-        h = get(
-            "https://api.thecatapi.com/v1/images/search",
-            headers={"x-api-key": j[3]}
-        )
-        await s(
-            embed=EmbedUtil.prep(
-                title="Random Cat Picture",
-                description="Here you go."
-            ).set_image(
-                url=load(h.raw)["url"]
-            )
-        )
 
 
 @client.event
