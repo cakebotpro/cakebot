@@ -120,6 +120,7 @@ async def on_message(message):
         )
 
     elif cmd == "info":
+        needs_mfa = bool(message.guild.mfa_level == 1)
         await s(
             str(
                 f'***{message.guild.name}***\n' +
@@ -130,7 +131,8 @@ async def on_message(message):
                 f'**Nitro Booster Count:** {message.guild.premium_subscription_count}\n' +
                 f'**Icon Is Animated:** {str(message.guild.is_icon_animated())}\n' +
                 f'**Created At:** {str(message.guild.created_at)}\n' +
-                f'**More than 250 members:** {str(message.guild.large)}'
+                f'**More Than 250 Members:** {str(message.guild.large)}\n' +
+                f'**Admins Need 2-Factor Auth: {needs_mfa}'
             )
         )
 
