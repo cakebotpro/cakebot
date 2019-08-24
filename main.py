@@ -249,4 +249,5 @@ async def on_guild_update(guild):
     update_servers()
 
 
+logger.info(f"Using discord.py version {discord.__version__}")
 client.run(j[0])
