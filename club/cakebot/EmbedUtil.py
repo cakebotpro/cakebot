@@ -29,7 +29,7 @@ def prep(title, description):
     embed.set_author(
         name="Cakebot",
         url="https://cakebot.club",
-        icon_url="https://raw.githubusercontent.com/RDIL/cakebot/master/content/cake.png"
+        icon_url="https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/cake.png"
     )
     return embed
 
