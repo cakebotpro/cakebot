@@ -230,8 +230,8 @@ async def on_message(message):
     elif cmd == "wordcloud":
         wc = DiscordWC(message.channel)
         rn = randint(0, 20000)
-        wg.generate().save(f"wordcloud-{rng}")
-        await s(file=discord.File(open(f"wordcloud-{rng}", mode="rb")))
+        wg.generate().save(f"wordcloud-{rn}")
+        await s(file=discord.File(open(f"wordcloud-{rn}", mode="rb")))
 
 
 @client.event
@@ -245,7 +245,7 @@ async def on_guild_remove(guild):
 
 
 @client.event
-async def on_guild_update(guild):
+async def on_guild_update(before, after):
     update_servers()
 
 
