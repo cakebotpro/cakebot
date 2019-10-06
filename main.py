@@ -228,6 +228,7 @@ async def on_message(message):
             await s(f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars.")
 
     elif cmd == "wordcloud":
+        await s("This is in beta, please +report any bugs you find with it")
         wc = DiscordWC(message.channel)
         rn = randint(0, 20000)
         wg.generate().save(f"wordcloud-{rn}")
@@ -250,4 +251,5 @@ async def on_guild_update(before, after):
 
 
 logger.info(f"Using discord.py version {discord.__version__}")
-client.run(j[0])
+if __name__ == "__main__":
+    client.run(j[0])
