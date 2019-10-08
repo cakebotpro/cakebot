@@ -1,7 +1,7 @@
 --extra-index-url 'https://rdil.mycloudrepo.io/public/repositories/cakebot'
 setuptools==41.4.0
 wheel==0.33.6
-area4>=2.8.0
+area4>=2.10.0
 discord.py==1.2.3
 PyGithub==1.43.8
 reverse_geocoder==1.5.1
