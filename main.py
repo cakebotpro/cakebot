@@ -231,7 +231,10 @@ async def on_message(message):
         if len(args) < 1:
             await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
         else:
-            await s(f"{args[0]}'s homepage is located at {g.get_repo(args[0]).homepage if g.get_repo(args[0]).homepage is not None else "(error: no homepage found)"}")
+            url_nullable = g.get_repo(args[0]).homepage
+            if url_nullable is None:
+                url_nullable = "(error: homepage not specified by owner)"
+            await s(f"{args[0]}'s homepage is located at {url_nullable}")
             
     elif cmd == "wordcloud":
         await s("This is in beta, please +report any bugs you find with it")
