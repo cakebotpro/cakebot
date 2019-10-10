@@ -103,10 +103,8 @@ async def on_message(message):
     elif cmd == "8":
         await s(
             embed=EmbedUtil.prep(
-                f"**{TextCommandsUtil.common("8ball")}**"
-                + divider(7)
-                + divider(7)
-                + divider(7)
+                f"**{TextCommandsUtil.common("8ball")}**",
+                divider(7) + divider(7) + divider(7)
             )
         )
 
