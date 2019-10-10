@@ -14,4 +14,4 @@ factdata==1.0
 crime==0.2
 bootstrap<=1.0
 SteamStatus==0.3
-DiscordWC==1.2
+DiscordWC==1.3
