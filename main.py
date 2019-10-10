@@ -101,10 +101,11 @@ async def on_message(message):
         )
 
     elif cmd == "8":
+        title = f"**{TextCommandsUtil.common("8ball")}**"
         await s(
             embed=EmbedUtil.prep(
-                f"**{TextCommandsUtil.common("8ball")}**",
-                divider(7) + divider(7) + divider(7)
+                title,
+                str(divider(7) + divider(7) + divider(7))
             )
         )
 
