@@ -19,7 +19,6 @@
 import discord
 import logging
 import sys
-from json import load
 from filehandlers import AbstractFile, FileManipulator
 from github import enable_console_debug_logging, Github
 from area4 import divider
@@ -238,7 +237,7 @@ async def on_message(message):
         await s("This is in beta, please +report any bugs you find with it")
         wc = DiscordWC(message.channel)
         rn = randint(0, 20000)
-        wg.generate().save(f"wordcloud-{rn}")
+        wc.generate().save(f"wordcloud-{rn}")
         await s(file=discord.File(open(f"wordcloud-{rn}", mode="rb")))
 
 
