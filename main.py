@@ -103,10 +103,8 @@ async def on_message(message):
     elif cmd == "8":
         await s(
             embed=EmbedUtil.prep(
-                "**"
-                + TextCommandsUtil.common("8ball")
-                + "**",
-                divider(7)
+                f"**{TextCommandsUtil.common("8ball")}**"
+                + divider(7)
                 + divider(7)
                 + divider(7)
             )
@@ -147,7 +145,9 @@ async def on_message(message):
             body=str(
                 f"## Support Ticket\n> Filed by {str(message.author)}\n### Message:\n`{f}`\n##### Powered by Cakebot | https://cakebot.club"
             ),
-            labels=[repo.get_label("ticket")]
+            labels=[
+                repo.get_label("ticket")
+            ]
         )
         await s(":white_check_mark: **Our team has been notified.**")
 
@@ -235,7 +235,7 @@ async def on_message(message):
             if url_nullable is None:
                 url_nullable = "(error: homepage not specified by owner)"
             await s(f"{args[0]}'s homepage is located at {url_nullable}")
-            
+
     elif cmd == "wordcloud":
         await s("This is in beta, please +report any bugs you find with it")
         wc = DiscordWC(message.channel)
