@@ -63,8 +63,8 @@ def update_servers():
 
 @client.event
 async def on_ready():
-    bootstrap(client, servers)
-    await client.change_presence(activity=discord.Game(name="Update wave soon | Run +help"))
+    update_servers()
+    await client.change_presence(activity=discord.Game(name="Updates soon! | Run +help"))
     logger.info("Ready to roll, I'll see you on Discord: @" + str(client.user))
 
 
@@ -86,13 +86,13 @@ async def on_message(message):
     s = message.channel.send
 
     if cmd == "help":
-        await s(embed=EmbedUtil.help_menu())
+        return await s(embed=EmbedUtil.help_menu())
 
     elif cmd == "ping":
-        await s("🏓")
+        return await s("🏓")
 
     elif cmd == "invite":
-        await s(
+        return await s(
             embed=EmbedUtil.prep(
                 "Invite Cakebot",
                 f"[Click here to invite me!]({oauth_url(580573141898887199, permissions=discord.Permissions.all())})"
@@ -100,7 +100,7 @@ async def on_message(message):
         )
 
     elif cmd == "8":
-        await s(
+        return await s(
             embed=EmbedUtil.prep(
                 "**" + TextCommandsUtil.common("8ball") + "**",
                 str(divider(7) + divider(7) + divider(7))
@@ -108,15 +108,15 @@ async def on_message(message):
         )
 
     elif cmd == "joke":
-        await s(
+        return await s(
             embed=EmbedUtil.prep(
                 f'**{TextCommandsUtil.common("jokes")}**', f'{divider(7)}{divider(7)}'
             )
         )
 
     elif cmd == "info":
-        needs_mfa = bool(message.guild.mfa_level == 1)
-        await s(
+        needs_mfa = message.guild.mfa_level == 1
+        return await s(
             str(
                 f'***{message.guild.name}***\n' +
                 f'**Owner:** {message.guild.owner}\n' +
@@ -146,7 +146,7 @@ async def on_message(message):
                 repo.get_label("ticket")
             ]
         )
-        await s(":white_check_mark: **Our team has been notified.**")
+        return await s(":white_check_mark: **Our team has been notified.**")
 
     elif cmd == "iss":
         m = await s("Calculating...")
@@ -157,7 +157,7 @@ async def on_message(message):
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
         await m.delete()
-        await s(
+        return await s(
             embed=EmbedUtil.prep(
                 "International Space Station", "Where it is right now!"
             ).add_field(
@@ -170,7 +170,7 @@ async def on_message(message):
         )
 
     elif cmd == "fact":
-        await s(embed=EmbedUtil.prep("Random Fact", FactImp().fact()))
+        return await s(embed=EmbedUtil.prep("Random Fact", FactImp().fact()))
 
     elif cmd == "slots":
         slotz = result()
@@ -179,7 +179,7 @@ async def on_message(message):
         form = "lose"
         if slotz[0] != 0:
             form = "win"
-        await s(
+        return await s(
             f"⠀{top[0]}{top[1]}{top[2]}\n"
             # the line above contains unicode, DO NOT REMOVE
             + f"**>** {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} **<**\n"
@@ -190,8 +190,7 @@ async def on_message(message):
     elif cmd == "define":
         c = ""
         if len(args) < 1:
-            await s(":x: *You need to specify a word!*")
-            return
+            return await s(":x: *You need to specify a word!*")
         if len(args) > 1:
             for b, h in enumerate(args):
                 c = str(c + args[b] + "%20")
@@ -200,7 +199,7 @@ async def on_message(message):
         sm = Bs4(get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
             "span", attrs={"class": "dtText"}
         ).text
-        await s(f"{c}{sm}")
+        return await s(c + sm)
 
     elif cmd == "reboot":
         if str(message.author) in UserUtil.contributors():
@@ -208,37 +207,37 @@ async def on_message(message):
             # make the bot crash, forcing our server to turn it back on
             sys.exit(1)
         else:
-            await s("**You are not authorized to run this!**")
+            return await s("**You are not authorized to run this!**")
 
     elif cmd == "pi":
-        await s(
+        return await s(
             "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
         )
 
     elif cmd == "coinflip":
-        await s(choice(["**Heads**.", "**Tails**."]))
+        return await s(choice(["**Heads**.", "**Tails**."]))
 
     elif cmd == "stars":
         if len(args) < 1:
-            await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
+            return await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
         else:
-            await s(f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars.")
+            return await s(f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars.")
 
     elif cmd == "homepage":
         if len(args) < 1:
-            await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
+            return await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
         else:
             url_nullable = g.get_repo(args[0]).homepage
             if url_nullable is None:
                 url_nullable = "(error: homepage not specified by owner)"
-            await s(f"{args[0]}'s homepage is located at {url_nullable}")
+            return await s(f"{args[0]}'s homepage is located at {url_nullable}")
 
     elif cmd == "wordcloud":
         await s("This is in beta, please +report any bugs you find with it")
         wc = DiscordWC(message.channel)
         rn = randint(0, 20000)
         wc.generate().save(f"wordcloud-{rn}")
-        await s(file=discord.File(open(f"wordcloud-{rn}", mode="rb")))
+        return await s(file=discord.File(open(f"wordcloud-{rn}", mode="rb")))
 
 
 @client.event
