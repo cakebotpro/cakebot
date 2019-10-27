@@ -64,7 +64,7 @@ def update_servers():
 @client.event
 async def on_ready():
     bootstrap(client, servers)
-    await client.change_presence(activity=discord.Game(name="Heya! Run +help"))
+    await client.change_presence(activity=discord.Game(name="Update wave soon | Run +help"))
     logger.info("Ready to roll, I'll see you on Discord: @" + str(client.user))
 
 
@@ -224,7 +224,7 @@ async def on_message(message):
         else:
             await s(f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars.")
 
-    elif cmd == "githomepage":
+    elif cmd == "homepage":
         if len(args) < 1:
             await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
         else:
