@@ -240,7 +240,7 @@ async def on_message(message):
         return await s(file=discord.File(open(f"wordcloud-{rn}", mode="rb")))
 
     elif cmd == "clapify":
-        if len(args) > 1:
+        if len(args) < 1:
             return await s(":x: **I can't clapify nothing!**")
         return await s(embed=EmbedUtil.prep(":clap:ify Result", TextCommandsUtil.clapify(args)))
 
