@@ -30,5 +30,5 @@ def clapify(args):
         if s == "":
             s = str(arg + " ")
         else:
-            s += str(":clap " + arg)
+            s += str(":clap: " + arg)
     return s
