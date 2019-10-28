@@ -242,7 +242,7 @@ async def on_message(message):
     elif cmd == "clapify":
         if len(args) < 1:
             return await s(":x: **I can't clapify nothing!**")
-        return await s(embed=EmbedUtil.prep(":clap:ify Result", TextCommandsUtil.clapify(args)))
+        return await s(embed=EmbedUtil.prep(TextCommandsUtil.clapify(args), ""))
 
 
 @client.event
