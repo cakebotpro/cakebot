@@ -22,3 +22,13 @@ from random import randint
 def common(n):
     var1 = open("content/" + n + ".txt", mode="r").readlines()
     return var1[randint(0, int(len(var1) - 1))]
+
+
+def clapify(args):
+    s = ""
+    for arg in args:
+        if s == "":
+            s = str(arg + " ")
+        else:
+            s += str(":clap " + arg)
+    return s
