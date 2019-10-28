@@ -115,7 +115,7 @@ async def on_message(message):
         )
 
     elif cmd == "info":
-        needs_mfa = message.guild.mfa_level == 1
+        needs_mfa = bool(message.guild.mfa_level == 1)
         return await s(
             str(
                 f'***{message.guild.name}***\n' +
@@ -242,7 +242,7 @@ async def on_message(message):
     elif cmd == "clapify":
         if len(args) > 1:
             return await s(":x: **I can't clapify nothing!**")
-        return await s(embed=EmbedUtil.prep(":clap:ify Result", TextCommandsUtil.clapify(args))
+        return await s(embed=EmbedUtil.prep(":clap:ify Result", TextCommandsUtil.clapify(args)))
 
 
 @client.event
