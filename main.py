@@ -37,7 +37,7 @@ from DiscordWC import DiscordWC
 from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
 
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 logger.addHandler(logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'))
 logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -238,6 +238,11 @@ async def on_message(message):
         rn = randint(0, 20000)
         wc.generate().save(f"wordcloud-{rn}")
         return await s(file=discord.File(open(f"wordcloud-{rn}", mode="rb")))
+
+    elif cmd == "clapify":
+        if len(args) > 1:
+            return await s(":x: **I can't clapify nothing!**")
+        return await s(embed=EmbedUtil.prep(":clap:ify Result", TextCommandsUtil.clapify(args))
 
 
 @client.event
