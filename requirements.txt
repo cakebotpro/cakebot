@@ -12,6 +12,4 @@ filehandlers>=2.6
 slots==1.3
 factdata==1.0
 crime==0.2
-bootstrap<=1.0
-SteamStatus==0.3
-DiscordWC==1.3
+bootstrap<=1.1

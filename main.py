@@ -19,6 +19,7 @@
 import discord
 import logging
 import sys
+import os
 from filehandlers import AbstractFile, FileManipulator
 from github import enable_console_debug_logging, Github
 from area4 import divider
@@ -32,9 +33,9 @@ from random import randint, choice
 from requests import get
 from bs4 import BeautifulSoup as Bs4
 from lcpy import false
-from steampowered import SteamStatusResolver
-from DiscordWC import DiscordWC
-from club.cakebot import TextCommandsUtil, EmbedUtil, UserUtil
+from club.cakebot import (
+    TextCommandsUtil, EmbedUtil, UserUtil, Preconditions
+)
 
 
 logger = logging.getLogger(__name__)
@@ -64,13 +65,30 @@ def update_servers():
 @client.event
 async def on_ready():
     update_servers()
-    await client.change_presence(activity=discord.Game(name="Updates soon! | Run +help"))
+    if os.getenv("PRODUCTION") is not None:
+        await client.change_presence(
+            activity=discord.Game(
+                name=open(
+                    "content/status.txt",
+                    "r"
+                ).readlines()[0]
+            )
+        )
+    else:
+        await client.change_presence(
+            activity=discord.Game(
+                name="Running development build"
+            )
+        )
     logger.info("Ready to roll, I'll see you on Discord: @" + str(client.user))
 
 
 @client.event
 async def on_message(message):
     Bot_Prefix = "+"
+    if os.getenv("PRODUCTION") is None:
+        Bot_Prefix = "-"
+
     if not message.content.startswith(Bot_Prefix):
         return
 
@@ -82,8 +100,26 @@ async def on_message(message):
     # the arg array ex. ["hello", "world"]
     args = args[1:]
 
-    # channel
     s = message.channel.send
+
+    if (
+        (
+            cmd == "8"
+            or cmd == "report"
+            or cmd == "define"
+            or cmd == "stars"
+            or cmd == "homepage"
+            or cmd == "clapify"
+        ) and Preconditions.checkArgsAreNotNull(
+            args
+        )
+    ):
+        return await s(
+            embed=EmbedUtil.prep(
+                "That command expected an argument (or arguments), but you didn't give it any!",
+                "[Read the docs?](https://cakebot.club/commands.html)"
+            )
+        )
 
     if cmd == "help":
         return await s(embed=EmbedUtil.help_menu())
@@ -134,9 +170,11 @@ async def on_message(message):
     elif cmd == "report":
         repo = g.get_repo("cakebotpro/cakebot")
         String = ""
-        for e, z in enumerate(args):
+        for e, z in enumerate(args):  # noqa
             args[e] = str(args[e]) + " "
         f = str(String.join(args))
+        if(f == "" or f == " "):
+            return await s(":x: **I can't report nothing!**")
         repo.create_issue(
             title="Support ticket #" + str(randint(0, 100000)),
             body=str(
@@ -207,7 +245,7 @@ async def on_message(message):
             # make the bot crash, forcing our server to turn it back on
             sys.exit(1)
         else:
-            return await s("**You are not authorized to run this!**")
+            return await s(":x: **You are not authorized to run this!**")
 
     elif cmd == "pi":
         return await s(
@@ -218,30 +256,21 @@ async def on_message(message):
         return await s(choice(["**Heads**.", "**Tails**."]))
 
     elif cmd == "stars":
-        if len(args) < 1:
-            return await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
-        else:
+        try:
             return await s(f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars.")
+        except:
+            return await s("Failed to get count. Is the repository valid and public?")
 
     elif cmd == "homepage":
-        if len(args) < 1:
-            return await s("You need to pass the name of a repository, e.g. *cakebotpro/cakebot* as the argument!")
-        else:
+        try:
             url_nullable = g.get_repo(args[0]).homepage
             if url_nullable is None:
                 url_nullable = "(error: homepage not specified by owner)"
             return await s(f"{args[0]}'s homepage is located at {url_nullable}")
-
-    elif cmd == "wordcloud":
-        await s("This is in beta, please +report any bugs you find with it")
-        wc = DiscordWC(message.channel)
-        rn = randint(0, 20000)
-        wc.generate().save(f"wordcloud-{rn}")
-        return await s(file=discord.File(open(f"wordcloud-{rn}", mode="rb")))
+        except:
+            return await s("Failed to fetch homepage. Is the repository valid and public?")
 
     elif cmd == "clapify":
-        if len(args) < 1:
-            return await s(":x: **I can't clapify nothing!**")
         return await s(embed=EmbedUtil.prep(TextCommandsUtil.clapify(args), ""))
 
 
@@ -260,6 +289,6 @@ async def on_guild_update(before, after):
     update_servers()
 
 
-logger.info(f"Using discord.py version {discord.__version__}")
 if __name__ == "__main__":
+    logger.info(f"Using discord.py version {discord.__version__}")
     client.run(j[0])

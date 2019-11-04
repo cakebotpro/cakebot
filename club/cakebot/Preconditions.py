@@ -16,19 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from random import randint
-
-
-def common(n):
-    var1 = open("content/" + n + ".txt", mode="r").readlines()
-    return var1[randint(0, int(len(var1) - 1))]
-
-
-def clapify(args):
-    s = ""
-    for arg in args:
-        if s == "":
-            s = str(arg + " ")
-        else:
-            s += str(f":clap: {arg} ")
-    return s
+def checkArgsAreNotNull(params):
+    return bool(
+        len(params) < 1 and
+        params is not [] and
+        params is not [""] and
+        params is not ["", ""]
+    )
