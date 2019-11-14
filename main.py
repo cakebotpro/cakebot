@@ -272,6 +272,9 @@ async def on_message(message):
 
     elif cmd == "clapify":
         return await s(embed=EmbedUtil.prep(TextCommandsUtil.clapify(args), ""))
+    
+    elif cmd == "boomer":
+        return await s(file=discord.File("content/boomer.jpeg"))
 
 
 @client.event
