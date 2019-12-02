@@ -1,5 +1,5 @@
 --extra-index-url 'https://rdil.mycloudrepo.io/public/repositories/cakebot'
-setuptools==42.0.1
+setuptools==42.0.2
 wheel==0.33.6
 area4>=2.0.0
 discord.py==1.2.5
