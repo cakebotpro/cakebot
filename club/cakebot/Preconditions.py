@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+
 def checkArgsAreNotNull(params):
     return bool(
         len(params) < 1 and
