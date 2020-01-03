@@ -13,3 +13,5 @@ tokens.txt
 content/Cookiefile
 servers.txt
 discord.log
+.mypy_cache
+cookies.json

@@ -36,6 +36,7 @@ from lcpy import false
 from club.cakebot import (
     TextCommandsUtil, EmbedUtil, UserUtil, Preconditions
 )
+#from cookies import Cookies
 
 
 logger = logging.getLogger(__name__)
@@ -49,10 +50,16 @@ for i, l in enumerate(j):
     j[i] = j[i].replace("\n", "")
 
 
+AbstractFile("servers.txt").touch()
 servers = FileManipulator(AbstractFile("servers.txt"))
+AbstractFile("cookies.json").touch()
 
 enable_console_debug_logging()
-g = Github(j[1])
+g = None
+try:
+    g = Github(j[1])
+except IndexError:
+    logger.warning("GitHub credentials not found, skipping initialization...")
 
 client = discord.AutoShardedClient()
 
@@ -110,6 +117,7 @@ async def on_message(message):
             or cmd == "stars"
             or cmd == "homepage"
             or cmd == "clapify"
+            or cmd == "cookie"
         ) and Preconditions.checkArgsAreNotNull(
             args
         )
@@ -276,6 +284,20 @@ async def on_message(message):
     elif cmd == "boomer":
         await s("Okay BOOMER!")
         return await s(file=discord.File("content/boomer.jpeg"))
+
+    """
+    elif cmd == "cookie":
+        cookies = Cookies("cookies.json")
+        subcommand = args[0]
+        if subcommand == "balance" or subcommand == "bal":
+            return await s(
+                cookies.get_count(
+                    TextCommandsUtil.get_mentioned_id(
+                        args
+                    )
+                )
+            )
+    """
 
 
 @client.event

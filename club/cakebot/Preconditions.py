@@ -24,3 +24,7 @@ def checkArgsAreNotNull(params):
         params is not [""] and
         params is not ["", ""]
     )
+
+
+def argCountIsAtLeast(params, number):
+    return len(params) >= number

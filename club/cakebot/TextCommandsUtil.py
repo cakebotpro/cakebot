@@ -30,5 +30,16 @@ def clapify(args):
         if s == "":
             s = str(arg + " ")
         else:
-            s += str(f":clap: {arg} ")
+            s += str(":clap: " + arg + " ")
     return s
+
+
+def get_mentioned_id(message_contents):
+    for item in message_contents:
+        if item.startswith("<@!") and item.endswith(">"):
+            base = item
+            # strip out the divider chars
+            base = base.replace("<@!", "")
+            base = base.replace(">", "")
+            return int(base)
+    return None
