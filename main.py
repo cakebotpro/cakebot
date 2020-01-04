@@ -289,7 +289,7 @@ async def on_message(message):
         await s("Okay BOOMER!")
         return await s(file=discord.File("content/boomer.jpeg"))
 
-    elif cmd == "cookie":
+    elif cmd == "cookie" or cmd == "cookies":
         cookies = Cookies("cookies.json")
         subcommand = args[0]
         if subcommand == "balance" or subcommand == "bal":
