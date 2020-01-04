@@ -36,7 +36,7 @@ from lcpy import false
 from club.cakebot import (
     TextCommandsUtil, EmbedUtil, UserUtil, Preconditions
 )
-from cookies import Cookies
+from cookiescb import Cookies
 
 
 logger = getLogger(__name__)
