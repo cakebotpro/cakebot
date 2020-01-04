@@ -17,9 +17,9 @@
 """
 
 import discord
-import logging
 import sys
-import os
+from os import getenv
+from logging import getLogger, StreamHandler
 from filehandlers import AbstractFile, FileManipulator
 from github import enable_console_debug_logging, Github
 from area4 import divider
@@ -36,13 +36,12 @@ from lcpy import false
 from club.cakebot import (
     TextCommandsUtil, EmbedUtil, UserUtil, Preconditions
 )
-#from cookies import Cookies
+from cookies import Cookies
 
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.addHandler(logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'))
-logger.addHandler(logging.StreamHandler(sys.stdout))
+logger = getLogger(__name__)
+logger.setLevel(20)
+logger.addHandler(StreamHandler(sys.stdout))
 
 
 j = open("tokens.txt", mode="r").readlines()
@@ -53,6 +52,11 @@ for i, l in enumerate(j):
 AbstractFile("servers.txt").touch()
 servers = FileManipulator(AbstractFile("servers.txt"))
 AbstractFile("cookies.json").touch()
+
+idk = open("cookies.json", "r")
+if idk.read() == "":
+    open("cookies.json", "w").write('{"players": []}')
+idk.close()
 
 enable_console_debug_logging()
 g = None
@@ -72,7 +76,7 @@ def update_servers():
 @client.event
 async def on_ready():
     update_servers()
-    if os.getenv("PRODUCTION") is not None:
+    if getenv("PRODUCTION") is not None:
         await client.change_presence(
             activity=discord.Game(
                 name=open(
@@ -93,7 +97,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     Bot_Prefix = "+"
-    if os.getenv("PRODUCTION") is None:
+    if getenv("PRODUCTION") is None:
         Bot_Prefix = "-"
 
     if not message.content.startswith(Bot_Prefix):
@@ -285,19 +289,19 @@ async def on_message(message):
         await s("Okay BOOMER!")
         return await s(file=discord.File("content/boomer.jpeg"))
 
-    """
     elif cmd == "cookie":
         cookies = Cookies("cookies.json")
         subcommand = args[0]
         if subcommand == "balance" or subcommand == "bal":
-            return await s(
-                cookies.get_count(
-                    TextCommandsUtil.get_mentioned_id(
-                        args
-                    )
-                )
-            )
-    """
+            user = message.author.id
+            cy = TextCommandsUtil.get_mentioned_id(args)
+            if cy is not None:
+                user = cy
+            return await s(cookies.get_count(user))
+        elif subcommand == "give" or subcommand == "to":
+            if cookies.give(TextCommandsUtil.get_mentioned_id(args)):
+                return await s(":white_check_mark: *Cookie given!*")
+            return await s(":x: *This user has already recieved a cookie in the last hour!*")
 
 
 @client.event
