@@ -225,7 +225,7 @@ async def on_message(message):
 
     elif cmd == "reboot":
         if str(message.author) in UserUtil.contributors():
-            await s("Restarting. *This may take up to 5 minutes*.")
+            await s("Restarting. This may take up to 5 minutes.")
             # make the bot crash, forcing our server to turn it back on
             sys.exit(1)
         else:
