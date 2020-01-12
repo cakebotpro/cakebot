@@ -21,7 +21,7 @@ import sys
 from os import getenv
 from logging import getLogger, StreamHandler
 from filehandlers import AbstractFile, FileManipulator
-from github import enable_console_debug_logging, Github
+from github import Github
 from area4 import divider
 from fbootstrap import bootstrap
 from reverse_geocoder import search
@@ -29,12 +29,13 @@ from discord.utils import oauth_url
 from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
-from random import randint, choice
+from random import choice
 from requests import get
 from bs4 import BeautifulSoup as Bs4
 from lcpy import false
 from club.cakebot import (
-    TextCommandsUtil, EmbedUtil, UserUtil, Preconditions
+    TextCommandsUtil, EmbedUtil, UserUtil, Preconditions,
+    GitHubUtil
 )
 from cookiescb import Cookies
 
@@ -58,7 +59,6 @@ if idk.read() == "":
     open("cookies.json", "w").write('{"players": []}')
 idk.close()
 
-enable_console_debug_logging()
 g = None
 try:
     g = Github(j[1])
@@ -163,40 +163,12 @@ async def on_message(message):
         )
 
     elif cmd == "info":
-        needs_mfa = bool(message.guild.mfa_level == 1)
-        return await s(
-            str(
-                f'***{message.guild.name}***\n' +
-                f'**Owner:** {message.guild.owner}\n' +
-                f'**Members:** {len(message.guild.members)}\n' +
-                f'**Region:** {message.guild.region}\n' +
-                f'**Server ID:** {message.guild.id}\n' +
-                f'**Nitro Booster Count:** {message.guild.premium_subscription_count}\n' +
-                f'**Icon Is Animated:** {str(message.guild.is_icon_animated())}\n' +
-                f'**Created At:** {str(message.guild.created_at)}\n' +
-                f'**More Than 250 Members:** {str(message.guild.large)}\n' +
-                f'**Admins Need 2-Factor Auth: {needs_mfa}'
-            )
-        )
+        return await s(TextCommandsUtil.data_template.format(
+            message, bool(message.guild.mfa_level == 1)
+        ))
 
     elif cmd == "report":
-        repo = g.get_repo("cakebotpro/cakebot")
-        String = ""
-        for e, z in enumerate(args):  # noqa
-            args[e] = str(args[e]) + " "
-        f = str(String.join(args))
-        if(f == "" or f == " "):
-            return await s(":x: **I can't report nothing!**")
-        repo.create_issue(
-            title="Support ticket #" + str(randint(0, 100000)),
-            body=str(
-                f"## Support Ticket\n> Filed by {str(message.author)}\n### Message:\n`{f}`\n##### Powered by Cakebot | https://cakebot.club"
-            ),
-            labels=[
-                repo.get_label("ticket")
-            ]
-        )
-        return await s(":white_check_mark: **Our team has been notified.**")
+        return await GitHubUtil.report(s, g, args, message)
 
     elif cmd == "iss":
         m = await s("Calculating...")

@@ -43,3 +43,29 @@ def get_mentioned_id(message_contents):
             base = base.replace(">", "")
             return int(base)
     return None
+
+
+data_template = """\
+***{message.guild.name}***
+**Owner:** {0.guild.owner}
+**Members:** {len(0.guild.members)}
+**Region:** {0.guild.region}
+**Server ID:** {0.guild.id}
+**Nitro Booster Count:** {0.guild.premium_subscription_count}
+**Icon Is Animated:** {str(0.guild.is_icon_animated())}
+**Created At:** {str(0.guild.created_at)}
+**More Than 250 Members:** {str(0.guild.large)}
+**Admins Need 2-Factor Auth: {1}
+"""
+
+issue_template = """\
+## Support Ticket
+
+> Filed by {str(message.author)}
+
+### Message:
+
+`{0}`
+
+##### Powered by Cakebot | https://cakebot.club"
+"""
