@@ -16,20 +16,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from random import randint
-from .TextCommandsUtil import issue_template
+from json import loads, dumps
 
 
-async def report(s, g, args, message):
-    repo = g.get_repo("cakebotpro/cakebot")
-    f = str(" ".join(args))
-    if f == "" or f == " ":
-        return await s(":x: **I can't report nothing!**")
-    repo.create_issue(
-        title="Support ticket #" + str(randint(0, 100000)),
-        body=issue_template.format(f),
-        labels=[
-            repo.get_label("ticket")
-        ]
-    )
-    return await s(":white_check_mark: **Our team has been notified.**")
+def load_jsonfile(file):
+    return loads(file.get_cache())
+
+
+def save_jsonfile(file, new_json):
+    file.clear()
+    file.write(dumps(new_json))

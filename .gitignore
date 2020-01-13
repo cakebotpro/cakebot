@@ -10,7 +10,6 @@ venv/
 venv.bak/
 tokens.txt
 .idea/
-content/Cookiefile
 servers.txt
 discord.log
 .mypy_cache

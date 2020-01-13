@@ -14,7 +14,7 @@
 """
 
 from discord import Color
-from random import randint
+from random import choice
 
 chilipepper = Color(0x9b1b30)
 tan = Color(0xbeaa3e)
@@ -46,4 +46,4 @@ def random():
         icedcoffee,
         chilipepper
     ]
-    return c[randint(0, len(c) - 1)]
+    return choice(c)
