@@ -16,14 +16,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from random import randint
 from bs4 import BeautifulSoup
 from requests import get
+from random import choice
 
 
 def common(n):
-    var1 = open("content/" + n + ".txt", mode="r").readlines()
-    return var1[randint(0, int(len(var1) - 1))]
+    return choice(open("content/" + n + ".txt", mode="r").readlines())
 
 
 def clapify(args):

@@ -16,20 +16,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from random import randint
-from .TextCommandsUtil import issue_template
 
+def wrap(bot, update_servers):
+    @bot.event
+    async def on_guild_join(guild):
+        update_servers()
 
-async def report(s, g, args, message):
-    repo = g.get_repo("cakebotpro/cakebot")
-    f = str(" ".join(args))
-    if f == "" or f == " ":
-        return await s(":x: **I can't report nothing!**")
-    repo.create_issue(
-        title="Support ticket #" + str(randint(0, 100000)),
-        body=issue_template.format(f),
-        labels=[
-            repo.get_label("ticket")
-        ]
-    )
-    return await s(":white_check_mark: **Our team has been notified.**")
+    @bot.event
+    async def on_guild_remove(guild):
+        update_servers()
+
+    @bot.event
+    async def on_guild_update(before, after):
+        update_servers()

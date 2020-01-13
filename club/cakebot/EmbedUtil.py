@@ -14,17 +14,15 @@
 """
 
 from discord import Embed
-from club.cakebot import ColourUtil
+from . import ColourUtil
 
 
 def prep(title, description):
-    # embed metadata
     embed = Embed(
         title=title,
         description=description,
         color=ColourUtil.random()
     )
-    # footer
     embed.set_footer(text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/")
     embed.set_author(
         name="Cakebot",

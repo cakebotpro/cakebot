@@ -33,7 +33,7 @@ from random import choice
 from lcpy import false
 from club.cakebot import (
     TextCommandsUtil, EmbedUtil, UserUtil, Preconditions,
-    GitHubUtil
+    GitHubUtil, JsonUtil, BotUtil
 )
 from cookiescb import Cookies
 from discord_sentry_reporting import use_sentry
@@ -43,25 +43,17 @@ logger.setLevel(10)
 logger.addHandler(StreamHandler(sys.stdout))
 
 
-j = open("tokens.txt", mode="r").readlines()
-for i, l in enumerate(j):
-    j[i] = j[i].replace("\n", "")
-
-
+config = JsonUtil.load_jsonfile(
+    FileManipulator(AbstractFile("config.json"))
+)
 AbstractFile("servers.txt").touch()
 servers = FileManipulator(AbstractFile("servers.txt"))
-AbstractFile("cookies.json").touch()
-
-idk = open("cookies.json", "r")
-if idk.read() == "":
-    open("cookies.json", "w").write('{"players": []}')
-idk.close()
 
 g = None
 try:
-    g = Github(j[1])
-except IndexError:
-    logger.warning("GitHub credentials not found, skipping initialization...")
+    g = Github(config["tokens"]["github"])
+except KeyError:
+    logger.warning("GitHub credentials not found, skipping...")
 
 client = discord.AutoShardedClient()
 
@@ -83,14 +75,7 @@ def update_servers():
 async def on_ready():
     update_servers()
     if getenv("PRODUCTION") is not None:
-        await client.change_presence(
-            activity=discord.Game(
-                name=open(
-                    "content/status.txt",
-                    "r"
-                ).readlines()[0]
-            )
-        )
+        await client.change_presence(activity=discord.Game(name=config["status"]))
     else:
         await client.change_presence(
             activity=discord.Game(
@@ -143,7 +128,7 @@ async def on_message(message):
         return await s(embed=EmbedUtil.help_menu())
 
     elif cmd == "ping":
-        return await s("🏓")
+        return await s(f"🏓 - websocket responded in {client.latency}")
 
     elif cmd == "invite":
         return await s(
@@ -253,11 +238,10 @@ async def on_message(message):
         return await s(embed=EmbedUtil.prep(TextCommandsUtil.clapify(args), ""))
 
     elif cmd == "boomer":
-        await s("Okay BOOMER!")
         return await s(file=discord.File("content/boomer.jpeg"))
 
     elif cmd == "cookie" or cmd == "cookies":
-        cookies = Cookies("cookies.json")
+        cookies = Cookies("config.json")
         subcommand = args[0]
         if subcommand == "balance" or subcommand == "bal":
             user = message.author.id
@@ -271,21 +255,8 @@ async def on_message(message):
             return await s(":x: *This user has already recieved a cookie in the last hour!*")
 
 
-@client.event
-async def on_guild_join(guild):
-    update_servers()
-
-
-@client.event
-async def on_guild_remove(guild):
-    update_servers()
-
-
-@client.event
-async def on_guild_update(before, after):
-    update_servers()
-
+BotUtil.wrap(client, update_servers)
 
 if __name__ == "__main__":
     logger.info(f"Using discord.py version {discord.__version__}")
-    client.run(j[0])
+    client.run(config["tokens"]["discord"])
