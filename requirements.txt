@@ -11,6 +11,6 @@ iss_api==1.1
 filehandlers==2.9.0
 slots==1.3
 factdata==1.0
-bootstrap==1.3.0
+bootstrap==1.4.0
 cookiescb==1.3.0
 sentry-sdk==0.14.0
