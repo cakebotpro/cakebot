@@ -40,13 +40,13 @@ from club.cakebot import (
 from cookiescb import Cookies
 import sentry_sdk
 
+logger = getLogger(__name__)
+logger.setLevel(10)
+logger.addHandler(StreamHandler(sys.stdout))
+
 if getenv("PRODUCTION") is not None:
     sentry_sdk.init("https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155")
-
-
-logger = getLogger(__name__)
-logger.setLevel(20)
-logger.addHandler(StreamHandler(sys.stdout))
+    logger.info("Loaded sentry!")
 
 
 j = open("tokens.txt", mode="r").readlines()
