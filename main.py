@@ -45,7 +45,10 @@ logger.setLevel(10)
 logger.addHandler(StreamHandler(sys.stdout))
 
 if getenv("PRODUCTION") is not None:
-    sentry_sdk.init("https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155")
+    sentry_sdk.init(
+        "https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
+        debug=True
+    )
     logger.info("Loaded sentry!")
 
 
