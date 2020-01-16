@@ -15,3 +15,4 @@ servers.txt
 discord.log
 .mypy_cache
 cookies.json
+.venv
