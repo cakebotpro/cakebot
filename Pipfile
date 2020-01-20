@@ -9,6 +9,8 @@ url = "https://rdil.mycloudrepo.io/public/repositories/cakebot"
 verify_ssl = true
 
 [dev-packages]
+mypy = "*"
+flake8 = "*"
 
 [packages]
 area4 = ">=3.0.0"
