@@ -30,8 +30,6 @@ from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
 from random import choice
-from requests import get
-from bs4 import BeautifulSoup as Bs4
 from lcpy import false
 from club.cakebot import (
     TextCommandsUtil, EmbedUtil, UserUtil, Preconditions,
@@ -217,18 +215,7 @@ async def on_message(message):
         )
 
     elif cmd == "define":
-        c = ""
-        if len(args) < 1:
-            return await s(":x: *You need to specify a word!*")
-        if len(args) > 1:
-            for b, h in enumerate(args):
-                c = str(c + args[b] + "%20")
-        else:
-            c = args[0]
-        sm = Bs4(get(f"https://www.merriam-webster.com/dictionary/{c}").content, "html.parser").find(
-            "span", attrs={"class": "dtText"}
-        ).text
-        return await s(c + sm)
+        return await TextCommandsUtil.define(args, s)
 
     elif cmd == "reboot":
         if str(message.author) in UserUtil.contributors():
