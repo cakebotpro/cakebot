@@ -36,18 +36,11 @@ from club.cakebot import (
     GitHubUtil
 )
 from cookiescb import Cookies
-import sentry_sdk
+from discord_sentry_reporting import use_sentry
 
 logger = getLogger(__name__)
 logger.setLevel(10)
 logger.addHandler(StreamHandler(sys.stdout))
-
-if getenv("PRODUCTION") is not None:
-    sentry_sdk.init(
-        "https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
-        debug=True
-    )
-    logger.info("Loaded sentry!")
 
 
 j = open("tokens.txt", mode="r").readlines()
@@ -71,6 +64,14 @@ except IndexError:
     logger.warning("GitHub credentials not found, skipping initialization...")
 
 client = discord.AutoShardedClient()
+
+if getenv("PRODUCTION") is not None:
+    use_sentry(
+        client,
+        "https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
+        debug=True
+    )
+    logger.info("Loaded Sentry!")
 
 
 def update_servers():
