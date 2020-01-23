@@ -20,7 +20,11 @@ from json import loads, dumps
 
 
 def load_jsonfile(file):
-    return loads(file.get_cache())
+    return loads(
+        " ".join(
+            file.get_cache()
+        )
+    )
 
 
 def save_jsonfile(file, new_json):
