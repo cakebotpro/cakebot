@@ -16,9 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from random import choice
 from bs4 import BeautifulSoup
 from requests import get
-from random import choice
 
 
 def common(n):

@@ -42,7 +42,6 @@ logger = getLogger(__name__)
 logger.setLevel(10)
 logger.addHandler(StreamHandler(sys.stdout))
 
-
 config = JsonUtil.load_jsonfile(
     FileManipulator(AbstractFile("config.json"))
 )
