@@ -1,4 +1,9 @@
 task:
+  name: Static Analysis
   container:
-    image: alpine/flake8:latest
-  script: python3 -m flake8 *.py
+    image: python:latest
+  install_dependencies_script: |
+    python3 -m pip install --upgrade pip pipenv setuptools
+    pipenv --python 3 install
+  script: |
+    pipenv run mypy -m main
