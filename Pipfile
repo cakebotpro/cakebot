@@ -26,7 +26,7 @@ sentry-sdk = "==0.14.1"
 "discord.py" = "==1.2.5"
 PyGithub = "==1.45"
 reverse_geocoder = "==1.5.1"
-discord-sentry-reporting = "==2.0.0"
+discord-sentry-reporting = "==2.0.1"
 
 [requires]
 python_version = "3"
