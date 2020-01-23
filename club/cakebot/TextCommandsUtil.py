@@ -17,6 +17,8 @@
 """
 
 from random import choice
+from bs4 import BeautifulSoup
+from requests import get
 
 
 def common(n):
@@ -42,6 +44,24 @@ def get_mentioned_id(message_contents):
             base = base.replace(">", "")
             return int(base)
     return None
+
+
+async def define(args, s):
+    c = ""
+    if len(args) < 1:
+        return await s(":x: *You need to specify a word!*")
+    if len(args) > 1:
+        for b, h in enumerate(args):
+            c = str(c + args[b] + "%20")
+    else:
+        c = args[0]
+    sm = BeautifulSoup(
+        get(f"https://www.merriam-webster.com/dictionary/{c}").content,
+        "html.parser"
+    ).find(
+        "span", attrs={"class": "dtText"}
+    ).text
+    return await s(c + sm)
 
 
 data_template = """\
