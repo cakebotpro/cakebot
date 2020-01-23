@@ -68,7 +68,7 @@ client = discord.AutoShardedClient()
 if getenv("PRODUCTION") is not None:
     use_sentry(
         client,
-        "https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
+        dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
         debug=True
     )
     logger.info("Loaded Sentry!")
