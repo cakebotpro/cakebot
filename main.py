@@ -33,9 +33,8 @@ from random import choice
 from lcpy import false
 from club.cakebot import (
     TextCommandsUtil, EmbedUtil, UserUtil, Preconditions,
-    GitHubUtil, JsonUtil, BotUtil
+    GitHubUtil, JsonUtil, BotUtil, Database
 )
-from cookiescb import Cookies
 from discord_sentry_reporting import use_sentry
 
 logger = getLogger(__name__)
@@ -240,14 +239,11 @@ async def on_message(message):
         return await s(file=discord.File("content/boomer.jpeg"))
 
     elif cmd == "cookie" or cmd == "cookies":
-        cookies = Cookies("config.json")
         subcommand = args[0]
         if subcommand == "balance" or subcommand == "bal":
             user = message.author.id
+            logger.debug(Database.get_user_by_id(TextCommandsUtil.get_mentioned_id(args)))
             cy = TextCommandsUtil.get_mentioned_id(args)
-            if cy is not None:
-                user = cy
-            return await s(cookies.get_count(user))
         elif subcommand == "give" or subcommand == "to":
             if cookies.give(TextCommandsUtil.get_mentioned_id(args)):
                 return await s(":white_check_mark: *Cookie given!*")

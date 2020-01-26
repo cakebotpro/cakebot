@@ -17,3 +17,4 @@ cookies.json
 .venv
 .theia
 *.db
+config.json

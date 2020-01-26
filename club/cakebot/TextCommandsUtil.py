@@ -43,6 +43,11 @@ def get_mentioned_id(message_contents):
             base = base.replace("<@!", "")
             base = base.replace(">", "")
             return int(base)
+        try:
+            if int(item) > 100000:
+                return int(item)
+        except:
+            lambda e: None
     return None
 
 

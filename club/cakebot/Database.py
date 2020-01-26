@@ -18,10 +18,11 @@
 
 # mypy: ignore_errors
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from datetime import datetime
 
 engine = create_engine('sqlite:///cakebot.db', echo=True)
 Base = declarative_base()
@@ -37,6 +38,11 @@ class DiscordUser(Base):
 
     id = Column(Integer, primary_key=True)
     cookie_count = Column(Integer, default=0)
+    last_got_cookie_at = Column(
+        DateTime(
+            default=datetime(2015, 1, 1, 1, 1, 1, 1)
+        )
+    )
 
 
 def create():
@@ -44,4 +50,13 @@ def create():
 
 
 def get_user_by_id(id: int):
-    return session.query(DiscordUser).filter_by(id=id).first()
+    query_result = session.query(DiscordUser).filter_by(id=id).first()
+
+    if query_result is not None:
+        return query_result
+
+    new_query = DiscordUser(id=id)
+    session.add(new_query)
+    session.commit()
+
+    return new_query

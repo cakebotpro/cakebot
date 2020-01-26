@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from json import loads, dumps
+from json import loads
 
 
 def load_jsonfile(file):
@@ -25,8 +25,3 @@ def load_jsonfile(file):
             file.get_cache()
         )
     )
-
-
-def save_jsonfile(file, new_json):
-    file.clear()
-    file.write(dumps(new_json))

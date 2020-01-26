@@ -22,7 +22,7 @@ from .TextCommandsUtil import issue_template
 
 async def report(s, g, args, message):
     repo = g.get_repo("cakebotpro/cakebot")
-    f = str(" ".join(args))
+    f = " ".join(args)
     if f == "" or f == " ":
         return await s(":x: **I can't report nothing!**")
     repo.create_issue(
