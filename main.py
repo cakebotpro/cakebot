@@ -38,8 +38,8 @@ from club.cakebot import (
 from discord_sentry_reporting import use_sentry
 from datetime import datetime
 
-logger = getLogger(__name__)
-logger.setLevel(30)
+logger = getLogger("cakebot")
+logger.setLevel(10)
 logger.addHandler(StreamHandler(sys.stdout))
 
 config = JsonUtil.load_jsonfile(
@@ -62,7 +62,7 @@ if getenv("PRODUCTION") is not None:
         dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
         debug=true
     )
-    print("Loaded Sentry!")
+    logger.debug("Loaded Sentry!")
 
 
 def update_servers():
@@ -261,5 +261,5 @@ async def on_message(message):
 BotUtil.wrap(client, update_servers)
 
 if __name__ == "__main__":
-    print(f"Using discord.py version {discord.__version__}")
+    logger.info(f"Using discord.py version {discord.__version__}")
     client.run(config["tokens"]["discord"])
