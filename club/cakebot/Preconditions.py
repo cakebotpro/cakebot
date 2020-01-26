@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from datetime import datetime
+
 
 def checkArgsAreNotNull(params):
     return bool(
@@ -26,5 +28,15 @@ def checkArgsAreNotNull(params):
     )
 
 
-def argCountIsAtLeast(params, number):
+def argCountIsAtLeast(params, number: int):
     return len(params) >= number
+
+
+def canGetCookie(user):
+    diff = user.last_got_cookie_at - datetime.now()
+    # difference in seconds split into minutes
+    mins = int(diff.total_seconds() / 60)
+    if mins < 0:
+        mins += mins * -2
+    print(mins)
+    return mins > 60
