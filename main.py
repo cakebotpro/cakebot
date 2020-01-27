@@ -30,21 +30,19 @@ from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
 from random import choice
-from lcpy import false
+from lcpy import false, true
 from club.cakebot import (
     TextCommandsUtil, EmbedUtil, UserUtil, Preconditions,
-    GitHubUtil, JsonUtil, BotUtil
+    GitHubUtil, BotUtil, Database
 )
-from cookiescb import Cookies
 from discord_sentry_reporting import use_sentry
+from datetime import datetime
 
-logger = getLogger(__name__)
+logger = getLogger("cakebot")
 logger.setLevel(10)
 logger.addHandler(StreamHandler(sys.stdout))
 
-config = JsonUtil.load_jsonfile(
-    FileManipulator(AbstractFile("config.json"))
-)
+config = FileManipulator(AbstractFile("config.json")).load_from_json()
 AbstractFile("servers.txt").touch()
 servers = FileManipulator(AbstractFile("servers.txt"))
 
@@ -60,9 +58,9 @@ if getenv("PRODUCTION") is not None:
     use_sentry(
         client,
         dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
-        debug=True
+        debug=true
     )
-    logger.info("Loaded Sentry!")
+    logger.debug("Loaded Sentry!")
 
 
 def update_servers():
@@ -240,17 +238,21 @@ async def on_message(message):
         return await s(file=discord.File("content/boomer.jpeg"))
 
     elif cmd == "cookie" or cmd == "cookies":
-        cookies = Cookies("config.json")
         subcommand = args[0]
+
         if subcommand == "balance" or subcommand == "bal":
-            user = message.author.id
-            cy = TextCommandsUtil.get_mentioned_id(args)
-            if cy is not None:
-                user = cy
-            return await s(cookies.get_count(user))
+            return await s("todo")
+
         elif subcommand == "give" or subcommand == "to":
-            if cookies.give(TextCommandsUtil.get_mentioned_id(args)):
-                return await s(":white_check_mark: *Cookie given!*")
+            user = Database.get_user_by_id(
+                TextCommandsUtil.get_mentioned_id(args)
+            )
+            if Preconditions.canGetCookie(user):
+                user.cookie_count += 1
+                user.last_got_cookie_at = datetime.now()
+                Database.commit()
+                return await s(f"Gave <@!{user.id}> a cookie. They now have {user.cookie_count} cookies.")
+
             return await s(":x: *This user has already recieved a cookie in the last hour!*")
 
 

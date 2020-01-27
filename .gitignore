@@ -16,3 +16,5 @@ discord.log
 cookies.json
 .venv
 .theia
+*.db
+config.json
