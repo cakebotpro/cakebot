@@ -6,5 +6,5 @@ task:
     python3 -m pip install --upgrade pip pipenv setuptools
     pipenv --python 3 install
   script: |
-    source /root/.local/share/virtualenvs/cirrus-ci-build-FWOhdJsU/bin/activate
-    mypy -m main
+    find /root/.local/share/virtualenvs/. -name * -exec source /root/.local/share/virtualenvs/{}/bin/activate
+    python3 -m mypy -m main
