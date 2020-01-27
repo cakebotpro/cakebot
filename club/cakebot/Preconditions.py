@@ -37,6 +37,8 @@ def canGetCookie(user):
     # difference in seconds split into minutes
     mins = int(diff.total_seconds() / 60)
     if mins < 0:
+        # for some odd reason, this number is negative
+        # so we need to do this :/
         mins += mins * -2
-    print(mins)
+    # if the user got a cookie in the last hour
     return mins > 60
