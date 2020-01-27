@@ -3,6 +3,6 @@ task:
   container:
     image: python:latest
   install_dependencies_script: |
-    python3 -m pip install --upgrade pip pipenv setuptools
-    pipenv --python 3 install
-  script: pipenv shell && mypy -m main
+    python3 -m pip install --upgrade pip
+    python3 -m pip install --upgrade -r requirements.txt
+  script: python3 -m mypy -m main
