@@ -8,7 +8,4 @@ task:
       - echo $OS $PYTHON_VERSION
       - cat requirements.txt
     populate_script: python3 -m pip install --upgrade -r requirements.txt
-  install_dependencies_script: |
-    python3 -m pip install --upgrade pip
-    python3 -m pip install --upgrade -r requirements.txt
   script: python3 -m mypy -m main
