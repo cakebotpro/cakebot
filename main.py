@@ -33,7 +33,7 @@ from random import choice
 from lcpy import false, true
 from club.cakebot import (
     TextCommandsUtil, EmbedUtil, UserUtil, Preconditions,
-    GitHubUtil, JsonUtil, BotUtil, Database
+    GitHubUtil, BotUtil, Database
 )
 from discord_sentry_reporting import use_sentry
 from datetime import datetime
@@ -42,9 +42,7 @@ logger = getLogger("cakebot")
 logger.setLevel(10)
 logger.addHandler(StreamHandler(sys.stdout))
 
-config = JsonUtil.load_jsonfile(
-    FileManipulator(AbstractFile("config.json"))
-)
+config = FileManipulator(AbstractFile("config.json")).load_from_json()
 AbstractFile("servers.txt").touch()
 servers = FileManipulator(AbstractFile("servers.txt"))
 
