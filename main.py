@@ -17,7 +17,7 @@
 """
 
 import discord
-import sys
+from sys import stdout, exit as _exit
 from os import getenv
 from logging import getLogger, StreamHandler
 from filehandlers import AbstractFile, FileManipulator
@@ -32,15 +32,20 @@ from factdata import FactImp
 from random import choice
 from lcpy import false, true
 from club.cakebot import (
-    TextCommandsUtil, EmbedUtil, UserUtil, Preconditions,
-    GitHubUtil, BotUtil, Database
+    TextCommandsUtil,
+    EmbedUtil,
+    UserUtil,
+    Preconditions,
+    GitHubUtil,
+    BotUtil,
+    Database,
 )
 from discord_sentry_reporting import use_sentry
 from datetime import datetime
 
 logger = getLogger("cakebot")
 logger.setLevel(10)
-logger.addHandler(StreamHandler(sys.stdout))
+logger.addHandler(StreamHandler(stdout))
 
 config = FileManipulator(AbstractFile("config.json")).load_from_json()
 AbstractFile("servers.txt").touch()
@@ -58,7 +63,7 @@ if getenv("PRODUCTION") is not None:
     use_sentry(
         client,
         dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
-        debug=true
+        debug=true,
     )
     logger.debug("Loaded Sentry!")
 
@@ -75,9 +80,7 @@ async def on_ready():
         await client.change_presence(activity=discord.Game(name=config["status"]))
     else:
         await client.change_presence(
-            activity=discord.Game(
-                name="Running development build"
-            )
+            activity=discord.Game(name="Running development build")
         )
     logger.info("Ready to roll, I'll see you on Discord: @" + str(client.user))
 
@@ -92,7 +95,7 @@ async def on_message(message):
         return
 
     # Split input
-    args = message.content[len(Bot_Prefix):].split()
+    args = message.content[len(Bot_Prefix) :].split()
 
     cmd = args[0].lower()
 
@@ -102,22 +105,18 @@ async def on_message(message):
     s = message.channel.send
 
     if (
-        (
-            cmd == "8"
-            or cmd == "report"
-            or cmd == "define"
-            or cmd == "stars"
-            or cmd == "homepage"
-            or cmd == "clapify"
-            or cmd == "cookie"
-        ) and Preconditions.checkArgsAreNotNull(
-            args
-        )
-    ):
+        cmd == "8"
+        or cmd == "report"
+        or cmd == "define"
+        or cmd == "stars"
+        or cmd == "homepage"
+        or cmd == "clapify"
+        or cmd == "cookie"
+    ) and Preconditions.checkArgsAreNotNull(args):
         return await s(
             embed=EmbedUtil.prep(
                 "That command expected an argument (or arguments), but you didn't give it any!",
-                "[Read the docs?](https://cakebot.club/commands.html)"
+                "[Read the docs?](https://cakebot.club/commands.html)",
             )
         )
 
@@ -131,7 +130,7 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 "Invite Cakebot",
-                f"[Click here to invite me!]({oauth_url(580573141898887199, permissions=discord.Permissions.all())})"
+                f"[Click here to invite me!]({oauth_url(580573141898887199, permissions=discord.Permissions.all())})",
             )
         )
 
@@ -139,21 +138,23 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 "**" + TextCommandsUtil.common("8ball") + "**",
-                str(divider(7) + divider(7) + divider(7))
+                str(divider(7) + divider(7) + divider(7)),
             )
         )
 
     elif cmd == "joke":
         return await s(
             embed=EmbedUtil.prep(
-                f'**{TextCommandsUtil.common("jokes")}**', f'{divider(7)}{divider(7)}'
+                f'**{TextCommandsUtil.common("jokes")}**', f"{divider(7)}{divider(7)}"
             )
         )
 
     elif cmd == "info":
-        return await s(TextCommandsUtil.data_template.format(
-            message, bool(message.guild.mfa_level == 1)
-        ))
+        return await s(
+            TextCommandsUtil.data_template.format(
+                message, bool(message.guild.mfa_level == 1)
+            )
+        )
 
     elif cmd == "report":
         return await GitHubUtil.report(s, g, args, message)
@@ -170,13 +171,10 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 "International Space Station", "Where it is right now!"
-            ).add_field(
-                name="Location above Earth", value=str(location), inline=false
-            ).add_field(
-                name="Latitude", value=str(lat), inline=false
-            ).add_field(
-                name="Longitude", value=str(lon), inline=false
             )
+            .add_field(name="Location above Earth", value=str(location), inline=false)
+            .add_field(name="Latitude", value=str(lat), inline=false)
+            .add_field(name="Longitude", value=str(lon), inline=false)
         )
 
     elif cmd == "fact":
@@ -204,7 +202,7 @@ async def on_message(message):
         if str(message.author) in UserUtil.contributors():
             await s("Restarting. This may take up to 5 minutes.")
             # make the bot crash, forcing our server to turn it back on
-            sys.exit(1)
+            _exit(1)
         else:
             return await s(":x: **You are not authorized to run this!**")
 
@@ -218,7 +216,9 @@ async def on_message(message):
 
     elif cmd == "stars":
         try:
-            return await s(f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars.")
+            return await s(
+                f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars."
+            )
         except:
             return await s("Failed to get count. Is the repository valid and public?")
 
@@ -229,7 +229,9 @@ async def on_message(message):
                 url_nullable = "(error: homepage not specified by owner)"
             return await s(f"{args[0]}'s homepage is located at {url_nullable}")
         except:
-            return await s("Failed to fetch homepage. Is the repository valid and public?")
+            return await s(
+                "Failed to fetch homepage. Is the repository valid and public?"
+            )
 
     elif cmd == "clapify":
         return await s(embed=EmbedUtil.prep(TextCommandsUtil.clapify(args), ""))
@@ -239,21 +241,36 @@ async def on_message(message):
 
     elif cmd == "cookie" or cmd == "cookies":
         subcommand = args[0]
+        userId = TextCommandsUtil.get_mentioned_id(args)
 
         if subcommand == "balance" or subcommand == "bal":
-            return await s("todo")
+            user = Database.get_user_by_id(userId)
+            dpy_user = await client.get_user(id=userId)
+
+            if dpy_user is None:
+                return await s(":x: **That user doesn't exist!**")
+
+            return await s(
+                embed=EmbedUtil.prep(
+                    title="Cookies",
+                    description=f"{str(dpy_user)} has {user.cookie_count} cookies.",
+                )
+            )
 
         elif subcommand == "give" or subcommand == "to":
-            user = Database.get_user_by_id(
-                TextCommandsUtil.get_mentioned_id(args)
-            )
+            user = Database.get_user_by_id(userId)
+
             if Preconditions.canGetCookie(user):
                 user.cookie_count += 1
                 user.last_got_cookie_at = datetime.now()
                 Database.commit()
-                return await s(f"Gave <@!{user.id}> a cookie. They now have {user.cookie_count} cookies.")
+                return await s(
+                    f"Gave <@!{userId}> a cookie. They now have {user.cookie_count} cookies."
+                )
 
-            return await s(":x: *This user has already recieved a cookie in the last hour!*")
+            return await s(
+                ":x: *This user has already recieved a cookie in the last hour!*"
+            )
 
 
 BotUtil.wrap(client, update_servers)

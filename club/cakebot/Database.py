@@ -23,6 +23,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+from os.path import exists
 
 engine = create_engine('sqlite:///cakebot.db', echo=True)
 Base = declarative_base()
@@ -63,3 +64,7 @@ def get_user_by_id(id: int):
 
 def commit():
     session.commit()
+
+
+if not exists("cakebot.db"):
+    create()
