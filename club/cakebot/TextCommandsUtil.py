@@ -35,6 +35,10 @@ def clapify(args):
     return s
 
 
+def noop():
+    return
+
+
 def get_mentioned_id(message_contents):
     for item in message_contents:
         if item.startswith("<@!") and item.endswith(">"):
@@ -46,8 +50,8 @@ def get_mentioned_id(message_contents):
         try:
             if int(item) > 100000:
                 return int(item)
-        except:
-            lambda e: None
+        except ValueError:
+            noop()
     return None
 
 

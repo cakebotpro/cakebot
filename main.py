@@ -95,7 +95,7 @@ async def on_message(message):
         return
 
     # Split input
-    args = message.content[len(Bot_Prefix) :].split()
+    args = message.content[len(Bot_Prefix):].split()
 
     cmd = args[0].lower()
 
@@ -245,6 +245,12 @@ async def on_message(message):
 
         if subcommand == "balance" or subcommand == "bal":
             user = Database.get_user_by_id(userId)
+
+            if user is None:
+                # assume user wants themself
+                user = Database.get_user_by_id(message.author.id)
+
+            # discord.py object for a user
             dpy_user = await client.get_user(id=userId)
 
             if dpy_user is None:
