@@ -250,16 +250,10 @@ async def on_message(message):
                 # assume user wants themself
                 user = Database.get_user_by_id(message.author.id)
 
-            # discord.py object for a user
-            dpy_user = await client.get_user(id=userId)
-
-            if dpy_user is None:
-                return await s(":x: **That user doesn't exist!**")
-
             return await s(
                 embed=EmbedUtil.prep(
                     title="Cookies",
-                    description=f"{str(dpy_user)} has {user.cookie_count} cookies.",
+                    description=f"<@!{user.id}> has {user.cookie_count} cookies.",
                 )
             )
 
