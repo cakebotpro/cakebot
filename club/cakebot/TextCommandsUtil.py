@@ -39,19 +39,18 @@ def noop():
     return
 
 
-def get_mentioned_id(message_contents):
-    for item in message_contents:
-        if item.startswith("<@!") and item.endswith(">"):
-            base = item
+def get_mentioned_id(args):
+    for arg in args:
+        if arg.startswith("<@!") and arg.endswith(">"):
+            base = arg
             # strip out the divider chars
             base = base.replace("<@!", "")
             base = base.replace(">", "")
-            return int(base)
-        try:
-            if int(item) > 100000:
-                return int(item)
-        except ValueError:
-            noop()
+            try:
+                if int(base) > 100000:
+                    return int(base)
+            except ValueError:
+                noop()
     return None
 
 
