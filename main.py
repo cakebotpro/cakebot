@@ -42,6 +42,9 @@ from club.cakebot import (
 )
 from discord_sentry_reporting import use_sentry
 from datetime import datetime
+from sentry_sdk import configure_scope
+from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 logger = getLogger("cakebot")
 logger.setLevel(10)
@@ -64,6 +67,7 @@ if getenv("PRODUCTION") is not None:
         client,
         dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
         debug=true,
+        integrations=[AioHttpIntegration(), SqlalchemyIntegration()],
     )
     logger.debug("Loaded Sentry!")
 
@@ -93,6 +97,13 @@ async def on_message(message):
 
     if not message.content.startswith(Bot_Prefix):
         return
+
+    with configure_scope() as scope:
+        # show username of discord user in sentry
+        scope.user = {
+            "id": message.author.id,
+            "username": str(message.author)
+        }
 
     # Split input
     args = message.content[len(Bot_Prefix):].split()
