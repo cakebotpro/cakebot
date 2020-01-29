@@ -22,7 +22,10 @@ from requests import get
 
 
 def common(n):
-    return choice(open("content/" + n + ".txt", mode="r").readlines())
+    fileobj = open("content/" + n + ".txt", mode="r")
+    lines = fileobj.readlines()
+    fileobj.close()
+    return choice(lines)
 
 
 def clapify(args):
@@ -83,16 +86,4 @@ data_template = """\
 **Created At:** {str(0.guild.created_at)}
 **More Than 250 Members:** {str(0.guild.large)}
 **Admins Need 2-Factor Auth: {1}
-"""
-
-issue_template = """\
-## Support Ticket
-
-> Filed by {str(message.author)}
-
-### Message:
-
-`{0}`
-
-##### Powered by Cakebot | https://cakebot.club"
 """

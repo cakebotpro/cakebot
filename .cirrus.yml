@@ -9,3 +9,20 @@ task:
       - cat requirements.txt
     populate_script: python3 -m pip install --upgrade -r requirements.txt
   script: python3 -m mypy -m main
+
+task:
+  name: Unit Tests
+  container:
+    image: python:latest
+  python_modules_cache:
+    folder: /usr/local/lib/python3.8/site-packages
+    fingerprint_script:
+      - echo $OS $PYTHON_VERSION
+      - cat requirements.txt
+    populate_script: python3 -m pip install --upgrade -r requirements.txt
+  script: python3 -m xmlrunner tests
+  always:
+    unittest_results_artifacts:
+      path: ./*.xml
+      format: junit
+      type: text/xml

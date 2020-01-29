@@ -28,7 +28,7 @@ def checkArgsAreNotNull(params):
     )
 
 
-def argCountIsAtLeast(params, number: int):
+def argCountIsAtLeast(params, number):
     return len(params) >= number
 
 

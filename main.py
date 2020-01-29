@@ -30,7 +30,6 @@ from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
 from random import choice
-from lcpy import false, true
 from club.cakebot import (
     TextCommandsUtil,
     EmbedUtil,
@@ -66,7 +65,7 @@ if getenv("PRODUCTION") is not None:
     use_sentry(
         client,
         dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
-        debug=true,
+        debug=True,
         integrations=[AioHttpIntegration(), SqlalchemyIntegration()],
     )
     logger.debug("Loaded Sentry!")
@@ -183,9 +182,9 @@ async def on_message(message):
             embed=EmbedUtil.prep(
                 "International Space Station", "Where it is right now!"
             )
-            .add_field(name="Location above Earth", value=str(location), inline=false)
-            .add_field(name="Latitude", value=str(lat), inline=false)
-            .add_field(name="Longitude", value=str(lon), inline=false)
+            .add_field(name="Location above Earth", value=str(location), inline=False)
+            .add_field(name="Latitude", value=str(lat), inline=False)
+            .add_field(name="Longitude", value=str(lon), inline=False)
         )
 
     elif cmd == "fact":
@@ -253,12 +252,11 @@ async def on_message(message):
     elif cmd == "cookie" or cmd == "cookies":
         subcommand = args[0]
         userId = TextCommandsUtil.get_mentioned_id(args)
-        assert userId is not None
 
         if subcommand == "balance" or subcommand == "bal":
             user = Database.get_user_by_id(userId)
 
-            if user is None:
+            if userId is None:
                 # assume user wants themself
                 user = Database.get_user_by_id(message.author.id)
 

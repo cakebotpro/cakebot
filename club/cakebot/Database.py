@@ -24,8 +24,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from os.path import exists
+from os import getenv
 
-engine = create_engine('sqlite:///cakebot.db', echo=True)
+
+def engine_url():
+    return "sqlite:///cakebot.db" if getenv("TEST_ENV") is None else "sqlite:///testenv.db"
+
+
+engine = create_engine(engine_url(), echo=True)
 Base = declarative_base()
 
 Session = sessionmaker()
@@ -47,7 +53,6 @@ def create():
 
 
 def get_user_by_id(id: int):
-    session.refresh()
     query_result = session.query(DiscordUser).filter_by(id=id).first()
 
     if query_result is not None:
@@ -58,7 +63,7 @@ def get_user_by_id(id: int):
         last_got_cookie_at=datetime(2015, 1, 1, 1, 1, 1, 1)
     )
     session.add(new_query)
-    session.commit()
+    commit()
 
     return new_query
 

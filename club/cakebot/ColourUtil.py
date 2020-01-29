@@ -15,6 +15,7 @@
 
 from discord import Color
 from random import choice
+from os import getenv
 
 chilipepper = Color(0x9b1b30)
 tan = Color(0xbeaa3e)
@@ -46,4 +47,6 @@ def random():
         icedcoffee,
         chilipepper
     ]
+    if getenv("TEST_ENV") is not None:
+        return tan
     return choice(c)

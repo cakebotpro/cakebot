@@ -17,7 +17,18 @@
 """
 
 from random import randint
-from .TextCommandsUtil import issue_template
+
+issue_template = """\
+## Support Ticket
+
+> Filed by {str(message.author)}
+
+### Message:
+
+`{0}`
+
+##### Powered by Cakebot | https://cakebot.club"
+"""
 
 
 async def report(s, g, args, message):

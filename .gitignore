@@ -18,3 +18,4 @@ cookies.json
 .theia
 *.db
 config.json
+*.xml
