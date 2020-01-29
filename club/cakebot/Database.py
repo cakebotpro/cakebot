@@ -47,6 +47,7 @@ def create():
 
 
 def get_user_by_id(id: int):
+    session.refresh()
     query_result = session.query(DiscordUser).filter_by(id=id).first()
 
     if query_result is not None:

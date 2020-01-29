@@ -253,6 +253,7 @@ async def on_message(message):
     elif cmd == "cookie" or cmd == "cookies":
         subcommand = args[0]
         userId = TextCommandsUtil.get_mentioned_id(args)
+        assert userId is not None
 
         if subcommand == "balance" or subcommand == "bal":
             user = Database.get_user_by_id(userId)
@@ -264,7 +265,7 @@ async def on_message(message):
             return await s(
                 embed=EmbedUtil.prep(
                     title="Cookies",
-                    description=f"<@!{user.id}> has {user.cookie_count} cookies.",
+                    description=f"User has {user.cookie_count} cookies.",
                 )
             )
 
