@@ -48,6 +48,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 logger = getLogger("cakebot")
 logger.setLevel(10)
 logger.addHandler(StreamHandler(stdout))
+getLogger("sqlalchemy.engine.base.Engine").setLevel(30)
 
 config = FileManipulator(AbstractFile("config.json")).load_from_json()
 AbstractFile("servers.txt").touch()
