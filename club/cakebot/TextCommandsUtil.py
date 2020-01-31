@@ -44,16 +44,16 @@ def noop():
 
 def get_mentioned_id(args):
     for arg in args:
+        base = arg
         if arg.startswith("<@!") and arg.endswith(">"):
-            base = arg
             # strip out the divider chars
             base = base.replace("<@!", "")
             base = base.replace(">", "")
-            try:
-                if int(base) > 100000:
-                    return int(base)
-            except ValueError:
-                noop()
+        try:
+            if int(base) > 100000:
+                return int(base)
+        except ValueError:
+            noop()
     return None
 
 

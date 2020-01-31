@@ -27,11 +27,7 @@ from os.path import exists
 from os import getenv
 
 
-def engine_url():
-    return "sqlite:///cakebot.db" if getenv("TEST_ENV") is None else "sqlite:///testenv.db"
-
-
-engine = create_engine(engine_url(), echo=True)
+engine = create_engine("sqlite:///cakebot.db" if getenv("TEST_ENV") is None else "sqlite:///testenv.db")
 Base = declarative_base()
 
 Session = sessionmaker()

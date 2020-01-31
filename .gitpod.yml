@@ -1,2 +1,6 @@
 tasks:
   - command: python3 -m pip install --upgrade pip && python3 -m pip install --upgrade -r requirements.txt
+
+vscode:
+  extensions:
+    - alexcvzz.vscode-sqlite@0.8.1:PQywmjPo5CPnGuwRSsyeiw==

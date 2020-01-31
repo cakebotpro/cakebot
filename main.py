@@ -48,7 +48,6 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 logger = getLogger("cakebot")
 logger.setLevel(10)
 logger.addHandler(StreamHandler(stdout))
-getLogger("sqlalchemy.engine.base.Engine").setLevel(30)
 
 config = FileManipulator(AbstractFile("config.json")).load_from_json()
 AbstractFile("servers.txt").touch()
@@ -100,10 +99,7 @@ async def on_message(message):
 
     with configure_scope() as scope:
         # show username of discord user in sentry
-        scope.user = {
-            "id": message.author.id,
-            "username": str(message.author)
-        }
+        scope.user = {"id": message.author.id, "username": str(message.author)}
 
     # Split input
     args = message.content[len(Bot_Prefix):].split()
@@ -282,6 +278,15 @@ async def on_message(message):
             return await s(
                 ":x: *This user has already recieved a cookie in the last hour!*"
             )
+
+    elif cmd == "admin:reset":
+        if str(message.author) in UserUtil.admins():
+            Database.session.delete(
+                Database.get_user_by_id(TextCommandsUtil.get_mentioned_id(args))
+            )
+            return await s("Done.")
+        else:
+            return await s(":x: **You are not authorized to run this!**")
 
 
 BotUtil.wrap(client, update_servers)
