@@ -248,6 +248,7 @@ async def on_message(message):
 
     elif cmd == "cookie" or cmd == "cookies":
         subcommand = args[0]
+        args = args[1:]
         userId = TextCommandsUtil.get_mentioned_id(args)
 
         if subcommand == "balance" or subcommand == "bal":
@@ -278,6 +279,13 @@ async def on_message(message):
             return await s(
                 ":x: *This user has already recieved a cookie in the last hour!*"
             )
+
+        elif subcommand == "admin:set":
+            if str(message.author) in UserUtil.admins():
+                Database.get_user_by_id(int(args[0])).cookie_count = args[1]
+                return await s("Done.")
+            else:
+                return await s(":x: **You are not authorized to run this!**")
 
     elif cmd == "admin:reset":
         if str(message.author) in UserUtil.admins():

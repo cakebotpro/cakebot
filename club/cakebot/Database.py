@@ -48,7 +48,7 @@ def create():
     return Base.metadata.create_all(engine)
 
 
-def get_user_by_id(id: int):
+def get_user_by_id(id):
     query_result = session.query(DiscordUser).filter_by(id=id).first()
 
     if query_result is not None:
