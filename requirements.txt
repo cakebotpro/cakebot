@@ -1,7 +1,7 @@
 --extra-index-url https://rdil.mycloudrepo.io/public/repositories/cakebot
 
 # development dependencies
-mypy==0.761
+mypy==0.770
 flake8==3.7.9
 
 # primary dependencies
