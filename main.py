@@ -17,7 +17,7 @@
 """
 
 import discord
-from sys import stdout, exit as _exit
+from sys import stdout, exit as _exit, argv
 from os import getenv
 from logging import getLogger, StreamHandler
 from filehandlers import AbstractFile, FileManipulator
@@ -49,14 +49,16 @@ logger = getLogger("cakebot")
 logger.setLevel(10)
 logger.addHandler(StreamHandler(stdout))
 
-config = FileManipulator(AbstractFile("config.json")).load_from_json()
+config = None
+if not "shell" in argv:
+    config = FileManipulator(AbstractFile("config.json")).load_from_json()
 AbstractFile("servers.txt").touch()
 servers = FileManipulator(AbstractFile("servers.txt"))
 
 g = None
 try:
     g = Github(config["tokens"]["github"])
-except KeyError:
+except (KeyError, TypeError):
     logger.warning("GitHub credentials not found, skipping...")
 
 client = discord.AutoShardedClient()
@@ -69,6 +71,12 @@ if getenv("PRODUCTION") is not None:
         integrations=[AioHttpIntegration(), SqlalchemyIntegration()],
     )
     logger.debug("Loaded Sentry!")
+
+
+if "shell" in argv:
+    from ptpython.repl import embed
+    embed(globals(), locals())
+    exit()
 
 
 def update_servers():
