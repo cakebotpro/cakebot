@@ -22,23 +22,14 @@ from . import ColourUtil
 
 def prep(title, description):
     embed = Embed(
-        title=title,
-        description=description,
-        color=ColourUtil.random()
+        title=title, description=description, color=ColourUtil.random()
     )
-    embed.set_footer(text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/")
+    embed.set_footer(
+        text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/"
+    )
     embed.set_author(
         name="Cakebot",
         url="https://cakebot.club",
-        icon_url="https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/cake.png"
+        icon_url="https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/cake.png",
     )
     return embed
-
-
-def help_menu():
-    with open("content/help.cfg", "r") as opz:
-        k = prep(title="Cakebot Help", description="Make sure to add a + before each command!")
-        for line in opz.readlines():
-            itm = line.replace("\n", "").split(" -> ")
-            k.add_field(name=itm[0], value=itm[1], inline=False)
-        return k

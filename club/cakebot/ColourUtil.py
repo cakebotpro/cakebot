@@ -17,9 +17,9 @@ from discord import Color
 from random import choice
 from os import getenv
 
-chilipepper = Color(0x9b1b30)
-tan = Color(0xbeaa3e)
-icedcoffee = Color(0xb18f6a)
+chilipepper = Color(0x9B1B30)
+tan = Color(0xBEAA3E)
+icedcoffee = Color(0xB18F6A)
 
 
 def random():
@@ -45,7 +45,7 @@ def random():
         Color.blurple(),
         tan,
         icedcoffee,
-        chilipepper
+        chilipepper,
     ]
     if getenv("TEST_ENV") is not None:
         return tan

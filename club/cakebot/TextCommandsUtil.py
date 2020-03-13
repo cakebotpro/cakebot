@@ -66,12 +66,14 @@ def define(args):
             c = str(c + args[b] + "%20")
     else:
         c = args[0]
-    sm = BeautifulSoup(
-        get(f"https://www.merriam-webster.com/dictionary/{c}").content,
-        "html.parser"
-    ).find(
-        "span", attrs={"class": "dtText"}
-    ).text
+    sm = (
+        BeautifulSoup(
+            get(f"https://www.merriam-webster.com/dictionary/{c}").content,
+            "html.parser",
+        )
+        .find("span", attrs={"class": "dtText"})
+        .text
+    )
     return str(c + sm)
 
 

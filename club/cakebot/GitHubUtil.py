@@ -39,8 +39,6 @@ async def report(s, g, args, message):
     repo.create_issue(
         title="Support ticket #" + str(randint(0, 100000)),
         body=issue_template.format(f),
-        labels=[
-            repo.get_label("ticket")
-        ]
+        labels=[repo.get_label("ticket")],
     )
     return await s(":white_check_mark: **Our team has been notified.**")

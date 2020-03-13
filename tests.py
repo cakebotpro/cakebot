@@ -69,7 +69,6 @@ class Tests(unittest.TestCase):
         from club.cakebot import EmbedUtil
 
         self.assertIsNotNone(EmbedUtil)
-        self.assertIsInstance(EmbedUtil.help_menu(), EmbedUtil.Embed)
         self.assertIsInstance(EmbedUtil.prep(title="a", description="b"), EmbedUtil.Embed)
 
     def test_database(self):

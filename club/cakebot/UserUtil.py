@@ -18,13 +18,8 @@
 
 
 def admins():
-    return [
-        "rdil#0001"
-    ]
+    return ["rdil#0001"]
 
 
 def contributors():
-    return [
-        "Param#8739",
-        "jua#0001"
-    ] + [admin for admin in admins()]
+    return ["Param#8739", "jua#0001"] + [admin for admin in admins()]

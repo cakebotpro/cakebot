@@ -74,6 +74,7 @@ if getenv("PRODUCTION") is not None:
 
 if "shell" in argv:
     from ptpython.repl import embed
+
     embed(globals(), locals())
     exit()
 
@@ -87,12 +88,16 @@ def update_servers():
 async def on_ready():
     update_servers()
     if getenv("PRODUCTION") is not None:
-        await client.change_presence(activity=discord.Game(name=config["status"]))
+        await client.change_presence(
+            activity=discord.Game(name=config["status"])
+        )
     else:
         await client.change_presence(
             activity=discord.Game(name="Running development build")
         )
-    logger.info("Ready to roll, I'll see you on Discord: @" + str(client.user))
+    logger.info(
+        "Ready to roll, I'll see you on Discord: @" + str(client.user)
+    )
 
 
 @client.event
@@ -106,10 +111,13 @@ async def on_message(message):
 
     with configure_scope() as scope:
         # show username of discord user in sentry
-        scope.user = {"id": message.author.id, "username": str(message.author)}
+        scope.user = {
+            "id": message.author.id,
+            "username": str(message.author),
+        }
 
     # Split input
-    args = message.content[len(Bot_Prefix):].split()
+    args = message.content[len(Bot_Prefix) :].split()
 
     cmd = args[0].lower()
 
@@ -139,7 +147,12 @@ async def on_message(message):
         return await s(tcu_result)
 
     if cmd == "help":
-        return await s(embed=EmbedUtil.help_menu())
+        return await s(
+            embed=EmbedUtil.prep(
+                title="Help",
+                description="You can check out [this page of our website](https://cakebot.club/commands/) for a full command list!",
+            )
+        )
 
     elif cmd == "ping":
         return await s(f"🏓 - websocket responded in {client.latency}")
@@ -163,7 +176,8 @@ async def on_message(message):
     elif cmd == "joke":
         return await s(
             embed=EmbedUtil.prep(
-                f'**{TextCommandsUtil.common("jokes")}**', f"{divider(7)}{divider(7)}"
+                f'**{TextCommandsUtil.common("jokes")}**',
+                f"{divider(7)}{divider(7)}",
             )
         )
 
@@ -190,7 +204,9 @@ async def on_message(message):
             embed=EmbedUtil.prep(
                 "International Space Station", "Where it is right now!"
             )
-            .add_field(name="Location above Earth", value=str(location), inline=False)
+            .add_field(
+                name="Location above Earth", value=str(location), inline=False
+            )
             .add_field(name="Latitude", value=str(lat), inline=False)
             .add_field(name="Longitude", value=str(lon), inline=False)
         )
@@ -230,21 +246,27 @@ async def on_message(message):
                 f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars."
             )
         except:
-            return await s("Failed to get count. Is the repository valid and public?")
+            return await s(
+                "Failed to get count. Is the repository valid and public?"
+            )
 
     elif cmd == "homepage":
         try:
             url_nullable = g.get_repo(args[0]).homepage
             if url_nullable is None:
                 url_nullable = "(error: homepage not specified by owner)"
-            return await s(f"{args[0]}'s homepage is located at {url_nullable}")
+            return await s(
+                f"{args[0]}'s homepage is located at {url_nullable}"
+            )
         except:
             return await s(
                 "Failed to fetch homepage. Is the repository valid and public?"
             )
 
     elif cmd == "clapify":
-        return await s(embed=EmbedUtil.prep(TextCommandsUtil.clapify(args), ""))
+        return await s(
+            embed=EmbedUtil.prep(TextCommandsUtil.clapify(args), "")
+        )
 
     elif cmd == "boomer":
         return await s(file=discord.File("content/boomer.jpeg"))
@@ -293,7 +315,9 @@ async def on_message(message):
     elif cmd == "admin:reset":
         if str(message.author) in UserUtil.admins():
             Database.session.delete(
-                Database.get_user_by_id(TextCommandsUtil.get_mentioned_id(args))
+                Database.get_user_by_id(
+                    TextCommandsUtil.get_mentioned_id(args)
+                )
             )
             return await s("Done.")
         else:

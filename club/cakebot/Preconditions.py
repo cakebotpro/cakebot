@@ -21,10 +21,10 @@ from datetime import datetime
 
 def checkArgsAreNotNull(params):
     return bool(
-        len(params) < 1 and
-        params is not [] and
-        params is not [""] and
-        params is not ["", ""]
+        len(params) < 1
+        and params is not []
+        and params is not [""]
+        and params is not ["", ""]
     )
 
 

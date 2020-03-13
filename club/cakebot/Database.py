@@ -27,7 +27,11 @@ from os.path import exists
 from os import getenv
 
 
-engine = create_engine("sqlite:///cakebot.db" if getenv("TEST_ENV") is None else "sqlite:///testenv.db")
+engine = create_engine(
+    "sqlite:///cakebot.db"
+    if getenv("TEST_ENV") is None
+    else "sqlite:///testenv.db"
+)
 Base = declarative_base()
 
 Session = sessionmaker()
@@ -55,8 +59,7 @@ def get_user_by_id(id):
         return query_result
 
     new_query = DiscordUser(
-        id=id,
-        last_got_cookie_at=datetime(2015, 1, 1, 1, 1, 1, 1)
+        id=id, last_got_cookie_at=datetime(2015, 1, 1, 1, 1, 1, 1)
     )
     session.add(new_query)
     commit()
