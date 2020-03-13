@@ -19,7 +19,7 @@
 import discord
 from sys import stdout, exit as _exit, argv
 from os import getenv
-from logging import getLogger, StreamHandler
+from logging import getLogger
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
 from area4 import divider
@@ -47,7 +47,6 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 logger = getLogger("cakebot")
 logger.setLevel(10)
-logger.addHandler(StreamHandler(stdout))
 
 config = None
 if not "shell" in argv:
@@ -135,6 +134,10 @@ async def on_message(message):
             )
         )
 
+    tcu_result = TextCommandsUtil.handle_common_commands(message, args, cmd)
+    if tcu_result is not None:
+        return await s(tcu_result)
+
     if cmd == "help":
         return await s(embed=EmbedUtil.help_menu())
 
@@ -210,9 +213,6 @@ async def on_message(message):
             + f"\n**You {form}!**"
         )
 
-    elif cmd == "define":
-        return await TextCommandsUtil.define(args, s)
-
     elif cmd == "reboot":
         if str(message.author) in UserUtil.contributors():
             await s("Restarting. This may take up to 5 minutes.")
@@ -220,11 +220,6 @@ async def on_message(message):
             _exit(1)
         else:
             return await s(":x: **You are not authorized to run this!**")
-
-    elif cmd == "pi":
-        return await s(
-            "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
-        )
 
     elif cmd == "coinflip":
         return await s(choice(["**Heads**.", "**Tails**."]))

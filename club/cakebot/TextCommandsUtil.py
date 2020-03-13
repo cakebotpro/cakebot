@@ -57,10 +57,10 @@ def get_mentioned_id(args):
     return None
 
 
-async def define(args, s):
+def define(args):
     c = ""
     if len(args) < 1:
-        return await s(":x: *You need to specify a word!*")
+        return ":x: *You need to specify a word!*"
     if len(args) > 1:
         for b, h in enumerate(args):
             c = str(c + args[b] + "%20")
@@ -72,7 +72,7 @@ async def define(args, s):
     ).find(
         "span", attrs={"class": "dtText"}
     ).text
-    return await s(c + sm)
+    return str(c + sm)
 
 
 data_template = """\
@@ -87,3 +87,13 @@ data_template = """\
 **More Than 250 Members:** {str(0.guild.large)}
 **Admins Need 2-Factor Auth: {1}
 """
+
+
+def handle_common_commands(message, args, cmd):
+    if cmd == "define":
+        return define(args)
+
+    elif cmd == "pi":
+        return "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
+
+    return None
