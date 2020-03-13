@@ -56,7 +56,7 @@ servers = FileManipulator(AbstractFile("servers.txt"))
 
 g = None
 try:
-    g = Github(config["tokens"]["github"])
+    g = Github(config["tokens"]["github"])  # type: ignore
 except (KeyError, TypeError):
     logger.warning("GitHub credentials not found, skipping...")
 
@@ -304,4 +304,4 @@ BotUtil.wrap(client, update_servers)
 
 if __name__ == "__main__":
     logger.info(f"Using discord.py version {discord.__version__}")
-    client.run(config["tokens"]["discord"])
+    client.run(config["tokens"]["discord"])  # type: ignore
