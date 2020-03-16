@@ -98,4 +98,7 @@ def handle_common_commands(message, args, cmd):
     elif cmd == "pi":
         return "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
 
+    elif cmd == "coinflip":
+        return choice(["**Heads**.", "**Tails**."])
+
     return None

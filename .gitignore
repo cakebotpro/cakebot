@@ -8,14 +8,12 @@ pip-delete-this-directory.txt
 .python-version
 venv/
 venv.bak/
-tokens.txt
 .idea/
 servers.txt
-discord.log
 .mypy_cache
 cookies.json
 .venv
-.theia
 *.db
 config.json
 *.xml
+.mypy_cache

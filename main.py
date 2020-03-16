@@ -17,7 +17,7 @@
 """
 
 import discord
-from sys import stdout, exit as _exit, argv
+from sys import exit as _exit, argv
 from os import getenv
 from logging import getLogger
 from filehandlers import AbstractFile, FileManipulator
@@ -29,7 +29,6 @@ from discord.utils import oauth_url
 from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
-from random import choice
 from club.cakebot import (
     TextCommandsUtil,
     EmbedUtil,
@@ -49,7 +48,7 @@ logger = getLogger("cakebot")
 logger.setLevel(10)
 
 config = None
-if not "shell" in argv:
+if "shell" not in argv:
     config = FileManipulator(AbstractFile("config.json")).load_from_json()
 AbstractFile("servers.txt").touch()
 servers = FileManipulator(AbstractFile("servers.txt"))
@@ -127,13 +126,13 @@ async def on_message(message):
     s = message.channel.send
 
     if (
-        cmd == "8"
-        or cmd == "report"
-        or cmd == "define"
-        or cmd == "stars"
-        or cmd == "homepage"
-        or cmd == "clapify"
-        or cmd == "cookie"
+        cmd == "8" or
+        cmd == "report" or
+        cmd == "define" or
+        cmd == "stars" or
+        cmd == "homepage" or
+        cmd == "clapify" or
+        cmd == "cookie"
     ) and Preconditions.checkArgsAreNotNull(args):
         return await s(
             embed=EmbedUtil.prep(
@@ -236,9 +235,6 @@ async def on_message(message):
             _exit(1)
         else:
             return await s(":x: **You are not authorized to run this!**")
-
-    elif cmd == "coinflip":
-        return await s(choice(["**Heads**.", "**Tails**."]))
 
     elif cmd == "stars":
         try:
