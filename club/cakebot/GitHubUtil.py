@@ -21,11 +21,11 @@ from random import randint
 issue_template = """\
 ## Support Ticket
 
-> Filed by {str(message.author)}
+> Filed by {0}
 
 ### Message:
 
-`{0}`
+`{1}`
 
 ##### Powered by Cakebot | https://cakebot.club"
 """
@@ -38,7 +38,7 @@ async def report(s, g, args, message):
         return await s(":x: **I can't report nothing!**")
     repo.create_issue(
         title="Support ticket #" + str(randint(0, 100000)),
-        body=issue_template.format(f),
+        body=issue_template.format(str(message.author), f),
         labels=[repo.get_label("ticket")],
     )
     return await s(":white_check_mark: **Our team has been notified.**")
