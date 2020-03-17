@@ -23,7 +23,7 @@ beautifulsoup4==4.8.2
 PyGithub==1.47
 
 # extensions for better support
-cchardet==2.1.5
+cchardet==2.1.6
 
 # tests
 unittest-xml-reporting==3.0.2
