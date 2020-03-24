@@ -17,8 +17,8 @@
 """
 
 from random import choice
-from bs4 import BeautifulSoup
 from requests import get
+from club.cakebot import EmbedUtil
 
 
 def common(n):
@@ -50,25 +50,16 @@ def get_mentioned_id(args):
     return None
 
 
-def define(args):
+def define(args, token):
     """Defines a word."""
-    c = ""
-    if len(args) < 1:
-        return ":x: *You need to specify a word!*"
-    if len(args) > 1:
-        for b, h in enumerate(args):
-            c = str(c + args[b] + "%20")
-    else:
-        c = args[0]
-    sm = (
-        BeautifulSoup(
-            get(f"https://www.merriam-webster.com/dictionary/{c}").content,
-            "html.parser",
-        )
-        .find("span", attrs={"class": "dtText"})
-        .text
-    )
-    return " ".join([c, sm])
+
+    word = args[0]
+    headers = {
+        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
+        "x-rapidapi-key": token
+    }
+    definition = get("https://wordsapiv1.p.rapidapi.com/words/" + word, headers=headers)
+    return EmbedUtil.prep(title=definition.json(), description="")
 
 
 data_template = """\
@@ -87,10 +78,8 @@ data_template = """\
 
 def handle_common_commands(message, args, cmd):
     """Handles certain simple commands."""
-    if cmd == "define":
-        return define(args)
 
-    elif cmd == "pi":
+    if cmd == "pi":
         return "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
 
     elif cmd == "coinflip":

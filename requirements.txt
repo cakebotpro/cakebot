@@ -20,7 +20,6 @@ factdata==2.0.0
 bootstrap==1.5.0
 area4>=3.0.0
 reverse_geocoder==1.5.1
-beautifulsoup4==4.8.2
 PyGithub==1.47
 
 # extensions for better support

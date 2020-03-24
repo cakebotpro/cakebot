@@ -48,7 +48,7 @@ logger = getLogger("cakebot")
 logger.setLevel(10)
 
 config = None
-if "shell" not in argv:
+if getenv("TEST_ENV") != "yes":
     config = FileManipulator(AbstractFile("config.json")).load_from_json()
 AbstractFile("servers.txt").touch()
 servers = FileManipulator(AbstractFile("servers.txt"))
@@ -58,6 +58,12 @@ try:
     g = Github(config["tokens"]["github"])  # type: ignore
 except (KeyError, TypeError):
     logger.warning("GitHub credentials not found, skipping...")
+
+wordsapi_token = None
+try:
+    wordsapi_token = config["tokens"]["wordsapi"]  # type: ignore
+except (KeyError, TypeError):
+    logger.warning("WordsAPI credentials not found, skipping...")
 
 client = discord.AutoShardedClient()
 
@@ -305,6 +311,11 @@ async def on_message(message):
             return await s("Done.")
         else:
             return await s(":x: **You are not authorized to run this!**")
+
+    elif cmd == "define":
+        if wordsapi_token is None:
+            return await s("This command is disabled due to a configuration error on my host's end - didn't find a WordsAPI token in the config!")
+        return await s(embed=TextCommandsUtil.define(args, wordsapi_token))
 
 
 BotUtil.wrap(client, update_servers)
