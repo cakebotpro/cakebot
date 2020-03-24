@@ -3,18 +3,15 @@ task:
     image: python:latest
   python_modules_cache:
     folder: /usr/local/lib/python3.8/site-packages
-    fingerprint_script:
-      - echo $OS $PYTHON_VERSION
-      - cat requirements.txt
-    populate_script: python3 -m pip install --upgrade -r requirements.txt
+    populate_script: make deps
   matrix:
     - name: Unit Tests
-      script: python3 -m xmlrunner tests
+      script: make test-and-report
       always:
         unittest_results_artifacts:
           path: ./*.xml
           format: junit
           type: text/xml
     - name: Static Analysis
-      script: python3 -m mypy -m main
+      script: make lint
 

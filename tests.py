@@ -45,10 +45,6 @@ class Tests(unittest.TestCase):
 
         self.assertIsNotNone(TextCommandsUtil)
         self.assertIsInstance(TextCommandsUtil.common("jokes"), str)
-        self.assertEqual(
-            TextCommandsUtil.clapify(["hello", "world", ":D"]),
-            "hello :clap: world :clap: :D ",
-        )
         self.assertIsNone(TextCommandsUtil.noop())
 
     def test_get_mentioned_id(self):

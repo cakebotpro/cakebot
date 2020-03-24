@@ -126,13 +126,13 @@ async def on_message(message):
     s = message.channel.send
 
     if (
-        cmd == "8" or
-        cmd == "report" or
-        cmd == "define" or
-        cmd == "stars" or
-        cmd == "homepage" or
-        cmd == "clapify" or
-        cmd == "cookie"
+        cmd == "8"
+        or cmd == "report"
+        or cmd == "define"
+        or cmd == "stars"
+        or cmd == "homepage"
+        or cmd == "clapify"
+        or cmd == "cookie"
     ) and Preconditions.checkArgsAreNotNull(args):
         return await s(
             embed=EmbedUtil.prep(
