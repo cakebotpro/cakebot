@@ -22,27 +22,20 @@ from requests import get
 
 
 def common(n):
+    """Load a content file (used a lot)."""
     fileobj = open("content/" + n + ".txt", mode="r")
     lines = fileobj.readlines()
     fileobj.close()
     return choice(lines)
 
 
-def clapify(args):
-    s = ""
-    for arg in args:
-        if s == "":
-            s = str(arg + " ")
-        else:
-            s += str(":clap: " + arg + " ")
-    return s
-
-
 def noop():
+    """Literally just do nothing."""
     return
 
 
 def get_mentioned_id(args):
+    """Checks a list of arguments for a valid Discord mention."""
     for arg in args:
         base = arg
         if arg.startswith("<@!") and arg.endswith(">"):
@@ -58,6 +51,7 @@ def get_mentioned_id(args):
 
 
 def define(args):
+    """Defines a word."""
     c = ""
     if len(args) < 1:
         return ":x: *You need to specify a word!*"
@@ -74,11 +68,11 @@ def define(args):
         .find("span", attrs={"class": "dtText"})
         .text
     )
-    return str(c + sm)
+    return " ".join([c, sm])
 
 
 data_template = """\
-***{message.guild.name}***
+***{0.guild.name}***
 **Owner:** {0.guild.owner}
 **Members:** {len(0.guild.members)}
 **Region:** {0.guild.region}
@@ -92,6 +86,7 @@ data_template = """\
 
 
 def handle_common_commands(message, args, cmd):
+    """Handles certain simple commands."""
     if cmd == "define":
         return define(args)
 
@@ -100,5 +95,11 @@ def handle_common_commands(message, args, cmd):
 
     elif cmd == "coinflip":
         return choice(["**Heads**.", "**Tails**."])
+
+    elif cmd == "8":
+        return common("8ball")
+
+    elif cmd == "clapify":
+        return " :clap: ".join(args)
 
     return None
