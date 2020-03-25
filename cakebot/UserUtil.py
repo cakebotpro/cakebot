@@ -16,20 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from discord import Embed
-from . import ColourUtil
+from typing import List
 
 
-def prep(title, description):
-    embed = Embed(
-        title=title, description=description, color=ColourUtil.random()
-    )
-    embed.set_footer(
-        text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/"
-    )
-    embed.set_author(
-        name="Cakebot",
-        url="https://cakebot.club",
-        icon_url="https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/cake.png",
-    )
-    return embed
+def admins() -> List[str]:
+    return ["rdil#0001"]
+
+
+def contributors() -> List[str]:
+    return ["Param#8739", "jua#0001"] + [admin for admin in admins()]

@@ -28,9 +28,9 @@ class Tests(unittest.TestCase):
             os.remove("testenv.db")
 
     def test_userutil(self):
-        """Test club.cakebot.UserUtil"""
+        """Test cakebot.UserUtil"""
 
-        from club.cakebot import UserUtil
+        from cakebot import UserUtil
 
         self.assertIsNotNone(UserUtil)
         self.assertIsNotNone(UserUtil.admins())
@@ -39,18 +39,18 @@ class Tests(unittest.TestCase):
         self.assertIsInstance(UserUtil.contributors(), list)
 
     def test_textcommandsutil(self):
-        """Test club.cakebot.TextCommandsUtil"""
+        """Test cakebot.TextCommandsUtil"""
 
-        from club.cakebot import TextCommandsUtil
+        from cakebot import TextCommandsUtil
 
         self.assertIsNotNone(TextCommandsUtil)
         self.assertIsInstance(TextCommandsUtil.common("jokes"), str)
         self.assertIsNone(TextCommandsUtil.noop())
 
     def test_get_mentioned_id(self):
-        """Test club.cakebot.TextCommandsUtil.get_mentioned_id"""
+        """Test cakebot.TextCommandsUtil.get_mentioned_id"""
 
-        from club.cakebot.TextCommandsUtil import get_mentioned_id as gmId
+        from cakebot.TextCommandsUtil import get_mentioned_id as gmId
 
         self.assertIsNotNone(gmId)
         self.assertEqual(
@@ -60,17 +60,17 @@ class Tests(unittest.TestCase):
         self.assertIsNone(gmId(["<@!123>"]))
 
     def test_embedutil(self):
-        """Test club.cakebot.EmbedUtil"""
+        """Test cakebot.EmbedUtil"""
 
-        from club.cakebot import EmbedUtil
+        from cakebot import EmbedUtil
 
         self.assertIsNotNone(EmbedUtil)
         self.assertIsInstance(EmbedUtil.prep(title="a", description="b"), EmbedUtil.Embed)
 
     def test_database(self):
-        """Test club.cakebot.Database"""
+        """Test cakebot.Database"""
 
-        from club.cakebot import Database
+        from cakebot import Database
 
         Database.create()
         self.assertTrue(os.path.exists("testenv.db"))

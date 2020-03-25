@@ -18,23 +18,26 @@
 
 from random import choice
 from requests import get
-from club.cakebot import EmbedUtil
+from cakebot import EmbedUtil
+from typing import List, Union
+from discord import Message
 
 
-def common(n):
-    """Load a content file (used a lot)."""
-    fileobj = open("content/" + n + ".txt", mode="r")
+def common(name: str) -> str:
+    """Load a content file and pick a random line from it (used a lot)."""
+
+    fileobj = open("content/" + name + ".txt", mode="r")
     lines = fileobj.readlines()
     fileobj.close()
     return choice(lines)
 
 
 def noop():
-    """Literally just do nothing."""
+    """Literally just do nothing (for the purpose of avoiding syntax errors)."""
     return
 
 
-def get_mentioned_id(args):
+def get_mentioned_id(args: List[str]) -> Union[int, None]:
     """Checks a list of arguments for a valid Discord mention."""
     for arg in args:
         base = arg
@@ -50,15 +53,17 @@ def get_mentioned_id(args):
     return None
 
 
-def define(args, token):
+def define(args: List[str], token: str):
     """Defines a word."""
 
     word = args[0]
     headers = {
         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-        "x-rapidapi-key": token
+        "x-rapidapi-key": token,
     }
-    definition = get("https://wordsapiv1.p.rapidapi.com/words/" + word, headers=headers)
+    definition = get(
+        "https://wordsapiv1.p.rapidapi.com/words/" + word, headers=headers
+    )
     return EmbedUtil.prep(title=definition.json(), description="")
 
 
@@ -76,7 +81,9 @@ data_template = """\
 """
 
 
-def handle_common_commands(message, args, cmd):
+def handle_common_commands(
+    message: Message, args: List[str], cmd: str
+) -> Union[str, None]:
     """Handles certain simple commands."""
 
     if cmd == "pi":

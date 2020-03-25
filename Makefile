@@ -8,7 +8,7 @@ devshell:
 
 format:
 	python3 -m black --line-length 78 main.py
-	python3 -m black --line-length 78 club/cakebot/*.py
+	python3 -m black --line-length 78 cakebot/*.py
 .PHONY: format
 
 test:
@@ -22,7 +22,7 @@ test-and-report:
 lint:
 	python3 -m mypy -m main
 	python3 -m flake8 *.py
-	python3 -m flake8 club/cakebot/*.py
+	python3 -m flake8 cakebot/*.py
 .PHONY: lint
 
 deps:

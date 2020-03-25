@@ -16,10 +16,22 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from discord import Embed
+from . import ColourUtil
 
-def admins():
-    return ["rdil#0001"]
 
+def prep(title: str, description: str) -> Embed:
+    """Create a basic embed based on our template."""
 
-def contributors():
-    return ["Param#8739", "jua#0001"] + [admin for admin in admins()]
+    embed = Embed(
+        title=title, description=description, color=ColourUtil.random()
+    )
+    embed.set_footer(
+        text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/"
+    )
+    embed.set_author(
+        name="Cakebot",
+        url="https://cakebot.club",
+        icon_url="https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/cake.png",
+    )
+    return embed

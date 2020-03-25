@@ -29,7 +29,7 @@ from discord.utils import oauth_url
 from slots import row, result
 from iss import Imp as ISSimp
 from factdata import FactImp
-from club.cakebot import (
+from cakebot import (
     TextCommandsUtil,
     EmbedUtil,
     UserUtil,
@@ -265,7 +265,7 @@ async def on_message(message):
         args = args[1:]
         userId = TextCommandsUtil.get_mentioned_id(args)
 
-        if subcommand == "balance" or subcommand == "bal":
+        if subcommand in ["balance", "bal"]:
             user = Database.get_user_by_id(userId)
 
             if userId is None:
@@ -314,7 +314,9 @@ async def on_message(message):
 
     elif cmd == "define":
         if wordsapi_token is None:
-            return await s("This command is disabled due to a configuration error on my host's end - didn't find a WordsAPI token in the config!")
+            return await s(
+                "This command is disabled due to a configuration error on my host's end - didn't find a WordsAPI token in the config!"
+            )
         return await s(embed=TextCommandsUtil.define(args, wordsapi_token))
 
 
