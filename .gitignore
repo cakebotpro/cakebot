@@ -17,3 +17,4 @@ cookies.json
 config.json
 *.xml
 .mypy_cache
+.vscode

@@ -17,9 +17,13 @@
 """
 
 from datetime import datetime
+from typing import List
+from cakebot.Database import DiscordUser
 
 
-def checkArgsAreNotNull(params):
+def args_are_valid(params: List[str]) -> bool:
+    """Checks that the arguments are valid to a certain extent."""
+
     return bool(
         len(params) < 1
         and params is not []
@@ -28,11 +32,9 @@ def checkArgsAreNotNull(params):
     )
 
 
-def argCountIsAtLeast(params, number):
-    return len(params) >= number
+def can_get_cookie(user: DiscordUser) -> bool:
+    """Returns if the user can receive a cookie at this time."""
 
-
-def canGetCookie(user):
     diff = user.last_got_cookie_at - datetime.now()
     # difference in seconds split into minutes
     mins = int(diff.total_seconds() / 60)

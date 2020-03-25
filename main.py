@@ -17,13 +17,13 @@
 """
 
 import discord
-from sys import exit as _exit, argv
+import click
+from sys import exit as _exit
 from os import getenv
 from logging import getLogger
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
 from area4 import divider
-from fbootstrap import bootstrap
 from reverse_geocoder import search
 from discord.utils import oauth_url
 from slots import row, result
@@ -35,7 +35,6 @@ from cakebot import (
     UserUtil,
     Preconditions,
     GitHubUtil,
-    BotUtil,
     Database,
 )
 from discord_sentry_reporting import use_sentry
@@ -47,23 +46,21 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 logger = getLogger("cakebot")
 logger.setLevel(10)
 
-config = None
+config = {}
 if getenv("TEST_ENV") != "yes":
     config = FileManipulator(AbstractFile("config.json")).load_from_json()
-AbstractFile("servers.txt").touch()
-servers = FileManipulator(AbstractFile("servers.txt"))
 
 g = None
 try:
-    g = Github(config["tokens"]["github"])  # type: ignore
+    g = Github(config["tokens"]["github"])
 except (KeyError, TypeError):
-    logger.warning("GitHub credentials not found, skipping...")
+    TextCommandsUtil.noop()
 
 wordsapi_token = None
 try:
-    wordsapi_token = config["tokens"]["wordsapi"]  # type: ignore
+    wordsapi_token = config["tokens"]["wordsapi"]
 except (KeyError, TypeError):
-    logger.warning("WordsAPI credentials not found, skipping...")
+    TextCommandsUtil.noop()
 
 client = discord.AutoShardedClient()
 
@@ -77,21 +74,8 @@ if getenv("PRODUCTION") is not None:
     logger.debug("Loaded Sentry!")
 
 
-if "shell" in argv:
-    from ptpython.repl import embed
-
-    embed(globals(), locals())
-    exit()
-
-
-def update_servers():
-    bootstrap(client, servers)
-    servers.refresh()
-
-
 @client.event
 async def on_ready():
-    update_servers()
     if getenv("PRODUCTION") is not None:
         await client.change_presence(
             activity=discord.Game(name=config["status"])
@@ -139,7 +123,7 @@ async def on_message(message):
         or cmd == "homepage"
         or cmd == "clapify"
         or cmd == "cookie"
-    ) and Preconditions.checkArgsAreNotNull(args):
+    ) and Preconditions.args_are_valid(args):
         return await s(
             embed=EmbedUtil.prep(
                 "That command expected an argument (or arguments), but you didn't give it any!",
@@ -174,7 +158,7 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 f'**{TextCommandsUtil.common("jokes")}**',
-                f"{divider(7)}{divider(7)}",
+                divider(7) + divider(7),
             )
         )
 
@@ -215,9 +199,7 @@ async def on_message(message):
         slotz = result()
         top = row()
         btm = row()
-        form = "lose"
-        if slotz[0] != 0:
-            form = "win"
+        form = "win" if slotz[0] == 1 else "lose"
         return await s(
             f"⠀{top[0]}{top[1]}{top[2]}\n"
             # the line above contains unicode, DO NOT REMOVE
@@ -282,7 +264,7 @@ async def on_message(message):
         elif subcommand == "give" or subcommand == "to":
             user = Database.get_user_by_id(userId)
 
-            if Preconditions.canGetCookie(user):
+            if Preconditions.can_get_cookie(user):
                 user.cookie_count += 1
                 user.last_got_cookie_at = datetime.now()
                 Database.commit()
@@ -320,8 +302,49 @@ async def on_message(message):
         return await s(embed=TextCommandsUtil.define(args, wordsapi_token))
 
 
-BotUtil.wrap(client, update_servers)
+@click.group()
+@click.version_option(version="2020.03.16", prog_name="Cakebot")
+def cli():
+    """The Cakebot command-line-interface."""
+    pass
+
+
+@cli.command()
+def initdb():
+    """Creates the database."""
+
+    from cakebot import Database
+    Database.create()
+    click.secho("\nInitialized the database!", fg="green")
+
+
+@cli.command()
+def run():
+    """Runs the bot."""
+
+    click.secho("\nStarting Cakebot...\n", fg="blue")
+
+    logger.info(f"Using discord.py version {discord.__version__}")
+
+    if g is None:
+        logger.warning("GitHub credentials not found, skipping...")
+    if wordsapi_token is None:
+        logger.warning("WordsAPI credentials not found, skipping...")
+
+    try:
+        client.run(config["tokens"]["discord"])
+    except:
+        click.secho("Error detected! It looks like you didn't put a valid Discord bot token in config.json!", fg="red")
+        _exit(1)
+
+
+@cli.command()
+def shell():
+    """Starts the development shell."""
+
+    from ptpython.repl import embed
+    embed(globals(), locals())
+
 
 if __name__ == "__main__":
-    logger.info(f"Using discord.py version {discord.__version__}")
-    client.run(config["tokens"]["discord"])  # type: ignore
+    cli()

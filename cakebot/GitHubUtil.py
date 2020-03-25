@@ -17,6 +17,9 @@
 """
 
 from random import randint
+from discord import Message
+from typing import List, Any
+from github import Github
 
 issue_template = """\
 ## Support Ticket
@@ -31,7 +34,9 @@ issue_template = """\
 """
 
 
-async def report(s, g, args, message):
+async def report(s: Any, g: Github, args: List[str], message: Message):
+    """Reports an error to the GitHub page."""
+
     repo = g.get_repo("cakebotpro/cakebot")
     f = " ".join(args)
     if f == "" or f == " ":

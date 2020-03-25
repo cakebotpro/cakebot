@@ -53,7 +53,7 @@ def get_mentioned_id(args: List[str]) -> Union[int, None]:
     return None
 
 
-def define(args: List[str], token: str):
+def define(args: List[str], token: str) -> EmbedUtil.Embed:
     """Defines a word."""
 
     word = args[0]

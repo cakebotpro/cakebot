@@ -22,7 +22,7 @@ tan = Color(0xBEAA3E)
 icedcoffee = Color(0xB18F6A)
 
 
-def random():
+def random() -> Color:
     c = [
         Color.teal(),
         Color.dark_teal(),

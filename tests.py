@@ -24,8 +24,6 @@ import os
 class Tests(unittest.TestCase):
     def setUp(self):
         os.environ["TEST_ENV"] = "yes"
-        if os.path.exists("testenv.db"):
-            os.remove("testenv.db")
 
     def test_userutil(self):
         """Test cakebot.UserUtil"""
@@ -67,13 +65,14 @@ class Tests(unittest.TestCase):
         self.assertIsNotNone(EmbedUtil)
         self.assertIsInstance(EmbedUtil.prep(title="a", description="b"), EmbedUtil.Embed)
 
+    @unittest.skipUnless(os.getenv("CIRRUS_CI") is not None, "not in Cirrus CI")
     def test_database(self):
         """Test cakebot.Database"""
 
         from cakebot import Database
 
         Database.create()
-        self.assertTrue(os.path.exists("testenv.db"))
+        self.assertTrue(os.path.exists("cakebot.db"))
         self.assertIsNotNone(Database.DiscordUser)
 
         # it shouldn't have this entry yet
@@ -92,10 +91,6 @@ class Tests(unittest.TestCase):
         self.assertIsNotNone(
             Database.session.query(Database.DiscordUser).filter_by(id=5).all()
         )
-
-        # lastly, check for prod db
-        if os.getenv("CI") is not None:
-            self.assertFalse(os.path.exists("cakebot.db"))
 
 
 if __name__ == "__main__":

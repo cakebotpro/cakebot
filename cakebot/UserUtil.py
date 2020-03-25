@@ -24,4 +24,4 @@ def admins() -> List[str]:
 
 
 def contributors() -> List[str]:
-    return ["Param#8739", "jua#0001"] + [admin for admin in admins()]
+    return ["Param#8739"] + [admin for admin in admins()]

@@ -16,22 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-# mypy: ignore_errors
-
 from sqlalchemy import Column, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from os.path import exists
-from os import getenv
 
 
-engine = create_engine(
-    "sqlite:///cakebot.db"
-    if getenv("TEST_ENV") is None
-    else "sqlite:///testenv.db"
-)
+engine = create_engine("sqlite:///cakebot.db")
 Base = declarative_base()
 
 Session = sessionmaker()
@@ -40,7 +32,7 @@ Session.configure(bind=engine)
 session = Session()
 
 
-class DiscordUser(Base):
+class DiscordUser(Base):  # type: ignore
     __tablename__ = "players"
 
     id = Column(Integer, primary_key=True)
@@ -49,10 +41,16 @@ class DiscordUser(Base):
 
 
 def create():
+    """Creates the database."""
     return Base.metadata.create_all(engine)
 
 
-def get_user_by_id(id):
+def get_user_by_id(id: int) -> DiscordUser:
+    """
+    Finds a user in the database from their Discord ID,
+    and creates an entry if they don't exist yet.
+    """
+
     query_result = session.query(DiscordUser).filter_by(id=id).first()
 
     if query_result is not None:
@@ -69,7 +67,3 @@ def get_user_by_id(id):
 
 def commit():
     session.commit()
-
-
-if not exists("cakebot.db"):
-    create()
