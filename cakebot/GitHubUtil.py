@@ -17,8 +17,9 @@
 """
 
 from random import randint
+from typing import Any, List
+
 from discord import Message
-from typing import List, Any
 from github import Github
 
 issue_template = """\

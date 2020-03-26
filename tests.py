@@ -17,8 +17,8 @@
 """
 
 
-import unittest
 import os
+import unittest
 
 
 class Tests(unittest.TestCase):

@@ -16,32 +16,34 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import discord
-import click
-from sys import exit as _exit
-from os import getenv
+from datetime import datetime
 from logging import getLogger
+from os import getenv
+from sys import exit as _exit
+
+import click
+import discord
+from area4 import divider
+from discord.utils import oauth_url
+from discord_sentry_reporting import use_sentry
+from factdata import FactImp
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
-from area4 import divider
-from reverse_geocoder import search
-from discord.utils import oauth_url
-from slots import row, result
 from iss import Imp as ISSimp
-from factdata import FactImp
-from cakebot import (
-    TextCommandsUtil,
-    EmbedUtil,
-    UserUtil,
-    Preconditions,
-    GitHubUtil,
-    Database,
-)
-from discord_sentry_reporting import use_sentry
-from datetime import datetime
+from reverse_geocoder import search
 from sentry_sdk import configure_scope
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+from slots import result, row
+
+from cakebot import (
+    Database,
+    EmbedUtil,
+    GitHubUtil,
+    Preconditions,
+    TextCommandsUtil,
+    UserUtil,
+)
 
 logger = getLogger("cakebot")
 logger.setLevel(10)
@@ -299,7 +301,9 @@ async def on_message(message):
             return await s(
                 "This command is disabled due to a configuration error on my host's end - didn't find a WordsAPI token in the config!"
             )
-        return await s(embed=TextCommandsUtil.define(args, wordsapi_token))
+        for embed in TextCommandsUtil.define(args, wordsapi_token):
+            await s(embed=embed)
+        return
 
 
 @click.group()
@@ -314,6 +318,7 @@ def initdb():
     """Creates the database."""
 
     from cakebot import Database
+
     Database.create()
     click.secho("\nInitialized the database!", fg="green")
 
@@ -322,19 +327,22 @@ def initdb():
 def run():
     """Runs the bot."""
 
-    click.secho("\nStarting Cakebot...\n", fg="blue")
+    click.secho("\nStarting Cakebot...\n", fg="blue", bold=True)
 
     logger.info(f"Using discord.py version {discord.__version__}")
 
     if g is None:
-        logger.warning("GitHub credentials not found, skipping...")
+        click.secho("GitHub credentials not found, disabling functionality.", fg="white")
     if wordsapi_token is None:
-        logger.warning("WordsAPI credentials not found, skipping...")
+        click.secho("WordsAPI credentials not found, disabling functionality.", fg="white")
 
     try:
         client.run(config["tokens"]["discord"])
     except:
-        click.secho("Error detected! It looks like you didn't put a valid Discord bot token in config.json!", fg="red")
+        click.secho(
+            "Error detected! It looks like you didn't put a valid Discord bot token in config.json!",
+            fg="red",
+        )
         _exit(1)
 
 
@@ -343,6 +351,7 @@ def shell():
     """Starts the development shell."""
 
     from ptpython.repl import embed
+
     embed(globals(), locals())
 
 

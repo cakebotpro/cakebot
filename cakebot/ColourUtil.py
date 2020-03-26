@@ -13,9 +13,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from discord import Color
-from random import choice
 from os import getenv
+from random import choice
+
+from discord import Color
 
 chilipepper = Color(0x9B1B30)
 tan = Color(0xBEAA3E)

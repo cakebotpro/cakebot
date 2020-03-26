@@ -17,6 +17,7 @@
 """
 
 from discord import Embed
+
 from . import ColourUtil
 
 

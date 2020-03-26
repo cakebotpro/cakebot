@@ -17,10 +17,12 @@
 """
 
 from random import choice
-from requests import get
-from cakebot import EmbedUtil
-from typing import List, Union
+from typing import Any, Dict, List, Union
+
 from discord import Message
+from requests import get
+
+from cakebot import EmbedUtil
 
 
 def common(name: str) -> str:
@@ -53,7 +55,7 @@ def get_mentioned_id(args: List[str]) -> Union[int, None]:
     return None
 
 
-def define(args: List[str], token: str) -> EmbedUtil.Embed:
+def define(args: List[str], token: str) -> List[EmbedUtil.Embed]:
     """Defines a word."""
 
     word = args[0]
@@ -64,7 +66,28 @@ def define(args: List[str], token: str) -> EmbedUtil.Embed:
     definition = get(
         "https://wordsapiv1.p.rapidapi.com/words/" + word, headers=headers
     )
-    return EmbedUtil.prep(title=definition.json(), description="")
+    resp = definition.json()
+
+    e = EmbedUtil.prep(
+        title=word.capitalize(), description="Data for this word:"
+    )
+    e.add_field(name="Syllables", value=", ".join(resp["syllables"]["list"]), inline=True)
+
+    return [e] + parse_define_json(resp)
+
+
+def parse_define_json(json: Dict[str, Any]) -> List[EmbedUtil.Embed]:
+    """Parses the `results` of the `define` JSON."""
+
+    definitions = json["results"]
+    embeds: List[EmbedUtil.Embed] = []
+
+    for index, obj in enumerate(definitions[:8]):  # up to first 8 definitions
+        embeds.append(EmbedUtil.prep(
+            "Definition " + str(index + 1), obj["definition"]
+        ))
+
+    return embeds
 
 
 data_template = """\
