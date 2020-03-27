@@ -40,8 +40,6 @@ async def report(s: Any, g: Github, args: List[str], message: Message):
 
     repo = g.get_repo("cakebotpro/cakebot")
     f = " ".join(args)
-    if f == "" or f == " ":
-        return await s(":x: **I can't report nothing!**")
     repo.create_issue(
         title="Support ticket #" + str(randint(0, 100000)),
         body=issue_template.format(str(message.author), f),

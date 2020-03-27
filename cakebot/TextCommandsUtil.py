@@ -121,4 +121,7 @@ def handle_common_commands(
     elif cmd == "clapify":
         return " :clap: ".join(args)
 
+    elif cmd == "say":
+        return " ".join(args)
+
     return None

@@ -125,6 +125,7 @@ async def on_message(message):
         or cmd == "homepage"
         or cmd == "clapify"
         or cmd == "cookie"
+        or cmd == "say"
     ) and Preconditions.args_are_valid(args):
         return await s(
             embed=EmbedUtil.prep(
@@ -324,7 +325,8 @@ def initdb():
 
 
 @cli.command()
-def run():
+@click.option("--discord-token", type=str, help="Discord token for the bot to use, defaults to the one from the config.json", default="")
+def run(discord_token):
     """Runs the bot."""
 
     click.secho("\nStarting Cakebot...\n", fg="blue", bold=True)
@@ -336,14 +338,10 @@ def run():
     if wordsapi_token is None:
         click.secho("WordsAPI credentials not found, disabling functionality.", fg="white")
 
-    try:
+    if discord_token != "":
+        client.run(discord_token)
+    else:
         client.run(config["tokens"]["discord"])
-    except:
-        click.secho(
-            "Error detected! It looks like you didn't put a valid Discord bot token in config.json!",
-            fg="red",
-        )
-        _exit(1)
 
 
 @cli.command()
