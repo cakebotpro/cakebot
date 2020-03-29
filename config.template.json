@@ -1,4 +1,5 @@
 {
+  "$schema": "https://cakebot.club/config.json",
   "tokens": {
     "discord": ""
   },
