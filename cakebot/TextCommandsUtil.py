@@ -71,7 +71,11 @@ def define(args: List[str], token: str) -> List[EmbedUtil.Embed]:
     e = EmbedUtil.prep(
         title=word.capitalize(), description="Data for this word:"
     )
-    e.add_field(name="Syllables", value=", ".join(resp["syllables"]["list"]), inline=True)
+    e.add_field(
+        name="Syllables",
+        value=", ".join(resp["syllables"]["list"]),
+        inline=True,
+    )
 
     return [e] + parse_define_json(resp)
 
@@ -83,9 +87,9 @@ def parse_define_json(json: Dict[str, Any]) -> List[EmbedUtil.Embed]:
     embeds: List[EmbedUtil.Embed] = []
 
     for index, obj in enumerate(definitions[:8]):  # up to first 8 definitions
-        embeds.append(EmbedUtil.prep(
-            "Definition " + str(index + 1), obj["definition"]
-        ))
+        embeds.append(
+            EmbedUtil.prep("Definition " + str(index + 1), obj["definition"])
+        )
 
     return embeds
 

@@ -32,9 +32,7 @@ class Tests(unittest.TestCase):
 
         self.assertIsNotNone(UserUtil)
         self.assertIsNotNone(UserUtil.admins())
-        self.assertIsNotNone(UserUtil.contributors())
         self.assertIsInstance(UserUtil.admins(), list)
-        self.assertIsInstance(UserUtil.contributors(), list)
 
     def test_textcommandsutil(self):
         """Test cakebot.TextCommandsUtil"""

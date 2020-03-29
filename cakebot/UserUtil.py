@@ -19,9 +19,7 @@
 from typing import List
 
 
-def admins() -> List[str]:
-    return ["rdil#0001"]
+def admins() -> List[int]:
+    """Returns a list of IDs for people with administrator access."""
 
-
-def contributors() -> List[str]:
-    return ["Param#8739"] + [admin for admin in admins()]
+    return [411505437003743243, 304005557797257216]

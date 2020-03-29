@@ -212,7 +212,7 @@ async def on_message(message):
         )
 
     elif cmd == "reboot":
-        if str(message.author) in UserUtil.contributors():
+        if message.author.id in UserUtil.admins():
             await s("Restarting. This may take up to 5 minutes.")
             # make the bot crash, forcing our server to turn it back on
             _exit(1)
@@ -280,14 +280,14 @@ async def on_message(message):
             )
 
         elif subcommand == "admin:set":
-            if str(message.author) in UserUtil.admins():
+            if message.author.id in UserUtil.admins():
                 Database.get_user_by_id(int(args[0])).cookie_count = args[1]
                 return await s("Done.")
             else:
                 return await s(":x: **You are not authorized to run this!**")
 
     elif cmd == "admin:reset":
-        if str(message.author) in UserUtil.admins():
+        if message.author.id in UserUtil.admins():
             Database.session.delete(
                 Database.get_user_by_id(
                     TextCommandsUtil.get_mentioned_id(args)
@@ -325,7 +325,12 @@ def initdb():
 
 
 @cli.command()
-@click.option("--discord-token", type=str, help="Discord token for the bot to use, defaults to the one from the config.json", default="")
+@click.option(
+    "--discord-token",
+    type=str,
+    help="Discord token for the bot to use, defaults to the one from the config.json",
+    default="",
+)
 def run(discord_token):
     """Runs the bot."""
 
@@ -334,9 +339,15 @@ def run(discord_token):
     logger.info(f"Using discord.py version {discord.__version__}")
 
     if g is None:
-        click.secho("GitHub credentials not found, disabling functionality.", fg="white")
+        click.secho(
+            "GitHub credentials not found, disabling functionality.",
+            fg="white",
+        )
     if wordsapi_token is None:
-        click.secho("WordsAPI credentials not found, disabling functionality.", fg="white")
+        click.secho(
+            "WordsAPI credentials not found, disabling functionality.",
+            fg="white",
+        )
 
     if discord_token != "":
         client.run(discord_token)

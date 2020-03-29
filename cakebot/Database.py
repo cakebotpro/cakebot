@@ -65,4 +65,5 @@ def get_user_by_id(id: int) -> DiscordUser:
 
 
 def commit():
+    """Commits all changes to the database."""
     session.commit()

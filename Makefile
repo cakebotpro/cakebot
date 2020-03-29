@@ -21,3 +21,7 @@ lint:
 deps:
 	python3 -m pip install --upgrade -r requirements.txt
 .PHONY: deps
+
+clean:
+	rm -rf .mypy_cache __pycache__ cakebot/__pycache__
+.PHONY: clean
