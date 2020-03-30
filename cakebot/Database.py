@@ -38,6 +38,9 @@ class DiscordUser(Base):  # type: ignore
     cookie_count = Column(Integer, default=0)
     last_got_cookie_at = Column(DateTime())
 
+    def __repr__(self):
+        return "<DiscordUser {0} {1}>".format(self.id, self.cookie_count)
+
 
 def create():
     """Creates the database."""
