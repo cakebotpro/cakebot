@@ -1,6 +1,5 @@
 tasks:
-  - init: python3 -m pip install --upgrade pip && python3 -m pip install --upgrade -r requirements.txt && python3 -c "from club.cakebot import Database; Database.create()"
-    command: python3 -m pip install --upgrade pip && python3 -m pip install --upgrade -r requirements.txt
+  - command: python3 -m pip install --upgrade pip && make deps
 
 vscode:
   extensions:
