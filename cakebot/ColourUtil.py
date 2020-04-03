@@ -13,15 +13,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from os import getenv
+from random import choice
+
 from discord import Color
-from random import randint
 
-chilipepper = Color(0x9b1b30)
-tan = Color(0xbeaa3e)
-icedcoffee = Color(0xb18f6a)
+chilipepper = Color(0x9B1B30)
+tan = Color(0xBEAA3E)
+icedcoffee = Color(0xB18F6A)
 
 
-def random():
+def random() -> Color:
     c = [
         Color.teal(),
         Color.dark_teal(),
@@ -44,6 +46,8 @@ def random():
         Color.blurple(),
         tan,
         icedcoffee,
-        chilipepper
+        chilipepper,
     ]
-    return c[randint(0, len(c) - 1)]
+    if getenv("TEST_ENV") is not None:
+        return tan
+    return choice(c)

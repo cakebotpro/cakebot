@@ -16,22 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from random import randint
-from .TextCommandsUtil import issue_template
+from typing import List
 
 
-async def report(s, g, args, message):
-    repo = g.get_repo("cakebotpro/cakebot")
-    f = str(" ".join(args))
-    if f == "" or f == " ":
-        return await s(":x: **I can't report nothing!**")
-    repo.create_issue(
-        title="Support ticket #" + str(randint(0, 100000)),
-        body=str(
-            issue_template.format(f)
-        ),
-        labels=[
-            repo.get_label("ticket")
-        ]
-    )
-    return await s(":white_check_mark: **Our team has been notified.**")
+def admins() -> List[int]:
+    """Returns a list of IDs for people with administrator access."""
+
+    return [411505437003743243, 304005557797257216]

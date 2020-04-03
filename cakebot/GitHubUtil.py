@@ -16,15 +16,33 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from random import randint
+from typing import Any, List
 
-def checkArgsAreNotNull(params):
-    return bool(
-        len(params) < 1 and
-        params is not [] and
-        params is not [""] and
-        params is not ["", ""]
+from discord import Message
+from github import Github
+
+issue_template = """\
+## Support Ticket
+
+> Filed by {0}
+
+### Message:
+
+`{1}`
+
+##### Powered by Cakebot | https://cakebot.club"
+"""
+
+
+async def report(s: Any, g: Github, args: List[str], message: Message):
+    """Reports an error to the GitHub page."""
+
+    repo = g.get_repo("cakebotpro/cakebot")
+    f = " ".join(args)
+    repo.create_issue(
+        title="Support ticket #" + str(randint(0, 100000)),
+        body=issue_template.format(str(message.author), f),
+        labels=[repo.get_label("ticket")],
     )
-
-
-def argCountIsAtLeast(params, number):
-    return len(params) >= number
+    return await s(":white_check_mark: **Our team has been notified.**")

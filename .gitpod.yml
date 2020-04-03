@@ -1,2 +1,6 @@
 tasks:
-  - command: pipenv install
+  - command: python3 -m pip install --upgrade pip && make deps
+
+vscode:
+  extensions:
+    - alexcvzz.vscode-sqlite@0.8.1:PQywmjPo5CPnGuwRSsyeiw==

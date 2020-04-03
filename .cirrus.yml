@@ -1,4 +1,17 @@
 task:
   container:
-    image: alpine/flake8:latest
-  script: python3 -m flake8 *.py
+    image: python:latest
+  python_modules_cache:
+    folder: /usr/local/lib/python3.8/site-packages
+    populate_script: make deps
+  matrix:
+    - name: Unit Tests
+      script: make test-and-report
+      always:
+        unittest_results_artifacts:
+          path: ./*.xml
+          format: junit
+          type: text/xml
+    - name: Static Analysis
+      script: make lint
+
