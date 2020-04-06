@@ -29,7 +29,7 @@ issue_template = """\
 
 ### Message:
 
-`{1}`
+{1}
 
 ##### Powered by Cakebot | https://cakebot.club"
 """

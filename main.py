@@ -168,7 +168,7 @@ async def on_message(message):
     elif cmd == "info":
         return await s(
             TextCommandsUtil.data_template.format(
-                message, bool(message.guild.mfa_level == 1)
+                message, message.guild.mfa_level == 1
             )
         )
 
