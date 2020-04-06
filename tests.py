@@ -50,9 +50,12 @@ class Tests(unittest.TestCase):
 
         self.assertIsNotNone(gmId)
         self.assertEqual(
-            gmId(["please", "find", "the", "id", "of", "<@!123456789>"]), 123456789
+            gmId(["please", "find", "the", "id", "of", "<@!123456789>"]),
+            123456789,
         )
-        self.assertIsNone(gmId(["please", "find", "the", "id", "of", "nobody"]))
+        self.assertIsNone(
+            gmId(["please", "find", "the", "id", "of", "nobody"])
+        )
         self.assertIsNone(gmId(["<@!123>"]))
 
     def test_embedutil(self):
@@ -61,9 +64,13 @@ class Tests(unittest.TestCase):
         from cakebot import EmbedUtil
 
         self.assertIsNotNone(EmbedUtil)
-        self.assertIsInstance(EmbedUtil.prep(title="a", description="b"), EmbedUtil.Embed)
+        self.assertIsInstance(
+            EmbedUtil.prep(title="a", description="b"), EmbedUtil.Embed
+        )
 
-    @unittest.skipUnless(os.getenv("CIRRUS_CI") is not None, "not in Cirrus CI")
+    @unittest.skipUnless(
+        os.getenv("CIRRUS_CI") is not None, "not in Cirrus CI"
+    )
     def test_database(self):
         """Test cakebot.Database"""
 
@@ -75,7 +82,10 @@ class Tests(unittest.TestCase):
 
         # it shouldn't have this entry yet
         self.assertEqual(
-            Database.session.query(Database.DiscordUser).filter_by(id=5).all(), []
+            Database.session.query(Database.DiscordUser)
+            .filter_by(id=5)
+            .all(),
+            [],
         )
 
         # create it
@@ -83,11 +93,24 @@ class Tests(unittest.TestCase):
 
         # now check again
         self.assertNotEqual(
-            Database.session.query(Database.DiscordUser).filter_by(id=5).all(), []
+            Database.session.query(Database.DiscordUser)
+            .filter_by(id=5)
+            .all(),
+            [],
         )
         # and make sure its not None
         self.assertIsNotNone(
             Database.session.query(Database.DiscordUser).filter_by(id=5).all()
+        )
+
+    def test_pi_command(self):
+        """Test `+pi`."""
+
+        from cakebot.TextCommandsUtil import handle_common_commands
+
+        self.assertEqual(
+            handle_common_commands(None, [], "pi"),
+            "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709",
         )
 
 

@@ -71,11 +71,16 @@ def define(args: List[str], token: str) -> List[EmbedUtil.Embed]:
     e = EmbedUtil.prep(
         title=word.capitalize(), description="Data for this word:"
     )
-    e.add_field(
-        name="Syllables",
-        value=", ".join(resp["syllables"]["list"]),
-        inline=True,
-    )
+    try:
+        e.add_field(
+            name="Syllables",
+            value=", ".join(resp["syllables"]["list"]),
+            inline=True,
+        )
+    except KeyError:
+        e.add_field(
+            name="Error", value="I don't think I know this word!", inline=True
+        )
 
     return [e] + parse_define_json(resp)
 
