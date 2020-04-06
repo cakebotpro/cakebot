@@ -8,8 +8,7 @@ test-and-report:
 
 format:
 	python3 -m isort -rc .
-	python3 -m black --line-length 78 main.py
-	python3 -m black --line-length 78 tests.py
+	python3 -m black --line-length 78 *.py
 	python3 -m black --line-length 78 cakebot/*.py
 .PHONY: format
 
@@ -18,6 +17,8 @@ lint:
 	python3 -m mypy -m tests
 	python3 -m flake8 *.py
 	python3 -m flake8 cakebot/*.py
+	python3 -m black --check --line-length 78 *.py
+	python3 -m black --check --line-length 78 cakebot/*.py
 .PHONY: lint
 
 deps:

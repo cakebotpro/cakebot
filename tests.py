@@ -113,6 +113,58 @@ class Tests(unittest.TestCase):
             "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709",
         )
 
+    def test_say_command(self):
+        """Test `+say`."""
+
+        from cakebot.TextCommandsUtil import handle_common_commands
+
+        self.assertEqual(
+            handle_common_commands(
+                None,
+                ["hello", "world", "this", "should", "be", "said", "yay"],
+                "say",
+            ),
+            "hello world this should be said yay",
+        )
+
+    def test_clapify_command(self):
+        """Test `+clapify`."""
+
+        from cakebot.TextCommandsUtil import handle_common_commands
+
+        self.assertEqual(
+            handle_common_commands(None, ["I", "love", "dogs"], "clapify"),
+            "I :clap: love :clap: dogs",
+        )
+
+    def test_coinflip_command(self):
+        """Test `+coinflip`."""
+
+        from cakebot.TextCommandsUtil import handle_common_commands
+
+        i = 0
+        while i < 30:
+            self.assertIn(
+                handle_common_commands(None, [], "coinflip"),
+                ["**Heads**.", "**Tails**."],
+            )
+            i = i + 1
+
+    def test_8_command(self):
+        """Test `+8`."""
+
+        from cakebot.TextCommandsUtil import handle_common_commands
+
+        i = 0
+        while i < 30:
+            self.assertIsInstance(
+                handle_common_commands(
+                    None, ["why", "is", "earth", "not", "flat?"], "8"
+                ),
+                str,
+            )
+            i = i + 1
+
 
 if __name__ == "__main__":
     unittest.main()
