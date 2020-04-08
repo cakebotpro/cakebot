@@ -6,10 +6,11 @@ You will need to install dependencies (see section below) before you can start d
 
 ### Installing
 
-> Note: you may want to [create a `virtualenv` first](https://github.com/cakebotpro/cakebot/wiki/Virtual-Environments#create-virtualenv).
+> Note: you may want to create a `virtualenv` first. If you want to, see the section below.
 
 Please run this in a terminal:
-```none
+
+```shell
 make deps
 ```
 
@@ -18,7 +19,8 @@ If this fails, check that you have [pip](https://pip.pypa.io/en/stable/) install
 ### Adding
 
 You can use this format to add it to our `requirements.txt`:
-```none
+
+```python
 name-of-package-on-pypi==version
 ```
 
@@ -59,7 +61,7 @@ Then, head to [here](https://packaging.python.org/tutorials/installing-packages/
 
 Activate `virtualenv`:
 
-```console
+```bash
 $ source virtualenvname/bin/activate
 ```
 
@@ -106,6 +108,7 @@ When making new Python modules, please keep the following in mind:
 ### Copyright Header
 
 Here is the copyright header we require:
+
 ```python
 """
     Cakebot - A cake themed Discord bot
