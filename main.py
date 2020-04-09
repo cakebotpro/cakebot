@@ -130,7 +130,7 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 "That command expected an argument (or arguments), but you didn't give it any!",
-                "[Read the docs?](https://cakebot.club/commands.html)",
+                "[Read the docs?](https://cakebot.club/docs/commands/)",
             )
         )
 
@@ -142,7 +142,7 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 title="Help",
-                description="You can check out [this page of our website](https://cakebot.club/commands/) for a full command list!",
+                description="You can check out [this page of our website](https://cakebot.club/docs/commands/) for a full command list!",
             )
         )
 
@@ -264,7 +264,7 @@ async def on_message(message):
                 )
             )
 
-        elif subcommand == "give" or subcommand == "to":
+        elif subcommand in ["give", "to"]:
             user = Database.get_user_by_id(userId)
 
             if Preconditions.can_get_cookie(user):
@@ -308,7 +308,7 @@ async def on_message(message):
 
 
 @click.group()
-@click.version_option(version="2020.04.03", prog_name="Cakebot")
+@click.version_option(version="2020.04.08", prog_name="Cakebot")
 def cli():
     """The Cakebot command-line-interface."""
     pass
