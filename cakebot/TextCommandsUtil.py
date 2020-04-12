@@ -41,6 +41,7 @@ def noop():
 
 def get_mentioned_id(args: List[str]) -> Union[int, None]:
     """Checks a list of arguments for a valid Discord mention."""
+
     for arg in args:
         base = arg
         if arg.startswith("<@!") and arg.endswith(">"):
@@ -132,5 +133,8 @@ def handle_common_commands(
 
     elif cmd == "say":
         return " ".join(args)
+
+    elif cmd == "joke":
+        return common("jokes")
 
     return None

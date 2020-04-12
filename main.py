@@ -23,7 +23,6 @@ from sys import exit as _exit
 
 import click
 import discord
-from area4 import divider
 from discord.utils import oauth_url
 from discord_sentry_reporting import use_sentry
 from factdata import FactImp
@@ -154,14 +153,6 @@ async def on_message(message):
             embed=EmbedUtil.prep(
                 "Invite Cakebot",
                 f"[Click here to invite me!]({oauth_url(580573141898887199, permissions=discord.Permissions.all())})",
-            )
-        )
-
-    elif cmd == "joke":
-        return await s(
-            embed=EmbedUtil.prep(
-                f'**{TextCommandsUtil.common("jokes")}**',
-                divider(7) + divider(7),
             )
         )
 
