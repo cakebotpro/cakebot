@@ -165,6 +165,16 @@ class Tests(unittest.TestCase):
             )
             i = i + 1
 
+    def test_joke_command(self):
+        """Test `+joke`."""
+
+        from cakebot.TextCommandsUtil import handle_common_commands
+
+        self.assertIsInstance(
+            handle_common_commands(None, [], "joke"),
+            str
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
