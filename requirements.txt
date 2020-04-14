@@ -4,7 +4,7 @@
 black==19.10b0
 mypy==0.770
 flake8==3.7.9
-ptpython==3.0.1
+ptpython==3.0.2
 isort==4.3.21
 
 # primary dependencies
