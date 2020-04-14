@@ -56,7 +56,7 @@ def get_mentioned_id(args: List[str]) -> Union[int, None]:
     return None
 
 
-def define(args: List[str], token: str) -> List[EmbedUtil.Embed]:
+def define(args: List[str], token: str) -> EmbedUtil.Embed:
     """Defines a word."""
 
     word = args[0]
@@ -83,34 +83,37 @@ def define(args: List[str], token: str) -> List[EmbedUtil.Embed]:
             name="Error", value="I don't think I know this word!", inline=True
         )
 
-    return [e] + parse_define_json(resp)
+    e = parse_define_json(e, resp)
+    return e
 
 
-def parse_define_json(json: Dict[str, Any]) -> List[EmbedUtil.Embed]:
+def parse_define_json(
+    embed: EmbedUtil.Embed, json: Dict[str, Any]
+) -> EmbedUtil.Embed:
     """Parses the `results` of the `define` JSON."""
 
     definitions = json["results"]
-    embeds: List[EmbedUtil.Embed] = []
+    e: EmbedUtil.Embed = embed
 
     for index, obj in enumerate(definitions[:8]):  # up to first 8 definitions
-        embeds.append(
-            EmbedUtil.prep("Definition " + str(index + 1), obj["definition"])
+        e.add_field(
+            "Definition " + str(index + 1), obj["definition"], inline=False
         )
 
-    return embeds
+    return e
 
 
 data_template = """\
-***{0.guild.name}***
-**Owner:** {0.guild.owner}
-**Members:** {len(0.guild.members)}
-**Region:** {0.guild.region}
-**Server ID:** {0.guild.id}
-**Nitro Booster Count:** {0.guild.premium_subscription_count}
-**Icon Is Animated:** {str(0.guild.is_icon_animated())}
-**Created At:** {str(0.guild.created_at)}
-**More Than 250 Members:** {str(0.guild.large)}
-**Admins Need 2-Factor Auth: {1}
+***{0}***
+**Owner:** {1}
+**Members:** {2}
+**Region:** {3}
+**Server ID:** {4}
+**Nitro Booster Count:** {5}
+**Icon Is Animated:** {6}
+**Created At:** {7}
+**More Than 250 Members:** {8}
+**Admins Need 2-Factor Auth: {9}
 """
 
 

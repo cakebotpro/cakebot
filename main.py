@@ -159,7 +159,16 @@ async def on_message(message):
     elif cmd == "info":
         return await s(
             TextCommandsUtil.data_template.format(
-                message, message.guild.mfa_level == 1
+                message.guild.name,
+                str(message.guild.owner),
+                len(message.guild.members),
+                message.guild.region,
+                message.guild.id,
+                message.guild.premium_subscription_count,
+                str(message.guild.is_icon_animated()),
+                str(message.guild.created_at),
+                str(message.guild.large),
+                str(message.guild.mfa_level == 1),
             )
         )
 

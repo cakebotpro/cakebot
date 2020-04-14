@@ -170,10 +170,7 @@ class Tests(unittest.TestCase):
 
         from cakebot.TextCommandsUtil import handle_common_commands
 
-        self.assertIsInstance(
-            handle_common_commands(None, [], "joke"),
-            str
-        )
+        self.assertIsInstance(handle_common_commands(None, [], "joke"), str)
 
 
 if __name__ == "__main__":
