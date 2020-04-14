@@ -302,9 +302,7 @@ async def on_message(message):
             return await s(
                 "This command is disabled due to a configuration error on my host's end - didn't find a WordsAPI token in the config!"
             )
-        for embed in TextCommandsUtil.define(args, wordsapi_token):
-            await s(embed=embed)
-        return
+        return await s(embed=TextCommandsUtil.define(args, wordsapi_token))
 
 
 @click.group()
