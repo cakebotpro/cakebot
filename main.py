@@ -17,22 +17,18 @@
 """
 
 from datetime import datetime
-from logging import getLogger
 from os import getenv
 from sys import exit as _exit
 
 import click
 import discord
 from discord.utils import oauth_url
-from discord_sentry_reporting import use_sentry
 from factdata import FactImp
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
 from iss import Imp as ISSimp
 from reverse_geocoder import search
 from sentry_sdk import configure_scope
-from sentry_sdk.integrations.aiohttp import AioHttpIntegration
-from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from slots import result, row
 
 from cakebot import (
@@ -43,9 +39,6 @@ from cakebot import (
     TextCommandsUtil,
     UserUtil,
 )
-
-logger = getLogger("cakebot")
-logger.setLevel(10)
 
 config = {}
 if getenv("TEST_ENV") != "yes":
@@ -63,30 +56,16 @@ try:
 except (KeyError, TypeError):
     TextCommandsUtil.noop()
 
+has_enabled_sentry = getenv("PRODUCTION") is not None
 client = discord.AutoShardedClient()
-
-if getenv("PRODUCTION") is not None:
-    use_sentry(
-        client,
-        dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
-        debug=True,
-        integrations=[AioHttpIntegration(), SqlalchemyIntegration()],
-    )
-    logger.debug("Loaded Sentry!")
 
 
 @client.event
 async def on_ready():
-    if getenv("PRODUCTION") is not None:
-        await client.change_presence(
-            activity=discord.Game(name=config["status"])
-        )
-    else:
-        await client.change_presence(
-            activity=discord.Game(name="Running development build")
-        )
-    logger.info(
-        "Ready to roll, I'll see you on Discord: @" + str(client.user)
+    await client.change_presence(activity=discord.Game(name=config["status"]))
+    click.secho(
+        "\nReady to roll, I'll see you on Discord: @" + str(client.user),
+        fg="green",
     )
 
 
@@ -99,12 +78,13 @@ async def on_message(message):
     if not message.content.startswith(Bot_Prefix):
         return
 
-    with configure_scope() as scope:
-        # show username of discord user in sentry
-        scope.user = {
-            "id": message.author.id,
-            "username": str(message.author),
-        }
+    if has_enabled_sentry:
+        with configure_scope() as scope:
+            # show username of discord user in sentry
+            scope.user = {
+                "id": message.author.id,
+                "username": str(message.author),
+            }
 
     # Split input
     args = message.content[len(Bot_Prefix) :].split()
@@ -334,7 +314,9 @@ def run(discord_token):
 
     click.secho("\nStarting Cakebot...\n", fg="blue", bold=True)
 
-    logger.info(f"Using discord.py version {discord.__version__}")
+    click.secho(
+        f"Using discord.py version {discord.__version__}", color="gray"
+    )
 
     if g is None:
         click.secho(
@@ -345,6 +327,18 @@ def run(discord_token):
         click.secho(
             "WordsAPI credentials not found, disabling functionality.",
             fg="white",
+        )
+
+    if has_enabled_sentry:
+        from discord_sentry_reporting import use_sentry
+        from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+        from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+
+        use_sentry(
+            client,
+            dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
+            debug=True,
+            integrations=[AioHttpIntegration(), SqlalchemyIntegration()],
         )
 
     if discord_token != "":

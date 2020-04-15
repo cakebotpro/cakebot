@@ -97,7 +97,9 @@ def parse_define_json(
 
     for index, obj in enumerate(definitions[:8]):  # up to first 8 definitions
         e.add_field(
-            "Definition " + str(index + 1), obj["definition"], inline=False
+            name="Definition " + str(index + 1),
+            value=obj["definition"],
+            inline=False,
         )
 
     return e
@@ -105,15 +107,15 @@ def parse_define_json(
 
 data_template = """\
 ***{0}***
-**Owner:** {1}
-**Members:** {2}
-**Region:** {3}
-**Server ID:** {4}
-**Nitro Booster Count:** {5}
-**Icon Is Animated:** {6}
-**Created At:** {7}
-**More Than 250 Members:** {8}
-**Admins Need 2-Factor Auth: {9}
+:crown: **Owner:** {1}
+:grinning: **Members:** {2}
+:map: **Region:** {3}
+:id: **Server ID:** {4}
+:comet: **Nitro Booster Count:** {5}
+:archery: **Icon Is Animated:** {6}
+:timer: **Created At:** {7}
+:chart_with_upwards_trend: **More Than 250 Members:** {8}
+:lock: **Admins Need 2-Factor Auth**: {9}
 """
 
 
