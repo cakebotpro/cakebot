@@ -172,6 +172,15 @@ class Tests(unittest.TestCase):
 
         self.assertIsInstance(handle_common_commands(None, [], "joke"), str)
 
+    def test_iss_api(self):
+        """Test the ISS API."""
+
+        from cakebot.IssApi import IssLocater
+
+        locater = IssLocater()
+        self.assertIsInstance(locater.lat(), str)
+        self.assertIsInstance(locater.lon(), str)
+
 
 if __name__ == "__main__":
     unittest.main()
