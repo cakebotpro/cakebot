@@ -18,3 +18,4 @@ config.json
 *.xml
 .mypy_cache
 .vscode
+profile.txt

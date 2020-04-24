@@ -22,11 +22,11 @@ from sys import exit as _exit
 
 import click
 import discord
+import yappi
 from discord.utils import oauth_url
 from factdata import FactImp
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
-from iss import Imp as ISSimp
 from reverse_geocoder import search
 from sentry_sdk import configure_scope
 from slots import result, row
@@ -35,6 +35,7 @@ from cakebot import (
     Database,
     EmbedUtil,
     GitHubUtil,
+    IssApi,
     Preconditions,
     TextCommandsUtil,
     UserUtil,
@@ -88,6 +89,9 @@ async def on_message(message):
 
     # Split input
     args = message.content[len(Bot_Prefix) :].split()
+
+    if len(args) == 0:
+        return
 
     cmd = args[0].lower()
 
@@ -157,7 +161,7 @@ async def on_message(message):
 
     elif cmd == "iss":
         m = await s("Calculating...")
-        imp = ISSimp()
+        imp = IssApi.IssLocater()
         lat = imp.lat()
         lon = imp.lon()
         geodata = search((lat, lon))
@@ -283,6 +287,22 @@ async def on_message(message):
                 "This command is disabled due to a configuration error on my host's end - didn't find a WordsAPI token in the config!"
             )
         return await s(embed=TextCommandsUtil.define(args, wordsapi_token))
+
+    elif cmd == "start-profiler":
+        if message.author.id in UserUtil.admins():
+            await s("Started the profiler. Once you are done, run stop-profiler.")
+            yappi.set_clock_type("wall")
+            yappi.start()
+        else:
+            return await s(":x: **You are not authorized to run this!**")
+
+    elif cmd == "stop-profiler":
+        if message.author.id in UserUtil.admins():
+            await s("Saved profiler results to `profile.txt`.")
+            yappi.stop()
+            yappi.get_func_stats().print_all(open("profile.txt", "w"))
+        else:
+            return await s(":x: **You are not authorized to run this!**")
 
 
 @click.group()
