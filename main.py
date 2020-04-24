@@ -290,7 +290,9 @@ async def on_message(message):
 
     elif cmd == "start-profiler":
         if message.author.id in UserUtil.admins():
-            await s("Started the profiler. Once you are done, run stop-profiler.")
+            await s(
+                "Started the profiler. Once you are done, run stop-profiler."
+            )
             yappi.set_clock_type("wall")
             yappi.start()
         else:
