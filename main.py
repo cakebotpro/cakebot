@@ -89,6 +89,9 @@ async def on_message(message):
     # Split input
     args = message.content[len(Bot_Prefix) :].split()
 
+    if len(args) == 0:
+        return
+
     cmd = args[0].lower()
 
     # the arg array ex. ["hello", "world"]
