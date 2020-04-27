@@ -6,7 +6,7 @@ mypy==0.770
 flake8==3.7.9
 ptpython==3.0.2
 isort==4.3.21
-yappi==1.2.4
+yappi==1.2.5
 
 # primary dependencies
 discord.py==1.3.3
