@@ -353,14 +353,13 @@ def run(discord_token):
 
     if has_enabled_sentry:
         from discord_sentry_reporting import use_sentry
-        from sentry_sdk.integrations.aiohttp import AioHttpIntegration
         from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
         use_sentry(
             client,
             dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
             debug=True,
-            integrations=[AioHttpIntegration(), SqlalchemyIntegration()],
+            integrations=[SqlalchemyIntegration()],
         )
 
     if discord_token != "":
