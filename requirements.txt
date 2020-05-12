@@ -3,7 +3,7 @@
 # development dependencies
 black==19.10b0
 mypy==0.770
-flake8==3.8.0
+flake8==3.8.1
 ptpython==3.0.2
 isort==4.3.21
 yappi==1.2.5
