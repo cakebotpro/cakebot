@@ -25,14 +25,6 @@ class IssLocater:
     def __init__(self):
         """Creates a new instance of the class."""
 
-        self.obj = get("http://api.open-notify.org/iss-now.json").json()
-
-    def lat(self):
-        """Gets the latitude of the ISS."""
-
-        return self.obj["iss_position"]["latitude"]
-
-    def lon(self):
-        """Gets the longitude of the ISS."""
-
-        return self.obj["iss_position"]["longitude"]
+        obj = get("http://api.open-notify.org/iss-now.json").json()
+        self.lat = obj["iss_position"]["latitude"]
+        self.lon = obj["iss_position"]["longitude"]

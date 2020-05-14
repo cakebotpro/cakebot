@@ -17,7 +17,7 @@
 """
 
 from random import choice
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
 from discord import Message
 from requests import get
@@ -25,7 +25,8 @@ from requests import get
 from cakebot import EmbedUtil
 
 
-def common(name: str) -> str:
+def common(name):
+    # type: (str) -> str
     """Load a content file and pick a random line from it (used a lot)."""
 
     fileobj = open("content/" + name + ".txt", mode="r")
@@ -35,11 +36,13 @@ def common(name: str) -> str:
 
 
 def noop():
+    # type: () -> None
     """Literally just do nothing (for the purpose of avoiding syntax errors)."""
     return
 
 
-def get_mentioned_id(args: List[str]) -> Union[int, None]:
+def get_mentioned_id(args):
+    # type: (List[str]) -> int
     """Checks a list of arguments for a valid Discord mention."""
 
     for arg in args:
@@ -53,10 +56,11 @@ def get_mentioned_id(args: List[str]) -> Union[int, None]:
                 return int(base)
         except ValueError:
             noop()
-    return None
+    return 0
 
 
-def define(args: List[str], token: str) -> EmbedUtil.Embed:
+def define(args, token):
+    # type: (List[str], str) -> EmbedUtil.Embed
     """Defines a word."""
 
     word = args[0]
@@ -93,7 +97,7 @@ def parse_define_json(
     """Parses the `results` of the `define` JSON."""
 
     definitions = json["results"]
-    e: EmbedUtil.Embed = embed
+    e = embed
 
     for index, obj in enumerate(definitions[:8]):  # up to first 8 definitions
         e.add_field(
@@ -119,9 +123,8 @@ data_template = """\
 """
 
 
-def handle_common_commands(
-    message: Message, args: List[str], cmd: str
-) -> Union[str, None]:
+def handle_common_commands(message, args, cmd):
+    # type: (Message, List[str], str) -> str
     """Handles certain simple commands."""
 
     if cmd == "pi":
@@ -142,4 +145,4 @@ def handle_common_commands(
     elif cmd == "joke":
         return common("jokes")
 
-    return None
+    return ""

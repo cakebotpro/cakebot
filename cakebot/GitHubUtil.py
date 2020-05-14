@@ -17,8 +17,7 @@
 """
 
 from random import randint
-from typing import Any, List
-
+from typing import Any
 from discord import Message
 from github import Github
 
@@ -35,7 +34,8 @@ issue_template = """\
 """
 
 
-async def report(s: Any, g: Github, args: List[str], message: Message):
+async def report(s, g, args, message):
+    # type: (Any, Github, list, Message) -> None
     """Reports an error to the GitHub page."""
 
     repo = g.get_repo("cakebotpro/cakebot")

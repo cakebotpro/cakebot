@@ -16,10 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from typing import List
 
-
-def admins() -> List[int]:
+def admins():
+    # type: () -> list
     """Returns a list of IDs for people with administrator access."""
 
     return [411505437003743243, 304005557797257216]

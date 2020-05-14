@@ -21,7 +21,8 @@ from discord import Embed
 from . import ColourUtil
 
 
-def prep(title: str, description: str) -> Embed:
+def prep(title, description):
+    # type: (str, str) -> Embed
     """Create a basic embed based on our template."""
 
     embed = Embed(

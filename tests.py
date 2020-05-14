@@ -178,8 +178,8 @@ class Tests(unittest.TestCase):
         from cakebot.IssApi import IssLocater
 
         locater = IssLocater()
-        self.assertIsInstance(locater.lat(), str)
-        self.assertIsInstance(locater.lon(), str)
+        self.assertIsInstance(locater.lat, str)
+        self.assertIsInstance(locater.lon, str)
 
 
 if __name__ == "__main__":

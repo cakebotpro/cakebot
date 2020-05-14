@@ -16,10 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from datetime import datetime
 from typing import List
-
-from cakebot.Database import DiscordUser
 
 
 def args_are_valid(params: List[str]) -> bool:
@@ -31,17 +28,3 @@ def args_are_valid(params: List[str]) -> bool:
         and params is not [""]
         and params is not ["", ""]
     )
-
-
-def can_get_cookie(user: DiscordUser) -> bool:
-    """Returns if the user can receive a cookie at this time."""
-
-    diff = user.last_got_cookie_at - datetime.now()
-    # difference in seconds split into minutes
-    mins = int(diff.total_seconds() / 60)
-    if mins < 0:
-        # for some odd reason, this number is negative
-        # so we need to do this :/
-        mins += mins * -2
-    # if the user got a cookie in the last hour
-    return mins > 60

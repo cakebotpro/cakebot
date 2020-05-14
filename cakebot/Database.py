@@ -16,9 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from datetime import datetime
-
-from sqlalchemy import Column, DateTime, Integer, create_engine
+from sqlalchemy import Column, Integer, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -36,7 +34,6 @@ class DiscordUser(Base):  # type: ignore
 
     id = Column(Integer, primary_key=True)
     cookie_count = Column(Integer, default=0)
-    last_got_cookie_at = Column(DateTime())
 
     def __repr__(self):
         return "<DiscordUser {0} {1}>".format(self.id, self.cookie_count)
@@ -47,7 +44,8 @@ def create():
     return Base.metadata.create_all(engine)
 
 
-def get_user_by_id(id: int) -> DiscordUser:
+def get_user_by_id(id):
+    # type: (int) -> DiscordUser
     """
     Finds a user in the database from their Discord ID,
     and creates an entry if they don't exist yet.
@@ -58,9 +56,7 @@ def get_user_by_id(id: int) -> DiscordUser:
     if query_result is not None:
         return query_result
 
-    new_query = DiscordUser(
-        id=id, last_got_cookie_at=datetime(2015, 1, 1, 1, 1, 1, 1)
-    )
+    new_query = DiscordUser(id=id)
     session.add(new_query)
     commit()
 

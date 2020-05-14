@@ -16,7 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from datetime import datetime
 from os import getenv
 from sys import exit as _exit
 
@@ -28,7 +27,6 @@ from factdata import FactImp
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
 from reverse_geocoder import search
-from sentry_sdk import configure_scope
 from slots import result, row
 
 from cakebot import (
@@ -80,6 +78,8 @@ async def on_message(message):
         return
 
     if has_enabled_sentry:
+        from sentry_sdk import configure_scope
+
         with configure_scope() as scope:
             # show username of discord user in sentry
             scope.user = {
@@ -118,7 +118,7 @@ async def on_message(message):
         )
 
     tcu_result = TextCommandsUtil.handle_common_commands(message, args, cmd)
-    if tcu_result is not None:
+    if tcu_result != "":
         return await s(tcu_result)
 
     if cmd == "help":
@@ -162,8 +162,8 @@ async def on_message(message):
     elif cmd == "iss":
         m = await s("Calculating...")
         imp = IssApi.IssLocater()
-        lat = imp.lat()
-        lon = imp.lon()
+        lat = imp.lat
+        lon = imp.lon
         geodata = search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
@@ -215,11 +215,11 @@ async def on_message(message):
 
     elif cmd == "homepage":
         try:
-            url_nullable = g.get_repo(args[0]).homepage
-            if url_nullable is None:
-                url_nullable = "(error: homepage not specified by owner)"
+            url = g.get_repo(args[0]).homepage
+            if url is None:
+                url = "(error: homepage not specified by owner)"
             return await s(
-                f"{args[0]}'s homepage is located at {url_nullable}"
+                f"{args[0]}'s homepage is located at {url}"
             )
         except:
             return await s(
@@ -251,16 +251,10 @@ async def on_message(message):
         elif subcommand in ["give", "to"]:
             user = Database.get_user_by_id(userId)
 
-            if Preconditions.can_get_cookie(user):
-                user.cookie_count += 1
-                user.last_got_cookie_at = datetime.now()
-                Database.commit()
-                return await s(
-                    f"Gave <@!{userId}> a cookie. They now have {user.cookie_count} cookies."
-                )
-
+            user.cookie_count += 1
+            Database.commit()
             return await s(
-                ":x: *This user has already recieved a cookie in the last hour!*"
+                f"Gave <@!{userId}> a cookie. They now have {user.cookie_count} cookies."
             )
 
         elif subcommand == "admin:set":
