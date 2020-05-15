@@ -14,6 +14,7 @@
 """
 
 from random import choice
+
 from discord import Color
 
 
@@ -24,27 +25,29 @@ def random():
     tan = Color(0xBEAA3E)
     icedcoffee = Color(0xB18F6A)
 
-    return choice([
-        Color.teal(),
-        Color.dark_teal(),
-        Color.green(),
-        Color.dark_green(),
-        Color.blue(),
-        Color.dark_blue(),
-        Color.purple(),
-        Color.dark_purple(),
-        Color.magenta(),
-        Color.dark_magenta(),
-        Color.gold(),
-        Color.dark_gold(),
-        Color.orange(),
-        Color.dark_orange(),
-        Color.red(),
-        Color.dark_red(),
-        Color.lighter_grey(),
-        Color.darker_grey(),
-        Color.blurple(),
-        tan,
-        icedcoffee,
-        chilipepper,
-    ])
+    return choice(
+        [
+            Color.teal(),
+            Color.dark_teal(),
+            Color.green(),
+            Color.dark_green(),
+            Color.blue(),
+            Color.dark_blue(),
+            Color.purple(),
+            Color.dark_purple(),
+            Color.magenta(),
+            Color.dark_magenta(),
+            Color.gold(),
+            Color.dark_gold(),
+            Color.orange(),
+            Color.dark_orange(),
+            Color.red(),
+            Color.dark_red(),
+            Color.lighter_grey(),
+            Color.darker_grey(),
+            Color.blurple(),
+            tan,
+            icedcoffee,
+            chilipepper,
+        ]
+    )

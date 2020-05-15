@@ -218,9 +218,7 @@ async def on_message(message):
             url = g.get_repo(args[0]).homepage
             if url is None:
                 url = "(error: homepage not specified by owner)"
-            return await s(
-                f"{args[0]}'s homepage is located at {url}"
-            )
+            return await s(f"{args[0]}'s homepage is located at {url}")
         except:
             return await s(
                 "Failed to fetch homepage. Is the repository valid and public?"
@@ -235,11 +233,11 @@ async def on_message(message):
         userId = TextCommandsUtil.get_mentioned_id(args)
 
         if subcommand in ["balance", "bal"]:
-            user = Database.get_user_by_id(userId)
-
-            if userId is None:
+            if userId == 0:
                 # assume user wants themself
                 user = Database.get_user_by_id(message.author.id)
+            else:
+                user = Database.get_user_by_id(userId)
 
             return await s(
                 embed=EmbedUtil.prep(
@@ -249,6 +247,10 @@ async def on_message(message):
             )
 
         elif subcommand in ["give", "to"]:
+            if userId == 0:
+                return await s(
+                    "I don't see who I should give the cookie to. Try mentioning them."
+                )
             user = Database.get_user_by_id(userId)
 
             user.cookie_count += 1
@@ -259,7 +261,7 @@ async def on_message(message):
 
         elif subcommand == "admin:set":
             if message.author.id in UserUtil.admins():
-                Database.get_user_by_id(int(args[0])).cookie_count = args[1]
+                Database.get_user_by_id(userId).cookie_count = args[1]
                 return await s("Done.")
             else:
                 return await s(":x: **You are not authorized to run this!**")
@@ -271,6 +273,7 @@ async def on_message(message):
                     TextCommandsUtil.get_mentioned_id(args)
                 )
             )
+            Database.commit()
             return await s("Done.")
         else:
             return await s(":x: **You are not authorized to run this!**")
@@ -311,8 +314,6 @@ def cli():
 @cli.command()
 def initdb():
     """Creates the database."""
-
-    from cakebot import Database
 
     Database.create()
     click.secho("\nInitialized the database!", fg="green")

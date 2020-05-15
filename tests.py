@@ -53,10 +53,10 @@ class Tests(unittest.TestCase):
             gmId(["please", "find", "the", "id", "of", "<@!123456789>"]),
             123456789,
         )
-        self.assertIsNone(
-            gmId(["please", "find", "the", "id", "of", "nobody"])
+        self.assertEqual(
+            gmId(["please", "find", "the", "id", "of", "nobody"]), 0,
         )
-        self.assertIsNone(gmId(["<@!123>"]))
+        self.assertEqual(gmId(["<@!123>"]), 0)
 
     def test_embedutil(self):
         """Test cakebot.EmbedUtil"""

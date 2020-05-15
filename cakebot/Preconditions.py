@@ -16,13 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from typing import List
 
-
-def args_are_valid(params: List[str]) -> bool:
+def args_are_valid(params):
+    # (list) -> bool
     """Checks that the arguments are valid to a certain extent."""
 
-    return bool(
+    return (
         len(params) < 1
         and params is not []
         and params is not [""]

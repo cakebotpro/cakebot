@@ -17,9 +17,7 @@
 """
 
 from random import choice
-from typing import Any, Dict, List
 
-from discord import Message
 from requests import get
 
 from cakebot import EmbedUtil
@@ -42,7 +40,7 @@ def noop():
 
 
 def get_mentioned_id(args):
-    # type: (List[str]) -> int
+    # type: (list) -> int
     """Checks a list of arguments for a valid Discord mention."""
 
     for arg in args:
@@ -60,7 +58,7 @@ def get_mentioned_id(args):
 
 
 def define(args, token):
-    # type: (List[str], str) -> EmbedUtil.Embed
+    # type: (list, str) -> EmbedUtil.Embed
     """Defines a word."""
 
     word = args[0]
@@ -91,9 +89,8 @@ def define(args, token):
     return e
 
 
-def parse_define_json(
-    embed: EmbedUtil.Embed, json: Dict[str, Any]
-) -> EmbedUtil.Embed:
+def parse_define_json(embed, json):
+    # type: (EmbedUtil.Embed, dict) -> EmbedUtil.Embed
     """Parses the `results` of the `define` JSON."""
 
     definitions = json["results"]
@@ -109,8 +106,7 @@ def parse_define_json(
     return e
 
 
-data_template = """\
-***{0}***
+data_template = """***{0}***
 :crown: **Owner:** {1}
 :grinning: **Members:** {2}
 :map: **Region:** {3}
@@ -123,8 +119,8 @@ data_template = """\
 """
 
 
-def handle_common_commands(message, args, cmd):
-    # type: (Message, List[str], str) -> str
+def handle_common_commands(args, cmd):
+    # type: (list, str) -> str
     """Handles certain simple commands."""
 
     if cmd == "pi":
