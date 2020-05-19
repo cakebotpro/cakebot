@@ -106,7 +106,8 @@ def parse_define_json(embed, json):
     return e
 
 
-data_template = """***{0}***
+data_template = """\
+***{0}***
 :crown: **Owner:** {1}
 :grinning: **Members:** {2}
 :map: **Region:** {3}

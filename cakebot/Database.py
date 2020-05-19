@@ -16,32 +16,27 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from sqlalchemy import Column, Integer, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 
-engine = create_engine("sqlite:///cakebot.db")
-Base = declarative_base()
-
-Session = sessionmaker()
-Session.configure(bind=engine)
-
-session = Session()
-
-
-class DiscordUser(Base):  # type: ignore
-    __tablename__ = "players"
-
-    id = Column(Integer, primary_key=True)
-    cookie_count = Column(Integer, default=0)
+class DiscordUser:
+    id: int
+    cookie_count: int
 
     def __repr__(self):
+        # type: () -> str
         return "<DiscordUser {0} {1}>".format(self.id, self.cookie_count)
 
+    @staticmethod
+    def from_json(json):
+        # type: (dict) -> DiscordUser
+        u = DiscordUser()
+        u.id = json["id"]
+        u.cookie_count = json["cookie_count"]
+        return u
 
-def create():
-    """Creates the database."""
-    return Base.metadata.create_all(engine)
+    @staticmethod
+    def create(id):
+        # type: (int) -> DiscordUser
+        return DiscordUser.from_json({"id": id, "cookie_count": 0})
 
 
 def get_user_by_id(id):
@@ -51,18 +46,4 @@ def get_user_by_id(id):
     and creates an entry if they don't exist yet.
     """
 
-    query_result = session.query(DiscordUser).filter_by(id=id).first()
-
-    if query_result is not None:
-        return query_result
-
-    new_query = DiscordUser(id=id)
-    session.add(new_query)
-    commit()
-
-    return new_query
-
-
-def commit():
-    """Commits all changes to the database."""
-    session.commit()
+    return DiscordUser()

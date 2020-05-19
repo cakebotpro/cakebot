@@ -312,14 +312,6 @@ def cli():
 
 
 @cli.command()
-def initdb():
-    """Creates the database."""
-
-    Database.create()
-    click.secho("\nInitialized the database!", fg="green")
-
-
-@cli.command()
 @click.option(
     "--discord-token",
     type=str,
