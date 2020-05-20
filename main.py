@@ -26,7 +26,6 @@ from discord.utils import oauth_url
 from factdata import FactImp
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
-from reverse_geocoder import search
 from slots import result, row
 
 from cakebot import (
@@ -164,6 +163,7 @@ async def on_message(message):
         imp = IssApi.IssLocater()
         lat = imp.lat
         lon = imp.lon
+        from reverse_geocoder import search
         geodata = search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
