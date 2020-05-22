@@ -16,6 +16,9 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from typing import Any
+from json import dumps
+
 
 class DiscordUser:
     id: int
@@ -26,24 +29,30 @@ class DiscordUser:
         return "<DiscordUser {0} {1}>".format(self.id, self.cookie_count)
 
     @staticmethod
-    def from_json(json):
+    def from_json(id, json):
         # type: (dict) -> DiscordUser
         u = DiscordUser()
-        u.id = json["id"]
+        u.id = id
         u.cookie_count = json["cookie_count"]
         return u
 
-    @staticmethod
-    def create(id):
-        # type: (int) -> DiscordUser
-        return DiscordUser.from_json({"id": id, "cookie_count": 0})
 
-
-def get_user_by_id(id):
-    # type: (int) -> DiscordUser
+def get_user_by_id(id, file_man):
+    # type: (int, Any) -> DiscordUser
     """
     Finds a user in the database from their Discord ID,
     and creates an entry if they don't exist yet.
     """
 
-    return DiscordUser()
+    u = None
+    tmp = file_man.load_from_json()
+    for user in tmp["users"]:
+        if user == id:
+            u = user
+
+    if u is None:
+        tmp["users"][id] = {"cookie_count": 0}
+        file_man.write(dumps(tmp))
+        file_man.refresh()
+
+    return DiscordUser.from_json(id, tmp["users"][id])

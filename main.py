@@ -265,18 +265,6 @@ async def on_message(message):
             else:
                 return await s(":x: **You are not authorized to run this!**")
 
-    elif cmd == "admin:reset":
-        if message.author.id in UserUtil.admins():
-            Database.session.delete(
-                Database.get_user_by_id(
-                    TextCommandsUtil.get_mentioned_id(args)
-                )
-            )
-            Database.commit()
-            return await s("Done.")
-        else:
-            return await s(":x: **You are not authorized to run this!**")
-
     elif cmd == "define":
         if wordsapi_token is None:
             return await s(

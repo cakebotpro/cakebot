@@ -77,7 +77,7 @@ def define(args, token):
     try:
         e.add_field(
             name="Syllables",
-            value=", ".join(resp["syllables"]["list"]),
+            value=", ".join(resp.get("syllables", {"list": "unknown"})["list"]),
             inline=True,
         )
     except KeyError:
