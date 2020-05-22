@@ -3,5 +3,6 @@
   "tokens": {
     "discord": ""
   },
-  "status": "Run +help | Edit config.json"
+  "status": "Run +help | Edit config.json",
+  "users": {}
 }

@@ -1,32 +1,31 @@
 """
-    Cakebot - A cake themed Discord bot
-    Copyright (C) 2019-current year  Reece Dunham
+Cakebot - A cake themed Discord bot
+Copyright (C) 2019-current year  Reece Dunham
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from os import getenv
 from sys import exit as _exit
 
-import click
 import discord
 import yappi
+from click import group, option, secho, version_option
 from discord.utils import oauth_url
 from factdata import FactImp
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
-from reverse_geocoder import search
 from slots import result, row
 
 from cakebot import (
@@ -39,21 +38,18 @@ from cakebot import (
     UserUtil,
 )
 
-config = {}
+config = FileManipulator(AbstractFile("config.json"))
+base_conf = {}
+
 if getenv("TEST_ENV") != "yes":
-    config = FileManipulator(AbstractFile("config.json")).load_from_json()
+    try:
+        base_conf = config.load_from_json()
+    except:
+        TextCommandsUtil.noop()
 
-g = None
-try:
-    g = Github(config["tokens"]["github"])
-except (KeyError, TypeError):
-    TextCommandsUtil.noop()
 
-wordsapi_token = None
-try:
-    wordsapi_token = config["tokens"]["wordsapi"]
-except (KeyError, TypeError):
-    TextCommandsUtil.noop()
+g = Github(base_conf.get("tokens", {}).get("github"))
+wordsapi_token = base_conf.get("tokens", {}).get("wordsapi", None)
 
 has_enabled_sentry = getenv("PRODUCTION") is not None
 client = discord.AutoShardedClient()
@@ -61,8 +57,10 @@ client = discord.AutoShardedClient()
 
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord.Game(name=config["status"]))
-    click.secho(
+    await client.change_presence(
+        activity=discord.Game(name=base_conf["status"])
+    )
+    secho(
         "\nReady to roll, I'll see you on Discord: @" + str(client.user),
         fg="green",
     )
@@ -117,7 +115,7 @@ async def on_message(message):
             )
         )
 
-    tcu_result = TextCommandsUtil.handle_common_commands(message, args, cmd)
+    tcu_result = TextCommandsUtil.handle_common_commands(args, cmd)
     if tcu_result != "":
         return await s(tcu_result)
 
@@ -164,6 +162,8 @@ async def on_message(message):
         imp = IssApi.IssLocater()
         lat = imp.lat
         lon = imp.lon
+        from reverse_geocoder import search
+
         geodata = search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
@@ -233,16 +233,16 @@ async def on_message(message):
         userId = TextCommandsUtil.get_mentioned_id(args)
 
         if subcommand in ["balance", "bal"]:
+            count = 0
             if userId == 0:
                 # assume user wants themself
-                user = Database.get_user_by_id(message.author.id)
+                count = Database.get_count(message.author.id, config)
             else:
-                user = Database.get_user_by_id(userId)
+                count = Database.get_count(userId, config)
 
             return await s(
                 embed=EmbedUtil.prep(
-                    title="Cookies",
-                    description=f"User has {user.cookie_count} cookies.",
+                    title="Cookies", description=f"User has {count} cookies.",
                 )
             )
 
@@ -251,32 +251,12 @@ async def on_message(message):
                 return await s(
                     "I don't see who I should give the cookie to. Try mentioning them."
                 )
-            user = Database.get_user_by_id(userId)
 
-            user.cookie_count += 1
-            Database.commit()
+            new_count = Database.add_cookie(userId, config)
+
             return await s(
-                f"Gave <@!{userId}> a cookie. They now have {user.cookie_count} cookies."
+                f"Gave <@!{userId}> a cookie. They now have {new_count} cookies."
             )
-
-        elif subcommand == "admin:set":
-            if message.author.id in UserUtil.admins():
-                Database.get_user_by_id(userId).cookie_count = args[1]
-                return await s("Done.")
-            else:
-                return await s(":x: **You are not authorized to run this!**")
-
-    elif cmd == "admin:reset":
-        if message.author.id in UserUtil.admins():
-            Database.session.delete(
-                Database.get_user_by_id(
-                    TextCommandsUtil.get_mentioned_id(args)
-                )
-            )
-            Database.commit()
-            return await s("Done.")
-        else:
-            return await s(":x: **You are not authorized to run this!**")
 
     elif cmd == "define":
         if wordsapi_token is None:
@@ -304,23 +284,15 @@ async def on_message(message):
             return await s(":x: **You are not authorized to run this!**")
 
 
-@click.group()
-@click.version_option(version="2020.05.08", prog_name="Cakebot")
+@group()
+@version_option(version="2020.05.08", prog_name="Cakebot")
 def cli():
     """The Cakebot command-line-interface."""
     pass
 
 
 @cli.command()
-def initdb():
-    """Creates the database."""
-
-    Database.create()
-    click.secho("\nInitialized the database!", fg="green")
-
-
-@cli.command()
-@click.option(
+@option(
     "--discord-token",
     type=str,
     help="Discord token for the bot to use, defaults to the one from the config.json",
@@ -329,38 +301,34 @@ def initdb():
 def run(discord_token):
     """Runs the bot."""
 
-    click.secho("\nStarting Cakebot...\n", fg="blue", bold=True)
+    secho("\nStarting Cakebot...\n", fg="blue", bold=True)
 
-    click.secho(
-        f"Using discord.py version {discord.__version__}", color="gray"
-    )
+    secho("Using discord.py v" + discord.__version__, color="gray")
 
     if g is None:
-        click.secho(
+        secho(
             "GitHub credentials not found, disabling functionality.",
             fg="white",
         )
     if wordsapi_token is None:
-        click.secho(
+        secho(
             "WordsAPI credentials not found, disabling functionality.",
             fg="white",
         )
 
     if has_enabled_sentry:
         from discord_sentry_reporting import use_sentry
-        from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
         use_sentry(
             client,
             dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
             debug=True,
-            integrations=[SqlalchemyIntegration()],
         )
 
     if discord_token != "":
         client.run(discord_token)
     else:
-        client.run(config["tokens"]["discord"])
+        client.run(base_conf["tokens"]["discord"])
 
 
 @cli.command()

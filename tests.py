@@ -1,19 +1,19 @@
 """
-    Cakebot - A cake themed Discord bot
-    Copyright (C) 2019-current year  Reece Dunham
+Cakebot - A cake themed Discord bot
+Copyright (C) 2019-current year  Reece Dunham
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 
@@ -68,48 +68,13 @@ class Tests(unittest.TestCase):
             EmbedUtil.prep(title="a", description="b"), EmbedUtil.Embed
         )
 
-    @unittest.skipUnless(
-        os.getenv("CIRRUS_CI") is not None, "not in Cirrus CI"
-    )
-    def test_database(self):
-        """Test cakebot.Database"""
-
-        from cakebot import Database
-
-        Database.create()
-        self.assertTrue(os.path.exists("cakebot.db"))
-        self.assertIsNotNone(Database.DiscordUser)
-
-        # it shouldn't have this entry yet
-        self.assertEqual(
-            Database.session.query(Database.DiscordUser)
-            .filter_by(id=5)
-            .all(),
-            [],
-        )
-
-        # create it
-        self.assertIsNotNone(Database.get_user_by_id(5))
-
-        # now check again
-        self.assertNotEqual(
-            Database.session.query(Database.DiscordUser)
-            .filter_by(id=5)
-            .all(),
-            [],
-        )
-        # and make sure its not None
-        self.assertIsNotNone(
-            Database.session.query(Database.DiscordUser).filter_by(id=5).all()
-        )
-
     def test_pi_command(self):
         """Test `+pi`."""
 
         from cakebot.TextCommandsUtil import handle_common_commands
 
         self.assertEqual(
-            handle_common_commands(None, [], "pi"),
+            handle_common_commands([], "pi"),
             "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709",
         )
 
@@ -120,7 +85,6 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(
             handle_common_commands(
-                None,
                 ["hello", "world", "this", "should", "be", "said", "yay"],
                 "say",
             ),
@@ -133,7 +97,7 @@ class Tests(unittest.TestCase):
         from cakebot.TextCommandsUtil import handle_common_commands
 
         self.assertEqual(
-            handle_common_commands(None, ["I", "love", "dogs"], "clapify"),
+            handle_common_commands(["I", "love", "dogs"], "clapify"),
             "I :clap: love :clap: dogs",
         )
 
@@ -145,7 +109,7 @@ class Tests(unittest.TestCase):
         i = 0
         while i < 30:
             self.assertIn(
-                handle_common_commands(None, [], "coinflip"),
+                handle_common_commands([], "coinflip"),
                 ["**Heads**.", "**Tails**."],
             )
             i = i + 1
@@ -159,7 +123,7 @@ class Tests(unittest.TestCase):
         while i < 30:
             self.assertIsInstance(
                 handle_common_commands(
-                    None, ["why", "is", "earth", "not", "flat?"], "8"
+                    ["why", "is", "earth", "not", "flat?"], "8"
                 ),
                 str,
             )
@@ -170,7 +134,7 @@ class Tests(unittest.TestCase):
 
         from cakebot.TextCommandsUtil import handle_common_commands
 
-        self.assertIsInstance(handle_common_commands(None, [], "joke"), str)
+        self.assertIsInstance(handle_common_commands([], "joke"), str)
 
     def test_iss_api(self):
         """Test the ISS API."""

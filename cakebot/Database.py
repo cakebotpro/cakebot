@@ -1,68 +1,52 @@
 """
-    Cakebot - A cake themed Discord bot
-    Copyright (C) 2019-current year  Reece Dunham
+Cakebot - A cake themed Discord bot
+Copyright (C) 2019-current year  Reece Dunham
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from sqlalchemy import Column, Integer, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-engine = create_engine("sqlite:///cakebot.db")
-Base = declarative_base()
-
-Session = sessionmaker()
-Session.configure(bind=engine)
-
-session = Session()
+from json import dumps
+from typing import Any
 
 
-class DiscordUser(Base):  # type: ignore
-    __tablename__ = "players"
-
-    id = Column(Integer, primary_key=True)
-    cookie_count = Column(Integer, default=0)
-
-    def __repr__(self):
-        return "<DiscordUser {0} {1}>".format(self.id, self.cookie_count)
-
-
-def create():
-    """Creates the database."""
-    return Base.metadata.create_all(engine)
-
-
-def get_user_by_id(id):
-    # type: (int) -> DiscordUser
+def add_cookie(id, file_man):
+    # type: (int, Any) -> int
     """
-    Finds a user in the database from their Discord ID,
-    and creates an entry if they don't exist yet.
+    Gives a users a cookie count and returns the new number.
     """
 
-    query_result = session.query(DiscordUser).filter_by(id=id).first()
+    u = None
+    tmp = file_man.load_from_json()
+    for user in tmp["users"]:
+        if user == id:
+            u = user
 
-    if query_result is not None:
-        return query_result
+    if u is None:
+        tmp["users"][id] = {"cookie_count": 1}
+        file_man.write_to_file(dumps(tmp))
+        file_man.refresh()
+        return 1
 
-    new_query = DiscordUser(id=id)
-    session.add(new_query)
-    commit()
+    tmp["users"][id]["cookie_count"] += 1
+    file_man.write_to_file(dumps(tmp))
+    file_man.refresh()
+    return file_man.load_from_json()["users"][id]["cookie_count"]
 
-    return new_query
 
+def get_count(id, file_man):
+    # type: (int, Any) -> int
 
-def commit():
-    """Commits all changes to the database."""
-    session.commit()
+    return file_man.load_from_json()["users"].get(id, {"cookie_count": 0})[
+        "cookie_count"
+    ]
