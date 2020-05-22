@@ -19,9 +19,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from os import getenv
 from sys import exit as _exit
 
-import click
 import discord
 import yappi
+from click import group, option, secho, version_option
 from discord.utils import oauth_url
 from factdata import FactImp
 from filehandlers import AbstractFile, FileManipulator
@@ -38,30 +38,28 @@ from cakebot import (
     UserUtil,
 )
 
-config = {}
+config = FileManipulator(AbstractFile("config.json"))
+base_conf = {}
+
 if getenv("TEST_ENV") != "yes":
-    config = FileManipulator(AbstractFile("config.json")).load_from_json()
+    try:
+        base_conf = config.load_from_json()
+    except:
+        TextCommandsUtil.noop()
 
-g = None
-try:
-    g = Github(config["tokens"]["github"])
-except (KeyError, TypeError):
-    TextCommandsUtil.noop()
 
-wordsapi_token = None
-try:
-    wordsapi_token = config["tokens"]["wordsapi"]
-except (KeyError, TypeError):
-    TextCommandsUtil.noop()
-
+g = Github(base_conf.get("tokens", {}).get("github"))
+wordsapi_token = base_conf.get("tokens", {}).get("wordsapi", None)
 has_enabled_sentry = getenv("PRODUCTION") is not None
 client = discord.AutoShardedClient()
 
 
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord.Game(name=config["status"]))
-    click.secho(
+    await client.change_presence(
+        activity=discord.Game(name=base_conf["status"])
+    )
+    secho(
         "\nReady to roll, I'll see you on Discord: @" + str(client.user),
         fg="green",
     )
@@ -164,6 +162,7 @@ async def on_message(message):
         lat = imp.lat
         lon = imp.lon
         from reverse_geocoder import search
+
         geodata = search((lat, lon))
         location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
 
@@ -304,15 +303,15 @@ async def on_message(message):
             return await s(":x: **You are not authorized to run this!**")
 
 
-@click.group()
-@click.version_option(version="2020.05.08", prog_name="Cakebot")
+@group()
+@version_option(version="2020.05.08", prog_name="Cakebot")
 def cli():
     """The Cakebot command-line-interface."""
     pass
 
 
 @cli.command()
-@click.option(
+@option(
     "--discord-token",
     type=str,
     help="Discord token for the bot to use, defaults to the one from the config.json",
@@ -321,38 +320,34 @@ def cli():
 def run(discord_token):
     """Runs the bot."""
 
-    click.secho("\nStarting Cakebot...\n", fg="blue", bold=True)
+    secho("\nStarting Cakebot...\n", fg="blue", bold=True)
 
-    click.secho(
-        f"Using discord.py version {discord.__version__}", color="gray"
-    )
+    secho("Using discord.py v" + discord.__version__, color="gray")
 
     if g is None:
-        click.secho(
+        secho(
             "GitHub credentials not found, disabling functionality.",
             fg="white",
         )
     if wordsapi_token is None:
-        click.secho(
+        secho(
             "WordsAPI credentials not found, disabling functionality.",
             fg="white",
         )
 
     if has_enabled_sentry:
         from discord_sentry_reporting import use_sentry
-        from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
         use_sentry(
             client,
             dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
             debug=True,
-            integrations=[SqlalchemyIntegration()],
         )
 
     if discord_token != "":
         client.run(discord_token)
     else:
-        client.run(config["tokens"]["discord"])
+        client.run(base_conf["tokens"]["discord"])
 
 
 @cli.command()
