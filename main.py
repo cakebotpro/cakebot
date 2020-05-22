@@ -232,16 +232,17 @@ async def on_message(message):
         userId = TextCommandsUtil.get_mentioned_id(args)
 
         if subcommand in ["balance", "bal"]:
+            count = 0
             if userId == 0:
                 # assume user wants themself
-                user = Database.get_user_by_id(message.author.id)
+                count = Database.get_count(message.author.id, config)
             else:
-                user = Database.get_user_by_id(userId)
+                count = Database.get_count(userId, config)
 
             return await s(
                 embed=EmbedUtil.prep(
                     title="Cookies",
-                    description=f"User has {user.cookie_count} cookies.",
+                    description=f"User has {count} cookies.",
                 )
             )
 
@@ -250,20 +251,12 @@ async def on_message(message):
                 return await s(
                     "I don't see who I should give the cookie to. Try mentioning them."
                 )
-            user = Database.get_user_by_id(userId)
 
-            user.cookie_count += 1
-            Database.commit()
+            new_count = Database.add_cookie(userId, config)
+
             return await s(
-                f"Gave <@!{userId}> a cookie. They now have {user.cookie_count} cookies."
+                f"Gave <@!{userId}> a cookie. They now have {new_count} cookies."
             )
-
-        elif subcommand == "admin:set":
-            if message.author.id in UserUtil.admins():
-                Database.get_user_by_id(userId).cookie_count = args[1]
-                return await s("Done.")
-            else:
-                return await s(":x: **You are not authorized to run this!**")
 
     elif cmd == "define":
         if wordsapi_token is None:

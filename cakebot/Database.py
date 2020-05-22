@@ -37,11 +37,10 @@ class DiscordUser:
         return u
 
 
-def get_user_by_id(id, file_man):
-    # type: (int, Any) -> DiscordUser
+def add_cookie(id, file_man):
+    # type: (int, Any) -> int
     """
-    Finds a user in the database from their Discord ID,
-    and creates an entry if they don't exist yet.
+    Gives a users a cookie count and returns the new number.
     """
 
     u = None
@@ -51,8 +50,15 @@ def get_user_by_id(id, file_man):
             u = user
 
     if u is None:
-        tmp["users"][id] = {"cookie_count": 0}
+        tmp["users"][id] = {"cookie_count": 1}
         file_man.write(dumps(tmp))
         file_man.refresh()
+        return 1
 
-    return DiscordUser.from_json(id, tmp["users"][id])
+    return u["cookie_count"]
+
+
+def get_count(id, file_man):
+    # type: (int, Any) -> int
+
+    return file_man.load_from_json()["users"].get(id, {"cookie_count": 0})["cookie_count"]
