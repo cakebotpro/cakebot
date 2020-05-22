@@ -78,7 +78,7 @@ def define(args, token):
         e.add_field(
             name="Syllables",
             value=", ".join(
-                resp.get("syllables", {"list": "unknown"})["list"]
+                resp.get("syllables", {"list": ["unknown"]})["list"]
             ),
             inline=True,
         )
