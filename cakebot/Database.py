@@ -16,8 +16,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from typing import Any
 from json import dumps
+from typing import Any
 
 
 class DiscordUser:
@@ -61,4 +61,6 @@ def add_cookie(id, file_man):
 def get_count(id, file_man):
     # type: (int, Any) -> int
 
-    return file_man.load_from_json()["users"].get(id, {"cookie_count": 0})["cookie_count"]
+    return file_man.load_from_json()["users"].get(id, {"cookie_count": 0})[
+        "cookie_count"
+    ]
