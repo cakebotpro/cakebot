@@ -38,7 +38,10 @@ def add_cookie(id, file_man):
         file_man.refresh()
         return 1
 
-    return u["cookie_count"]
+    tmp["users"][id]["cookie_count"] += 1
+    file_man.write(dumps(tmp))
+    file_man.refresh()
+    return tmp["users"][id]["cookie_count"]
 
 
 def get_count(id, file_man):
