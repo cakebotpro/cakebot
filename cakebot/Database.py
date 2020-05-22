@@ -34,14 +34,14 @@ def add_cookie(id, file_man):
 
     if u is None:
         tmp["users"][id] = {"cookie_count": 1}
-        file_man.write(dumps(tmp))
+        file_man.write_to_file(dumps(tmp))
         file_man.refresh()
         return 1
 
     tmp["users"][id]["cookie_count"] += 1
-    file_man.write(dumps(tmp))
+    file_man.write_to_file(dumps(tmp))
     file_man.refresh()
-    return tmp["users"][id]["cookie_count"]
+    return file_man.load_from_json()["users"][id]["cookie_count"]
 
 
 def get_count(id, file_man):
