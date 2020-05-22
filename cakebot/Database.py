@@ -20,23 +20,6 @@ from json import dumps
 from typing import Any
 
 
-class DiscordUser:
-    id: int
-    cookie_count: int
-
-    def __repr__(self):
-        # type: () -> str
-        return "<DiscordUser {0} {1}>".format(self.id, self.cookie_count)
-
-    @staticmethod
-    def from_json(id, json):
-        # type: (dict) -> DiscordUser
-        u = DiscordUser()
-        u.id = id
-        u.cookie_count = json["cookie_count"]
-        return u
-
-
 def add_cookie(id, file_man):
     # type: (int, Any) -> int
     """

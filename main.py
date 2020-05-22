@@ -50,6 +50,7 @@ if getenv("TEST_ENV") != "yes":
 
 g = Github(base_conf.get("tokens", {}).get("github"))
 wordsapi_token = base_conf.get("tokens", {}).get("wordsapi", None)
+
 has_enabled_sentry = getenv("PRODUCTION") is not None
 client = discord.AutoShardedClient()
 
