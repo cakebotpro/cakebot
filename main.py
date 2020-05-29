@@ -331,14 +331,5 @@ def run(discord_token):
         client.run(base_conf["tokens"]["discord"])
 
 
-@cli.command()
-def shell():
-    """Starts the development shell."""
-
-    from ptpython.repl import embed
-
-    embed(globals(), locals())
-
-
 if __name__ == "__main__":
     cli()
