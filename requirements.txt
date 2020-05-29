@@ -21,8 +21,5 @@ area4>=3.0.0
 reverse_geocoder==1.5.1
 PyGithub==1.51
 
-# extensions for better support
-cchardet==2.1.6
-
 # tests
 unittest-xml-reporting==3.0.2
