@@ -51,7 +51,6 @@ if getenv("TEST_ENV") != "yes":
 g = Github(base_conf.get("tokens", {}).get("github"))
 wordsapi_token = base_conf.get("tokens", {}).get("wordsapi", None)
 
-has_enabled_sentry = getenv("PRODUCTION") is not None
 client = discord.AutoShardedClient()
 
 
@@ -74,16 +73,6 @@ async def on_message(message):
 
     if not message.content.startswith(Bot_Prefix):
         return
-
-    if has_enabled_sentry:
-        from sentry_sdk import configure_scope
-
-        with configure_scope() as scope:
-            # show username of discord user in sentry
-            scope.user = {
-                "id": message.author.id,
-                "username": str(message.author),
-            }
 
     # Split input
     args = message.content[len(Bot_Prefix) :].split()
@@ -314,15 +303,6 @@ def run(discord_token):
         secho(
             "WordsAPI credentials not found, disabling functionality.",
             fg="white",
-        )
-
-    if has_enabled_sentry:
-        from discord_sentry_reporting import use_sentry
-
-        use_sentry(
-            client,
-            dsn="https://e735b10eff2046538ee5a4430c5d2aca@sentry.io/1881155",
-            debug=True,
         )
 
     if discord_token != "":
