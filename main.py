@@ -274,7 +274,7 @@ async def on_message(message):
 
 
 @group()
-@version_option(version="2020.05.08", prog_name="Cakebot")
+@version_option(version="2020.06.16", prog_name="Cakebot")
 def cli():
     """The Cakebot command-line-interface."""
     pass
