@@ -1,9 +1,7 @@
 task:
   container:
     image: python:latest
-  python_modules_cache:
-    folder: /usr/local/lib/python3.8/site-packages
-    populate_script: make deps
+  python_modules_populate_script: make deps
   matrix:
     - name: Unit Tests
       script: make test-and-report
