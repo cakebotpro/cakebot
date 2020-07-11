@@ -4,7 +4,7 @@
 black==19.10b0
 mypy==0.782
 flake8==3.8.3
-isort==5.0.7
+isort==5.0.9
 yappi==1.2.5
 
 # primary dependencies
