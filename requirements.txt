@@ -8,7 +8,7 @@ isort==5.3.2
 yappi==1.2.5
 
 # primary dependencies
-discord.py==1.4.0
+discord.py==1.4.1
 
 # data libraries
 filehandlers==3.1.0
