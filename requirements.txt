@@ -19,4 +19,4 @@ reverse_geocoder==1.5.1
 PyGithub<=1.47
 
 # tests
-unittest-xml-reporting==3.0.3
+unittest-xml-reporting==3.0.4
