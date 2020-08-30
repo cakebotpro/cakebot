@@ -54,7 +54,8 @@ class Tests(unittest.TestCase):
             123456789,
         )
         self.assertEqual(
-            gmId(["please", "find", "the", "id", "of", "nobody"]), 0,
+            gmId(["please", "find", "the", "id", "of", "nobody"]),
+            0,
         )
         self.assertEqual(gmId(["<@!123>"]), 0)
 
