@@ -66,26 +66,18 @@ def define(args, token):
         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
         "x-rapidapi-key": token,
     }
-    definition = get(
-        "https://wordsapiv1.p.rapidapi.com/words/" + word, headers=headers
-    )
+    definition = get("https://wordsapiv1.p.rapidapi.com/words/" + word, headers=headers)
     resp = definition.json()
 
-    e = EmbedUtil.prep(
-        title=word.capitalize(), description="Data for this word:"
-    )
+    e = EmbedUtil.prep(title=word.capitalize(), description="Data for this word:")
     try:
         e.add_field(
             name="Syllables",
-            value=", ".join(
-                resp.get("syllables", {"list": ["unknown"]})["list"]
-            ),
+            value=", ".join(resp.get("syllables", {"list": ["unknown"]})["list"]),
             inline=True,
         )
     except KeyError:
-        e.add_field(
-            name="Error", value="I don't think I know this word!", inline=True
-        )
+        e.add_field(name="Error", value="I don't think I know this word!", inline=True)
 
     e = parse_define_json(e, resp)
     return e

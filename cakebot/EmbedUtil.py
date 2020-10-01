@@ -25,9 +25,7 @@ def prep(title, description):
     # type: (str, str) -> Embed
     """Create a basic embed based on our template."""
 
-    embed = Embed(
-        title=title, description=description, color=ColourUtil.random()
-    )
+    embed = Embed(title=title, description=description, color=ColourUtil.random())
     embed.set_footer(
         text="Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club/"
     )
