@@ -68,6 +68,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     Bot_Prefix = "+"
+
     if getenv("PRODUCTION") is None:
         Bot_Prefix = "-"
 
@@ -87,16 +88,18 @@ async def on_message(message):
 
     s = message.channel.send
 
-    if (
-        cmd == "8"
-        or cmd == "report"
-        or cmd == "define"
-        or cmd == "stars"
-        or cmd == "homepage"
-        or cmd == "clapify"
-        or cmd == "cookie"
-        or cmd == "say"
-    ) and Preconditions.args_are_valid(args):
+    if cmd in {
+
+        "8",
+        "report",
+        "define",
+        "stars",
+        "homepage",
+        "clapify",
+        "cookie",
+        "say"
+        
+    } and Preconditions.args_are_valid(args):
         return await s(
             embed=EmbedUtil.prep(
                 "That command expected an argument (or arguments), but you didn't give it any!",
@@ -129,7 +132,10 @@ async def on_message(message):
 
     elif cmd == "info":
         return await s(
-            TextCommandsUtil.data_template.format(
+            embed = EmbedUtil.prep(
+                "Server Info", 
+                
+                TextCommandsUtil.data_template.format(
                 message.guild.name,
                 str(message.guild.owner),
                 len(message.guild.members),
@@ -140,6 +146,7 @@ async def on_message(message):
                 str(message.guild.created_at),
                 str(message.guild.large),
                 str(message.guild.mfa_level == 1),
+            )
             )
         )
 
