@@ -67,16 +67,16 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    Bot_Prefix = "+"
+    BOT_PREFIX = "+"
 
     if getenv("PRODUCTION") is None:
-        Bot_Prefix = "-"
+        BOT_PREFIX = "-"
 
-    if not message.content.startswith(Bot_Prefix):
+    if not message.content.startswith(BOT_PREFIX):
         return
 
     # Split input
-    args = message.content[len(Bot_Prefix) :].split()
+    args = message.content[len(BOT_PREFIX) :].split()
 
     if len(args) == 0:
         return
@@ -98,7 +98,7 @@ async def on_message(message):
         "clapify",
         "cookie",
         "say"
-        
+
     } and Preconditions.args_are_valid(args):
         return await s(
             embed=EmbedUtil.prep(
@@ -134,7 +134,7 @@ async def on_message(message):
         return await s(
             embed = EmbedUtil.prep(
                 "Server Info", 
-                
+
                 TextCommandsUtil.data_template.format(
                 message.guild.name,
                 str(message.guild.owner),
