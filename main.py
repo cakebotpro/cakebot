@@ -56,9 +56,7 @@ client = discord.AutoShardedClient()
 
 @client.event
 async def on_ready():
-    await client.change_presence(
-        activity=discord.Game(name=base_conf["status"])
-    )
+    await client.change_presence(activity=discord.Game(name=base_conf["status"]))
     secho(
         "\nReady to roll, I'll see you on Discord: @" + str(client.user),
         fg="green",
@@ -89,7 +87,6 @@ async def on_message(message):
     s = message.channel.send
 
     if cmd in {
-
         "8",
         "report",
         "define",
@@ -97,8 +94,7 @@ async def on_message(message):
         "homepage",
         "clapify",
         "cookie",
-        "say"
-
+        "say",
     } and Preconditions.args_are_valid(args):
         return await s(
             embed=EmbedUtil.prep(
@@ -134,7 +130,6 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 "Server Info",
-
                 TextCommandsUtil.data_template.format(
                     message.guild.name,
                     str(message.guild.owner),
@@ -146,7 +141,7 @@ async def on_message(message):
                     str(message.guild.created_at),
                     str(message.guild.large),
                     str(message.guild.mfa_level == 1),
-                )
+                ),
             )
         )
 
@@ -168,9 +163,7 @@ async def on_message(message):
             embed=EmbedUtil.prep(
                 "International Space Station", "Where it is right now!"
             )
-            .add_field(
-                name="Location above Earth", value=str(location), inline=False
-            )
+            .add_field(name="Location above Earth", value=str(location), inline=False)
             .add_field(name="Latitude", value=str(lat), inline=False)
             .add_field(name="Longitude", value=str(lon), inline=False)
         )
@@ -205,9 +198,7 @@ async def on_message(message):
                 f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars."
             )
         except:
-            return await s(
-                "Failed to get count. Is the repository valid and public?"
-            )
+            return await s("Failed to get count. Is the repository valid and public?")
 
     elif cmd == "homepage":
         try:
@@ -264,9 +255,7 @@ async def on_message(message):
 
     elif cmd == "start-profiler":
         if message.author.id in UserUtil.admins():
-            await s(
-                "Started the profiler. Once you are done, run stop-profiler."
-            )
+            await s("Started the profiler. Once you are done, run stop-profiler.")
             yappi.set_clock_type("wall")
             yappi.start()
         else:
