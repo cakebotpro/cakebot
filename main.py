@@ -86,16 +86,20 @@ async def on_message(message):
 
     s = message.channel.send
 
-    if cmd in {
-        "8",
-        "report",
-        "define",
-        "stars",
-        "homepage",
-        "clapify",
-        "cookie",
-        "say",
-    } and Preconditions.args_are_valid(args):
+    if (
+        cmd
+        in {
+            "8",
+            "report",
+            "define",
+            "stars",
+            "homepage",
+            "clapify",
+            "cookie",
+            "say",
+        }
+        and Preconditions.args_are_valid(args)
+    ):
         return await s(
             embed=EmbedUtil.prep(
                 "That command expected an argument (or arguments), but you didn't give it any!",
