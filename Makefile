@@ -7,7 +7,6 @@ test-and-report:
 .PHONY: test-and-report
 
 format:
-	python3 -m isort -rc .
 	python3 -m black --line-length 78 *.py
 	python3 -m black --line-length 78 cakebot/*.py
 .PHONY: format
