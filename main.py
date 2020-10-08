@@ -283,7 +283,7 @@ async def on_message(message):
 
 
 @group()
-@version_option(version="2020.06.16", prog_name="Cakebot")
+@version_option(version="2020.10.08", prog_name="Cakebot")
 def cli():
     """The Cakebot command-line-interface."""
     pass
@@ -299,7 +299,7 @@ def cli():
 def run(discord_token):
     """Runs the bot."""
 
-    secho("\nStarting Cakebot...\n", fg="blue", bold=True)
+    secho("Starting Cakebot...\n", fg="blue", bold=True)
 
     secho("Using discord.py v" + discord.__version__, color="gray")
 
