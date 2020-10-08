@@ -1,6 +1,6 @@
 task:
   container:
-    image: python:latest
+    image: python:3.8
   python_modules_populate_script: make deps
   matrix:
     - name: Unit Tests
@@ -12,4 +12,3 @@ task:
           type: text/xml
     - name: Static Analysis
       script: make lint
-
