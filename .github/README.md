@@ -4,7 +4,7 @@ A brand new Discord bot that is under development.
 
 ## Contributing
 
-See [contributing](https://github.com/RDIL/cakebot/blob/master/CONTRIBUTING.md)
+See [contributing](https://cakebot.club/docs/contributing/development/)
 
 ## Help Us Out
 
