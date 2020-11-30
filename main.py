@@ -36,6 +36,7 @@ from cakebot import (
     Preconditions,
     TextCommandsUtil,
     UserUtil,
+    ExtensionLoader,
 )
 
 config = FileManipulator(AbstractFile("config.json"))
@@ -56,6 +57,7 @@ client = discord.AutoShardedClient()
 
 @client.event
 async def on_ready():
+    ExtensionLoader.bootstrap(client)
     await client.change_presence(
         activity=discord.Game(name=base_conf["status"])
     )
