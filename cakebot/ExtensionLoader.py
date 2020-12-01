@@ -20,22 +20,40 @@ from os import listdir
 from discord import AutoShardedClient
 
 
-def find_extensions() -> list:
-    files = listdir("extensions")
-    extensions = []
+class ExtensionLoader:
+    extensions: list
 
-    for extension in files:
-        if extension.endswith(".py"):
-            extensions.append(extension)
+    def __init__(self):
+        self.extensions = []
 
-    return extensions
+    def find_extensions(self) -> list:
+        files = listdir("extensions")
+        exts = []
 
+        for extension in files:
+            if extension.endswith(".py"):
+                exts.append(extension)
 
-def bootstrap(bot: AutoShardedClient):
-    try:
-        for e in find_extensions():
-            inst = __import__("extensions." + e)
-            inst.init(bot)
-            print("Loaded extension " + e)
-    except Exception as exc:
-        print("Extension loading error: " + exc.__str__())
+        return exts
+
+    def bootstrap(self, bot: AutoShardedClient):
+        try:
+            for e in self.find_extensions():
+                inst = __import__("extensions." + e)
+                inst.init(bot)
+                print("Loaded extension " + e)
+                self.extensions.append(e)
+        except Exception as exc:
+            print("Extension loading error: " + exc.__str__())
+
+    async def on_message(self, message):
+        for e in self.extensions:
+            await e.on_message(message)
+
+    async def on_command(self, command, args, message):
+        for e in self.extensions:
+            await e.on_command(command, args, message)
+
+    async def on_message_delete(self, message):
+        for e in self.extensions:
+            await e.on_message_delete(message)

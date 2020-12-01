@@ -54,10 +54,17 @@ wordsapi_token = base_conf.get("tokens", {}).get("wordsapi", None)
 
 client = discord.AutoShardedClient()
 
+extension_loader = ExtensionLoader.ExtensionLoader()
+
+
+@client.event
+async def on_message_deleted(message):
+    await extension_loader.on_message_delete(message)
+
 
 @client.event
 async def on_ready():
-    ExtensionLoader.bootstrap(client)
+    extension_loader.bootstrap(client)
     await client.change_presence(
         activity=discord.Game(name=base_conf["status"])
     )
@@ -69,6 +76,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    await extension_loader.on_message(message)
+
     BOT_PREFIX = "+"
 
     if getenv("PRODUCTION") is None:
@@ -87,6 +96,8 @@ async def on_message(message):
 
     # the arg array ex. ["hello", "world"]
     args = args[1:]
+
+    await extension_loader.on_command(cmd, args, message)
 
     s = message.channel.send
 
