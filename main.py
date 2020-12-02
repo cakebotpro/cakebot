@@ -36,7 +36,9 @@ from cakebot import (
     Preconditions,
     TextCommandsUtil,
     UserUtil,
-    ExtensionLoader,
+    # ExtensionLoader,
+    Count,
+    Arrests,
 )
 
 config = FileManipulator(AbstractFile("config.json"))
@@ -52,19 +54,23 @@ if getenv("TEST_ENV") != "yes":
 g = Github(base_conf.get("tokens", {}).get("github"))
 wordsapi_token = base_conf.get("tokens", {}).get("wordsapi", None)
 
-client = discord.AutoShardedClient()
+intents = discord.Intents.default()
+intents.members = True
+client = discord.AutoShardedClient(intents=intents)
 
-extension_loader = ExtensionLoader.ExtensionLoader()
+# extension_loader = ExtensionLoader.ExtensionLoader()
+# todo: fix this
 
 
 @client.event
 async def on_message_deleted(message):
-    await extension_loader.on_message_delete(message)
+    # await extension_loader.on_message_delete(message)
+    await Count.on_message_deleted(message)
 
 
 @client.event
 async def on_ready():
-    extension_loader.bootstrap(client)
+    # extension_loader.bootstrap(client)
     await client.change_presence(
         activity=discord.Game(name=base_conf["status"])
     )
@@ -76,7 +82,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    await extension_loader.on_message(message)
+    await Count.on_message(message)
 
     BOT_PREFIX = "+"
 
@@ -97,7 +103,8 @@ async def on_message(message):
     # the arg array ex. ["hello", "world"]
     args = args[1:]
 
-    await extension_loader.on_command(cmd, args, message)
+    # await extension_loader.on_command(cmd, args, message)
+    await Arrests.on_command(cmd, args, message)
 
     s = message.channel.send
 
