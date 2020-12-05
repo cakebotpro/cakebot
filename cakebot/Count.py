@@ -35,7 +35,9 @@ def set(i):
 
 async def on_message_deleted(message):
     if message.channel.id == 688701770284924932 and not message.author.bot:
-        await message.channel.send("Message deleted. The last number was " + str(get()))
+        await message.channel.send(
+            "Message deleted. The last number was " + str(get())
+        )
 
 
 async def on_message(message):

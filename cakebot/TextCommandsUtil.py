@@ -45,7 +45,9 @@ def get_mentioned_id(args):
 
     for arg in args:
         base = arg
-        if (arg.startswith("<@!") or arg.startswith("<@")) and arg.endswith(">"):
+        if (arg.startswith("<@!") or arg.startswith("<@")) and arg.endswith(
+            ">"
+        ):
             # strip out the divider chars
             base = base.replace("<@", "")
             base = base.replace("!", "")

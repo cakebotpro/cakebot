@@ -108,6 +108,9 @@ async def on_message(message):
 
     s = message.channel.send
 
+    if message.author.id in [649431206881918979, 440269487321776133]:
+        return await s("**You have been banned from using the bot.**")
+
     if (
         cmd
         in {
