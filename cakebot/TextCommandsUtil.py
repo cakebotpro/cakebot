@@ -16,11 +16,11 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import yappi
 from random import choice
-
 from requests import get
-
-from cakebot import EmbedUtil
+from cakebot import EmbedUtil, UserUtil
+from discord import Message
 
 
 def common(name):
@@ -111,7 +111,7 @@ def parse_define_json(embed, json):
     return e
 
 
-data_template = """\
+make_server_info = """\
 ***{0}***
 :crown: **Owner:** {1}
 :grinning: **Members:** {2}
@@ -122,11 +122,11 @@ data_template = """\
 :timer: **Created At:** {7}
 :chart_with_upwards_trend: **More Than 250 Members:** {8}
 :lock: **Admins Need 2-Factor Auth**: {9}
-"""
+""".format
 
 
-def handle_common_commands(args, cmd):
-    # type: (list, str) -> str
+def handle_common_commands(args, cmd, message):
+    # type: (list, str, Message) -> str
     """Handles certain simple commands."""
 
     if cmd == "pi":
@@ -146,5 +146,21 @@ def handle_common_commands(args, cmd):
 
     elif cmd == "joke":
         return common("jokes")
+
+    elif cmd == "start-profiler":
+        if message.author.id in UserUtil.admins():
+            yappi.set_clock_type("wall")
+            yappi.start()
+            return "Started the profiler. Once you are done, run stop-profiler."
+        else:
+            return ":x: **You are not authorized to run this!**"
+
+    elif cmd == "stop-profiler":
+        if message.author.id in UserUtil.admins():
+            yappi.stop()
+            yappi.get_func_stats().print_all(open("profile.txt", "w"))
+            return "Saved profiler results to `profile.txt`."
+        else:
+            return ":x: **You are not authorized to run this!**"
 
     return ""

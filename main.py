@@ -20,7 +20,6 @@ from os import getenv
 from sys import exit as _exit
 
 import discord
-import yappi
 from click import group, option, secho, version_option
 from discord.utils import oauth_url
 from factdata import FactImp
@@ -36,9 +35,8 @@ from cakebot import (
     Preconditions,
     TextCommandsUtil,
     UserUtil,
-    # ExtensionLoader,
     Count,
-    Arrests,
+    PyramidServer,
 )
 
 config = FileManipulator(AbstractFile("config.json"))
@@ -58,19 +56,14 @@ intents = discord.Intents.default()
 intents.members = True
 client = discord.AutoShardedClient(intents=intents)
 
-# extension_loader = ExtensionLoader.ExtensionLoader()
-# todo: fix this
-
 
 @client.event
 async def on_message_deleted(message):
-    # await extension_loader.on_message_delete(message)
     await Count.on_message_deleted(message)
 
 
 @client.event
 async def on_ready():
-    # extension_loader.bootstrap(client)
     await client.change_presence(
         activity=discord.Game(name=base_conf["status"])
     )
@@ -103,8 +96,7 @@ async def on_message(message):
     # the arg array ex. ["hello", "world"]
     args = args[1:]
 
-    # await extension_loader.on_command(cmd, args, message)
-    await Arrests.on_command(cmd, args, message)
+    await PyramidServer.on_command(cmd, args, message)
 
     s = message.channel.send
 
@@ -122,6 +114,9 @@ async def on_message(message):
             "clapify",
             "cookie",
             "say",
+            # these are for custom servers only:
+            "arrest",
+            "pardon",
         }
         and Preconditions.args_are_valid(args)
     ):
@@ -132,15 +127,15 @@ async def on_message(message):
             )
         )
 
-    tcu_result = TextCommandsUtil.handle_common_commands(args, cmd)
+    tcu_result = TextCommandsUtil.handle_common_commands(args, cmd, message)
     if tcu_result != "":
         return await s(tcu_result)
 
     if cmd == "help":
         return await s(
             embed=EmbedUtil.prep(
-                title="Help",
-                description="You can check out [this page of our website](https://cakebot.club/docs/commands/) for a full command list!",
+                "Help",
+                "You can check out [this page of our website](https://cakebot.club/docs/commands/) for a full command list!",
             )
         )
 
@@ -159,7 +154,7 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 "Server Info",
-                TextCommandsUtil.data_template.format(
+                TextCommandsUtil.make_server_info(
                     message.guild.name,
                     str(message.guild.owner),
                     len(message.guild.members),
@@ -285,24 +280,6 @@ async def on_message(message):
                 "This command is disabled due to a configuration error on my host's end - didn't find a WordsAPI token in the config!"
             )
         return await s(embed=TextCommandsUtil.define(args, wordsapi_token))
-
-    elif cmd == "start-profiler":
-        if message.author.id in UserUtil.admins():
-            await s(
-                "Started the profiler. Once you are done, run stop-profiler."
-            )
-            yappi.set_clock_type("wall")
-            yappi.start()
-        else:
-            return await s(":x: **You are not authorized to run this!**")
-
-    elif cmd == "stop-profiler":
-        if message.author.id in UserUtil.admins():
-            await s("Saved profiler results to `profile.txt`.")
-            yappi.stop()
-            yappi.get_func_stats().print_all(open("profile.txt", "w"))
-        else:
-            return await s(":x: **You are not authorized to run this!**")
 
 
 @group()

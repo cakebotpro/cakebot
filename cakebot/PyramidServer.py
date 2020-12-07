@@ -16,10 +16,10 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from cakebot import TextCommandsUtil
-from discord import Guild, Member, User, Role, VoiceChannel, utils
+# This file contains commands specific to a private server which should not be used elsewhere.
 
-from typing import List
+from cakebot import TextCommandsUtil
+from discord.utils import get
 
 
 async def on_command(command, args, message):
@@ -34,13 +34,13 @@ async def on_command(command, args, message):
                 has_admin = True
 
         if has_admin:
-            guild: Guild = message.channel.guild
+            guild = message.channel.guild
             await guild.get_channel(783367524250157076).send(
                 ":police_car: :police_officer: <@!"
                 + str(person)
                 + "> **HAS BEEN ARRESTED**!"
             )
-            member: User = guild.get_member(person)
+            member = guild.get_member(person)
             await message.channel.send(
                 "Understood. Please allow a few seconds for cancellation to be processed."
             )
@@ -49,32 +49,22 @@ async def on_command(command, args, message):
                     await member.remove_roles(role, reason="ARRESTED!")
                 except:
                     print("Skipping role")
-            cancelled_roles: List[Role] = [
-                utils.get(await guild.fetch_roles(), id=768175383115202620)
+            cancelled_roles = [
+                get(await guild.fetch_roles(), id=768175383115202620)
             ]
             await member.add_roles(*cancelled_roles, reason="ARRESTED!")
-        else:
-            return await message.channel.send("bruh you can't do that")
+
+        return await message.channel.send("bruh you can't do that")
 
     elif command == "pardon":
         return await message.channel.send("bruh thats not implemented yet")
 
     elif command == "sm":
-        has_admin = False
-        for role in message.author.roles:
-            if role.id in [719341716154482830, 780522489272729661]:
-                has_admin = True
-
-        if has_admin:
-            vc: VoiceChannel = message.channel.guild.get_channel(765693920126304256)
-            members: List[Member] = vc.members
-            has_muted = False
-            for member in members:
-                if member.voice.mute and not has_muted:
-                    has_muted = True
-                member.voice.mute = not has_muted
-                member.voice.deaf = not has_muted
-                await member.edit(mute=(not has_muted), deafen=(not has_muted))
-            return await message.channel.send("Done!")
-        else:
-            return await message.channel.send("bruh you can't do that")
+        vc = message.channel.guild.get_channel(765693920126304256)
+        members = vc.members
+        has_muted = False
+        for member in members:
+            if member.voice.mute and not has_muted:
+                has_muted = True
+            member.voice.mute = not has_muted
+            await member.edit(mute=(not has_muted))
