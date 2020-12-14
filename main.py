@@ -1,5 +1,5 @@
 """
-Cakebot - A cake themed Discord bot
+Cakebot - A fun and helpful Discord bot
 Copyright (C) 2019-current year  Reece Dunham
 
 This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ from cakebot import (
     UserUtil,
     Count,
     PyramidServer,
+    #    DarkBlueServer,
 )
 
 config = FileManipulator(AbstractFile("config.json"))
@@ -97,6 +98,7 @@ async def on_message(message):
     args = args[1:]
 
     await PyramidServer.on_command(cmd, args, message)
+    #    await DarkBlueServer.on_command(cmd, args, message)
 
     s = message.channel.send
 

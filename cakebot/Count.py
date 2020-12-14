@@ -1,5 +1,5 @@
 """
-Cakebot - A cake themed Discord bot
+Cakebot - A fun and helpful Discord bot
 Copyright (C) 2019-current year  Reece Dunham
 
 This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+# workaround for the global variable issue
 counter = [0]
 
 

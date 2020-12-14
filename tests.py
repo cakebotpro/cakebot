@@ -1,5 +1,5 @@
 """
-Cakebot - A cake themed Discord bot
+Cakebot - A fun and helpful Discord bot
 Copyright (C) 2019-current year  Reece Dunham
 
 This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@ class Tests(unittest.TestCase):
         from cakebot.TextCommandsUtil import handle_common_commands
 
         self.assertEqual(
-            handle_common_commands([], "pi"),
+            handle_common_commands([], "pi", None),
             "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709",
         )
 
@@ -88,8 +88,9 @@ class Tests(unittest.TestCase):
             handle_common_commands(
                 ["hello", "world", "this", "should", "be", "said", "yay"],
                 "say",
+                None,
             ),
-            "hello world this should be said yay",
+            "hello world this should be said yay ",
         )
 
     def test_clapify_command(self):
@@ -98,7 +99,7 @@ class Tests(unittest.TestCase):
         from cakebot.TextCommandsUtil import handle_common_commands
 
         self.assertEqual(
-            handle_common_commands(["I", "love", "dogs"], "clapify"),
+            handle_common_commands(["I", "love", "dogs"], "clapify", None),
             "I :clap: love :clap: dogs",
         )
 
@@ -110,7 +111,7 @@ class Tests(unittest.TestCase):
         i = 0
         while i < 30:
             self.assertIn(
-                handle_common_commands([], "coinflip"),
+                handle_common_commands([], "coinflip", None),
                 ["**Heads**.", "**Tails**."],
             )
             i = i + 1
@@ -124,9 +125,12 @@ class Tests(unittest.TestCase):
         while i < 30:
             self.assertIsInstance(
                 handle_common_commands(
-                    ["why", "is", "earth", "not", "flat?"], "8"
+                    ["why", "is", "earth", "not", "flat?"],
+                    "8",
+                    None,
                 ),
                 str,
+                None,
             )
             i = i + 1
 
@@ -135,7 +139,7 @@ class Tests(unittest.TestCase):
 
         from cakebot.TextCommandsUtil import handle_common_commands
 
-        self.assertIsInstance(handle_common_commands([], "joke"), str)
+        self.assertIsInstance(handle_common_commands([], "joke", None), str)
 
     def test_iss_api(self):
         """Test the ISS API."""
