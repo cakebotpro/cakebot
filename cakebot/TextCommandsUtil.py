@@ -142,7 +142,13 @@ def handle_common_commands(args, cmd, message):
         return " :clap: ".join(args)
 
     elif cmd == "say":
-        return " ".join(args)
+        s = ""
+        for arg in args:
+            s += arg.replace("@everyone", "").replace(
+                "@here", ""
+            )  # prevent exploit
+            s += " "
+        return s
 
     elif cmd == "joke":
         return common("jokes")
@@ -151,7 +157,9 @@ def handle_common_commands(args, cmd, message):
         if message.author.id in UserUtil.admins():
             yappi.set_clock_type("wall")
             yappi.start()
-            return "Started the profiler. Once you are done, run stop-profiler."
+            return (
+                "Started the profiler. Once you are done, run stop-profiler."
+            )
         else:
             return ":x: **You are not authorized to run this!**"
 
