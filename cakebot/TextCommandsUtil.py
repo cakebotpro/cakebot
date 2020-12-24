@@ -152,14 +152,13 @@ def handle_common_commands(args, cmd, message):
     """Handles certain simple commands."""
 
     if cmd == "pi":
-        return with_message("3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709")
+        return with_message(
+            "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
+        )
 
     elif cmd == "coinflip":
         return with_embed(
-            EmbedUtil.prep(
-                "Coinflip",
-                choice(["**Heads**.", "**Tails**."])
-            )
+            EmbedUtil.prep("Coinflip", choice(["**Heads**.", "**Tails**."]))
         )
 
     elif cmd == "8":

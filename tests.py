@@ -33,15 +33,17 @@ class Tests(unittest.TestCase):
         self.assertIsNotNone(UserUtil)
         self.assertIsNotNone(UserUtil.admins())
         self.assertIsInstance(UserUtil.admins(), list)
+        self.assertIsNotNone(UserUtil.banned_users())
+        self.assertIsInstance(UserUtil.banned_users(), list)
 
     def test_textcommandsutil(self):
         """Test cakebot.TextCommandsUtil"""
 
         from cakebot import TextCommandsUtil
 
-        self.assertIsNotNone(TextCommandsUtil)
-        self.assertIsInstance(TextCommandsUtil.common("jokes"), str)
-        self.assertIsNone(TextCommandsUtil.noop())
+        self.assertIsNotNone(TextCommandsUtil, "The module itself should not be None")
+        self.assertIsInstance(TextCommandsUtil.random_from_file("jokes"), str)
+        self.assertIsNone(TextCommandsUtil.noop(), "nooping should return None")
 
     def test_get_mentioned_id(self):
         """Test cakebot.TextCommandsUtil.get_mentioned_id"""
@@ -75,7 +77,7 @@ class Tests(unittest.TestCase):
         from cakebot.TextCommandsUtil import handle_common_commands
 
         self.assertEqual(
-            handle_common_commands([], "pi", None),
+            handle_common_commands([], "pi", None).message,
             "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709",
         )
 
@@ -89,7 +91,7 @@ class Tests(unittest.TestCase):
                 ["hello", "world", "this", "should", "be", "said", "yay"],
                 "say",
                 None,
-            ),
+            ).message,
             "hello world this should be said yay ",
         )
 
@@ -99,7 +101,7 @@ class Tests(unittest.TestCase):
         from cakebot.TextCommandsUtil import handle_common_commands
 
         self.assertEqual(
-            handle_common_commands(["I", "love", "dogs"], "clapify", None),
+            handle_common_commands(["I", "love", "dogs"], "clapify", None).message,
             "I :clap: love :clap: dogs",
         )
 
@@ -111,7 +113,7 @@ class Tests(unittest.TestCase):
         i = 0
         while i < 30:
             self.assertIn(
-                handle_common_commands([], "coinflip", None),
+                handle_common_commands([], "coinflip", None).message,
                 ["**Heads**.", "**Tails**."],
             )
             i = i + 1
@@ -128,9 +130,9 @@ class Tests(unittest.TestCase):
                     ["why", "is", "earth", "not", "flat?"],
                     "8",
                     None,
-                ),
+                ).message,
                 str,
-                None,
+                "Returned message field was not a string.",
             )
             i = i + 1
 
@@ -139,7 +141,7 @@ class Tests(unittest.TestCase):
 
         from cakebot.TextCommandsUtil import handle_common_commands
 
-        self.assertIsInstance(handle_common_commands([], "joke", None), str)
+        self.assertIsInstance(handle_common_commands([], "joke", None).message, str, "Returned message field was not a string.")
 
     def test_iss_api(self):
         """Test the ISS API."""

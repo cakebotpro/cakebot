@@ -25,7 +25,6 @@ from discord.utils import oauth_url
 from factdata import FactImp
 from filehandlers import AbstractFile, FileManipulator
 from github import Github
-from slots import result, row
 
 from cakebot import (
     Database,
@@ -36,6 +35,7 @@ from cakebot import (
     TextCommandsUtil,
     UserUtil,
     PyramidServer,
+    Slots,
 )
 
 config = FileManipulator(AbstractFile("config.json"))
@@ -197,9 +197,9 @@ async def on_message(message):
         return await s(embed=EmbedUtil.prep("Random Fact", FactImp().fact()))
 
     elif cmd == "slots":
-        slotz = result()
-        top = row()
-        btm = row()
+        slotz = Slots.result()
+        top = Slots.row()
+        btm = Slots.row()
         form = "win" if slotz[0] == 1 else "lose"
         return await s(
             f"⠀{top[0]}{top[1]}{top[2]}\n"
