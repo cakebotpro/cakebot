@@ -16,9 +16,21 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+# THIS FILE IS MEANT TO CONTROL ACCESS TO THE BOT.
+# YOU MAY EDIT THIS IF YOU ARE SELF-HOSTING IT TO CONTROL ITS BEHAVIOR.
+
 
 def admins():
     # type: () -> list
     """Returns a list of IDs for people with administrator access."""
 
     return [411505437003743243, 304005557797257216]
+
+
+def banned_users():
+    # type: () -> list
+    """
+    Returns a list of IDs for people who CANNOT RUN ANY BOT COMMANDS.
+    This is helpful for if you are being spammed with potentially harmful commands, like report.
+    """
+    return [649431206881918979, 440269487321776133, 791695274296082462]

@@ -24,9 +24,7 @@ from discord import Color
 def random():
     # type: () -> Color
 
-    chilipepper = Color(0x9B1B30)
     tan = Color(0xBEAA3E)
-    icedcoffee = Color(0xB18F6A)
 
     return choice(
         [
@@ -50,7 +48,5 @@ def random():
             Color.darker_grey(),
             Color.blurple(),
             tan,
-            icedcoffee,
-            chilipepper,
         ]
     )

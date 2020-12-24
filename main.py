@@ -35,9 +35,7 @@ from cakebot import (
     Preconditions,
     TextCommandsUtil,
     UserUtil,
-    Count,
     PyramidServer,
-    #    DarkBlueServer,
 )
 
 config = FileManipulator(AbstractFile("config.json"))
@@ -59,11 +57,6 @@ client = discord.AutoShardedClient(intents=intents)
 
 
 @client.event
-async def on_message_deleted(message):
-    await Count.on_message_deleted(message)
-
-
-@client.event
 async def on_ready():
     await client.change_presence(
         activity=discord.Game(name=base_conf["status"])
@@ -76,8 +69,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    await Count.on_message(message)
-
     BOT_PREFIX = "+"
 
     if getenv("PRODUCTION") is None:
@@ -98,12 +89,19 @@ async def on_message(message):
     args = args[1:]
 
     await PyramidServer.on_command(cmd, args, message)
-    #    await DarkBlueServer.on_command(cmd, args, message)
 
     s = message.channel.send
 
-    if message.author.id in [649431206881918979, 440269487321776133]:
-        return await s("**You have been banned from using the bot.**")
+    if message.author.id in UserUtil.banned_users():
+        return await s(
+            " ".join(
+                [
+                    "**You have been banned from using the bot.**",
+                    "This typically happens because you abused a feature, or caused a major problem for our team.",
+                    "You may not appeal this.",
+                ]
+            )
+        )
 
     if (
         cmd
@@ -118,7 +116,6 @@ async def on_message(message):
             "say",
             # these are for custom servers only:
             "arrest",
-            "pardon",
         }
         and Preconditions.args_are_valid(args)
     ):
@@ -130,8 +127,8 @@ async def on_message(message):
         )
 
     tcu_result = TextCommandsUtil.handle_common_commands(args, cmd, message)
-    if tcu_result != "":
-        return await s(tcu_result)
+    if tcu_result.message != "EMPTY":
+        return await s(tcu_result.message, **tcu_result.kwargs)
 
     if cmd == "help":
         return await s(

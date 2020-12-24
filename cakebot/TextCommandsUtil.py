@@ -20,14 +20,14 @@ import yappi
 from random import choice
 from requests import get
 from cakebot import EmbedUtil, UserUtil
-from discord import Message
+from discord import Message, Embed
 
 
-def common(name):
+def random_from_file(file_name):
     # type: (str) -> str
-    """Load a content file and pick a random line from it (used a lot)."""
+    """Load a content file and pick a random line from it."""
 
-    fileobj = open("content/" + name + ".txt", mode="r")
+    fileobj = open("content/" + file_name + ".txt", mode="r")
     lines = fileobj.readlines()
     fileobj.close()
     return choice(lines)
@@ -35,7 +35,7 @@ def common(name):
 
 def noop():
     # type: () -> None
-    """Literally just do nothing (for the purpose of avoiding syntax errors)."""
+    """Literally just do nothing."""
     return
 
 
@@ -125,50 +125,77 @@ make_server_info = """\
 """.format
 
 
+class CommonCommandResultHolder:
+    kwargs: dict
+    message: str
+
+    def __init__(self, message="", kwargs={}):
+        # type: (str, dict) -> None
+        self.kwargs = kwargs
+        self.message = message
+
+
+def with_message(message):
+    # type: (str) -> CommonCommandResultHolder
+    """Helper to return a CommonCommandResultHolder that just sends a message."""
+    return CommonCommandResultHolder(message)
+
+
+def with_embed(embed):
+    # type: (Embed) -> CommonCommandResultHolder
+    """Helper to return a CommandCommandResultHolder that just sends an embed."""
+    return CommonCommandResultHolder(kwargs={embed: embed})
+
+
 def handle_common_commands(args, cmd, message):
-    # type: (list, str, Message) -> str
+    # type: (list, str, Message) -> CommonCommandResultHolder
     """Handles certain simple commands."""
 
     if cmd == "pi":
-        return "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
+        return with_message("3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709")
 
     elif cmd == "coinflip":
-        return choice(["**Heads**.", "**Tails**."])
+        return with_embed(
+            EmbedUtil.prep(
+                "Coinflip",
+                choice(["**Heads**.", "**Tails**."])
+            )
+        )
 
     elif cmd == "8":
-        return common("8ball")
+        return with_message(random_from_file("8ball"))
 
     elif cmd == "clapify":
-        return " :clap: ".join(args)
+        return with_message(" :clap: ".join(args))
 
-    elif cmd == "say":
-        s = ""
-        for arg in args:
-            s += arg.replace("@everyone", "").replace(
-                "@here", ""
-            )  # prevent exploit
-            s += " "
-        return s
+    # elif cmd == "say":
+    #     s = ""
+    #     for arg in args:
+    #        s += arg.replace("@everyone", "").replace(
+    #            "@here", ""
+    #        )  # prevent exploit
+    #        s += " "
+    #    return s
 
     elif cmd == "joke":
-        return common("jokes")
+        return with_message(random_from_file("jokes"))
 
     elif cmd == "start-profiler":
         if message.author.id in UserUtil.admins():
             yappi.set_clock_type("wall")
             yappi.start()
-            return (
+            return with_message(
                 "Started the profiler. Once you are done, run stop-profiler."
             )
         else:
-            return ":x: **You are not authorized to run this!**"
+            return with_message(":x: **You are not authorized to run this!**")
 
     elif cmd == "stop-profiler":
         if message.author.id in UserUtil.admins():
             yappi.stop()
             yappi.get_func_stats().print_all(open("profile.txt", "w"))
-            return "Saved profiler results to `profile.txt`."
+            return with_message("Saved profiler results to `profile.txt`.")
         else:
-            return ":x: **You are not authorized to run this!**"
+            return with_message(":x: **You are not authorized to run this!**")
 
-    return ""
+    return with_message("EMPTY")

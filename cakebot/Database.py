@@ -39,7 +39,7 @@ def add_cookie(id, file_man):
         return 1
 
     tmp["users"][id]["cookie_count"] += 1
-    file_man.write_to_file(dumps(tmp))
+    file_man.write_to_file(dumps(tmp, indent=4))
     file_man.refresh()
     return file_man.load_from_json()["users"][id]["cookie_count"]
 
