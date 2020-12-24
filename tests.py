@@ -85,6 +85,7 @@ class Tests(unittest.TestCase):
             "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709",
         )
 
+    @unittest.skip("Skip command disabled for now.")
     def test_say_command(self):
         """Test `+say`."""
 
@@ -110,19 +111,6 @@ class Tests(unittest.TestCase):
             ).message,
             "I :clap: love :clap: dogs",
         )
-
-    def test_coinflip_command(self):
-        """Test `+coinflip`."""
-
-        from cakebot.TextCommandsUtil import handle_common_commands
-
-        i = 0
-        while i < 30:
-            self.assertIn(
-                handle_common_commands([], "coinflip", None).message,
-                ["**Heads**.", "**Tails**."],
-            )
-            i = i + 1
 
     def test_8_command(self):
         """Test `+8`."""
