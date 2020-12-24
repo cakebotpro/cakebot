@@ -41,9 +41,13 @@ class Tests(unittest.TestCase):
 
         from cakebot import TextCommandsUtil
 
-        self.assertIsNotNone(TextCommandsUtil, "The module itself should not be None")
+        self.assertIsNotNone(
+            TextCommandsUtil, "The module itself should not be None"
+        )
         self.assertIsInstance(TextCommandsUtil.random_from_file("jokes"), str)
-        self.assertIsNone(TextCommandsUtil.noop(), "nooping should return None")
+        self.assertIsNone(
+            TextCommandsUtil.noop(), "nooping should return None"
+        )
 
     def test_get_mentioned_id(self):
         """Test cakebot.TextCommandsUtil.get_mentioned_id"""
@@ -101,7 +105,9 @@ class Tests(unittest.TestCase):
         from cakebot.TextCommandsUtil import handle_common_commands
 
         self.assertEqual(
-            handle_common_commands(["I", "love", "dogs"], "clapify", None).message,
+            handle_common_commands(
+                ["I", "love", "dogs"], "clapify", None
+            ).message,
             "I :clap: love :clap: dogs",
         )
 
@@ -141,7 +147,11 @@ class Tests(unittest.TestCase):
 
         from cakebot.TextCommandsUtil import handle_common_commands
 
-        self.assertIsInstance(handle_common_commands([], "joke", None).message, str, "Returned message field was not a string.")
+        self.assertIsInstance(
+            handle_common_commands([], "joke", None).message,
+            str,
+            "Returned message field was not a string.",
+        )
 
     def test_iss_api(self):
         """Test the ISS API."""
