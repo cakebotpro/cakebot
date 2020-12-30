@@ -14,7 +14,7 @@ filehandlers==3.1.0
 factdata==2.0.0
 area4>=3.0.0
 reverse_geocoder==1.5.1
-PyGithub<=1.47
+PyGithub==1.54.1
 
 # tests
 unittest-xml-reporting==3.0.4
