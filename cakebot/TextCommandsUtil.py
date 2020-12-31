@@ -198,4 +198,7 @@ def handle_common_commands(args, cmd, message):
         else:
             return with_message(":x: **You are not authorized to run this!**")
 
+    elif cmd == "icon":
+        return with_message(str(message.guild.icon_url))
+
     return with_message("EMPTY")
