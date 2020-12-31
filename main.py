@@ -53,7 +53,10 @@ wordsapi_token = base_conf.get("tokens", {}).get("wordsapi", None)
 
 intents = discord.Intents.default()
 intents.members = True
+
 client = discord.AutoShardedClient(intents=intents)
+
+required_permissions = discord.Permissions.text()
 
 
 @client.event
@@ -145,7 +148,7 @@ async def on_message(message):
         return await s(
             embed=EmbedUtil.prep(
                 "Invite Cakebot",
-                f"[Click here to invite me!]({oauth_url(580573141898887199, permissions=discord.Permissions.all())})",
+                f"[Click here to invite me!]({oauth_url(580573141898887199, permissions=required_permissions)})",
             )
         )
 
