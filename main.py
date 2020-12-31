@@ -164,6 +164,7 @@ async def on_message(message):
                     str(message.guild.created_at),
                     str(message.guild.large),
                     str(message.guild.mfa_level == 1),
+                    str(message.guild.premium_tier),
                 ),
             )
         )

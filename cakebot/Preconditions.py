@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 def args_are_valid(params):
-    # (list) -> bool
+    # type: (list) -> bool
     """Checks that the arguments are valid to a certain extent."""
 
     return (

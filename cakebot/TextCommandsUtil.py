@@ -122,6 +122,7 @@ make_server_info = """\
 :timer: **Created At:** {7}
 :chart_with_upwards_trend: **More Than 250 Members:** {8}
 :lock: **Admins Need 2-Factor Auth**: {9}
+:purple_circle: **Nitro Server Tier**: {10}
 """.format
 
 
