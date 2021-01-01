@@ -168,14 +168,14 @@ def handle_common_commands(args, cmd, message):
     elif cmd == "clapify":
         return with_message(" :clap: ".join(args))
 
-    # elif cmd == "say":
-    #     s = ""
-    #     for arg in args:
-    #        s += arg.replace("@everyone", "").replace(
-    #            "@here", ""
-    #        )  # prevent exploit
-    #        s += " "
-    #    return s
+    elif cmd == "say":
+        s = ""
+        for arg in args:
+            s += arg.replace("@everyone", "").replace(
+                "@here", ""
+            )  # prevent exploit
+            s += " "
+        return with_message(s)
 
     elif cmd == "joke":
         return with_message(random_from_file("jokes"))
