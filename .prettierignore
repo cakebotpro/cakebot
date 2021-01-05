@@ -1,0 +1,3 @@
+packages/**/build
+.theia/settings.json
+.mypy_cache

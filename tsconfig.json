@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "outDir": "build",
+        "target": "ES5",
+        "incremental": true,
+        "strict": true,
+        "declaration": true,
+        "noEmitHelpers": true,
+        "importHelpers": true,
+        "lib": ["ESNext"],
+        "pretty": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "sourceRoot": "/",
+        "esModuleInterop": true,
+        "moduleResolution": "node"
+    }
+}

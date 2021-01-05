@@ -18,4 +18,6 @@ config.json
 *.xml
 .mypy_cache
 .vscode
-profile.txt
+node_modules
+build
+.env
