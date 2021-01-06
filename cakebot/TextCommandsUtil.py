@@ -180,24 +180,6 @@ def handle_common_commands(args, cmd, message):
     elif cmd == "joke":
         return with_message(random_from_file("jokes"))
 
-    elif cmd == "start-profiler":
-        if message.author.id in UserUtil.admins():
-            yappi.set_clock_type("wall")
-            yappi.start()
-            return with_message(
-                "Started the profiler. Once you are done, run stop-profiler."
-            )
-        else:
-            return with_message(":x: **You are not authorized to run this!**")
-
-    elif cmd == "stop-profiler":
-        if message.author.id in UserUtil.admins():
-            yappi.stop()
-            yappi.get_func_stats().print_all(open("profile.txt", "w"))
-            return with_message("Saved profiler results to `profile.txt`.")
-        else:
-            return with_message(":x: **You are not authorized to run this!**")
-
     elif cmd == "icon":
         return with_message(str(message.guild.icon_url))
 

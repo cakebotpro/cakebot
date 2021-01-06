@@ -16,16 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import Command from "../commands"
-import { MessageAttachment } from "discord.js"
 
-const Boomer: Command = {
-    name: "boomer",
+const Pi: Command = {
+    name: "pi",
     execute(args, message) {
-        const picture = new MessageAttachment(
-            "https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/boomer.jpeg"
+        message.channel.send(
+            "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
         )
-        message.channel.send(picture)
     },
 }
 
-export default Boomer
+export default Pi

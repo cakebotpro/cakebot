@@ -17,8 +17,10 @@
     "plugins": [
         "@typescript-eslint",
         "node",
-        "promise"
+        "promise",
+        "header"
     ],
     "rules": {
+        "header/header": [2, "content/header.js"]
     }
 }

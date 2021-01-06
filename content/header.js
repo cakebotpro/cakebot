@@ -15,17 +15,3 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import Command from "../commands"
-import { MessageAttachment } from "discord.js"
-
-const Boomer: Command = {
-    name: "boomer",
-    execute(args, message) {
-        const picture = new MessageAttachment(
-            "https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/boomer.jpeg"
-        )
-        message.channel.send(picture)
-    },
-}
-
-export default Boomer

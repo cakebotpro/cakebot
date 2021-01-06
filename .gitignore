@@ -21,3 +21,4 @@ config.json
 node_modules
 build
 .env
+.eslintcache

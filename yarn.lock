@@ -2192,6 +2192,11 @@ eslint-plugin-es@^3.0.0:
     eslint-utils "^2.0.0"
     regexpp "^3.0.0"
 
+eslint-plugin-header@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-header/-/eslint-plugin-header-3.1.0.tgz#5e6819489a7722ae0c5c237387f78350d755c1d5"
+  integrity sha512-jKKcwMsB0/ftBv3UVmuQir1f8AmXzTS9rdzPkileW8/Nz9ivdea8vOU1ZrMbX+WH6CpwnHEo3403baSHk40Mag==
+
 eslint-plugin-node@^11.1.0:
   version "11.1.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-node/-/eslint-plugin-node-11.1.0.tgz#c95544416ee4ada26740a30474eefc5402dc671d"
