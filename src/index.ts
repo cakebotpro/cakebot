@@ -1,5 +1,5 @@
 import "source-map-support/register"
-import { Client, Message, Presence } from "discord.js"
+import { Client, Message } from "discord.js"
 import Registry from "./commands/registry"
 import Command, { registerInternalCommands } from "./commands/commands"
 import logger from "./util/logging"
@@ -15,13 +15,19 @@ const options = {
     presence: {
         activity: {
             name: "Run +help | EARLY BETA OF CAKEBOT 2!",
-            type: "PLAYING"
-        }
-    }
+            type: "PLAYING",
+        },
+    },
 }
 
 // string neq "auto" literal for some reason
-const cakebot = new Client(options as any)
+// todo: why is record casting a thing
+const cakebot = new Client(
+    options as Record<
+        string,
+        string | Record<string, string | Record<string, string>>
+    >
+)
 
 const commandRegistry = new Registry<Command>()
 
@@ -49,16 +55,27 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
     args.pop()
     args = args.reverse()
 
-    const trace = new Trace(command, argArray, message.author.toString())
+    const trace = new Trace(command, args, message.author.toString())
 
     try {
-        const exe = commandRegistry.find("name", command)
+        let exe = commandRegistry.find("name", command)
+
+        if (exe === null) {
+            // second pass for alias checking
+            exe = commandRegistry.find("aliases", command)
+        }
+
+        if (exe === null) {
+            return
+        }
+
+        logger.debug(`Command trace: ${trace}`)
         if (exe !== null) {
             exe.execute.call(exe, args, message)
         }
     } catch (e) {
         logger.error("An error occured during runtime.")
-        logger.error(`Trace successful: ${trace}`)
+        throw e
     }
 })
 

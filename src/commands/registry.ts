@@ -23,6 +23,12 @@ export default class Registry<T> {
                 return
             }
 
+            if (Array.isArray((obj as any)[property])) {
+                if (((obj as any)[property] as Array<V>).includes(value)) {
+                    returnValue = obj
+                }
+            }
+
             if ((obj as any)[property] === value) {
                 returnValue = obj
             }

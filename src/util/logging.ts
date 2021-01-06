@@ -1,4 +1,5 @@
 import chalk from "chalk"
+import { getConfig } from "../data/config"
 
 export default {
     info: (message: string): void => {
@@ -11,6 +12,8 @@ export default {
         console.log(chalk`{red error} ${message}`)
     },
     debug: (message: string): void => {
-        console.log(chalk`{magenta debug} ${message}`)
+        if (getConfig().debug) {
+            console.log(chalk`{magenta debug} ${message}`)
+        }
     },
 }

@@ -1,8 +1,0 @@
-{
-    "$schema": "https://cakebot.club/config.json",
-    "tokens": {
-        "discord": ""
-    },
-    "status": "Run +help | Edit config.json",
-    "users": {}
-}
