@@ -21,6 +21,7 @@
         "header"
     ],
     "rules": {
-        "header/header": [2, "content/header.js"]
+        "header/header": [2, "content/header.js"],
+        "@typescript-eslint/ban-ts-comment": 0
     }
 }

@@ -56,7 +56,7 @@
         "build": "rimraf build && tsc",
         "prettier": "prettier --write **/*.{js,ts,md,yml,json}",
         "start": "rimraf build && tsc && node build/cli",
-        "lint": "eslint src/**/**/*.ts --cache",
+        "lint": "eslint src/**/**/*.ts --fix && eslint src/**/*.ts --fix",
         "test": "jest"
     },
     "bugs": {

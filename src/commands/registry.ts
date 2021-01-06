@@ -16,23 +16,53 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/**
+ * Either the type parameter or null.
+ * This gets reused multiple times so its just easier to have a global type for it.
+ */
 type VirtualOptional<T> = T | null
 
+/**
+ * A 'registry' allows for easy indexing and registering of items of a certain type.
+ */
 export default class Registry<T> {
+    /**
+     * The objects this registry holds. DO NOT modify outside this class!!
+     */
     objects: T[]
 
     constructor() {
         this.objects = []
     }
 
+    /**
+     * Registers the passed object to this registry.
+     * 
+     * @param obj The object to register.
+     */
     register(obj: T): void {
         this.objects.push(obj)
     }
 
+    /**
+     * Registers all the objects in the passed array to this registry.
+     * 
+     * @param obj The array of objects to register.
+     */
     registerAll(obj: T[]): void {
         obj.forEach((o) => this.objects.push(o))
     }
 
+    /**
+     * Finds the first object in the object set that has the property with the specified value.
+     * E.g. if you do find("name", "hello") it finds the first object with the name property set
+     * to hello.
+     * It's a complex implementation because we also have to account for TypeScript, and if the
+     * value of the property is an array we also search inside the array for the value we want.
+     * 
+     * @param property The name of the property to check.
+     * @param value The value to check for.
+     */
     find<V>(property: string, value: V): VirtualOptional<T> {
         let returnValue: VirtualOptional<T> = null
 
