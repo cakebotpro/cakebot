@@ -1,1 +1,4 @@
 image: rdilpickle/better-wsfull:latest
+
+tasks:
+    - command: yarn
