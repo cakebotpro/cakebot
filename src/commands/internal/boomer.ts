@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import Command from "../commands"
 import { MessageAttachment } from "discord.js"
+import Command from "../commands"
 
 const Boomer: Command = {
     name: "boomer",

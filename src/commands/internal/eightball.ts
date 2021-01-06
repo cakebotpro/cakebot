@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Command from "../commands"
-import { eightballs } from "../../data/runtime-data"
 import random from "random"
+import { eightballs } from "../../data/remote/runtime-data"
+import Command from "../commands"
 
 const EightBall: Command = {
     name: "8ball",

@@ -17,16 +17,16 @@
  */
 
 import { Message } from "discord.js"
-import Registry from "./registry"
 import logger from "../util/logging"
-
-import Help from "./internal/help"
-import Ping from "./internal/ping"
 import Boomer from "./internal/boomer"
+import Clapify from "./internal/clapify"
 import EightBall from "./internal/eightball"
+import Fact from "./internal/fact"
+import Help from "./internal/help"
 import Joke from "./internal/joke"
 import Pi from "./internal/pi"
-import Clapify from "./internal/clapify"
+import Ping from "./internal/ping"
+import Registry from "./registry"
 
 export default interface Command {
     name: string
@@ -42,6 +42,7 @@ const internalCommands: Command[] = [
     Joke,
     Pi,
     Clapify,
+    Fact,
 ]
 
 export function registerInternalCommands(

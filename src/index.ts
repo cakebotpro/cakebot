@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import "source-map-support/register"
 import { Client, Message } from "discord.js"
-import Registry from "./commands/registry"
+import "source-map-support/register"
 import Command, { registerInternalCommands } from "./commands/commands"
-import logger from "./util/logging"
+import Registry from "./commands/registry"
 import { getConfig } from "./data/config"
 import { Trace } from "./data/tracing"
+import logger from "./util/logging"
 
 process.on("unhandledRejection", (e) => {
     throw e
@@ -40,10 +40,7 @@ const options = {
 // string neq "auto" literal for some reason
 // todo: why is record casting a thing
 const cakebot = new Client(
-    options as Record<
-        string,
-        string | Record<string, string | Record<string, string>>
-    >
+    options as Record<string, string | Record<string, Record<string, string>>>
 )
 
 const commandRegistry = new Registry<Command>()
@@ -87,9 +84,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         }
 
         logger.debug(`Command trace: ${trace}`)
-        if (exe !== null) {
-            exe.execute.call(exe, args, message)
-        }
+        exe?.execute.call(exe, args, message)
     } catch (e) {
         logger.error("An error occured during runtime.")
         throw e

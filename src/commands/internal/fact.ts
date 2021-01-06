@@ -15,18 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-// @ts-ignore
-import fetch from "sync-fetch"
-import logger from "../util/logging"
+import { asyncGetAndConsume } from "../../data/remote/runtime-downloads"
+import Command from "../commands"
 
-/**
- * I don't want to have to go through the hassle of manually packaging files, so we just download them at runtime.
- * This also allows them to be updated without needing a new release.
- */
-const getFileContents = (url: string): string[] => {
-    logger.debug(`Downloading external component: ${url}`)
-
-    return fetch(url).text().split("\n")
+const Fact: Command = {
+    name: "fact",
+    aliases: ["getfact"],
+    execute(args, message) {
+        asyncGetAndConsume(
+            "https://uselessfacts.jsph.pl/random.json?language=en",
+            (obj) => {
+                message.channel.send(obj["text"])
+            }
+        )
+    },
 }
 
-export default getFileContents
+export default Fact

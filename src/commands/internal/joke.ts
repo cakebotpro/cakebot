@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import Command from "../commands"
-import { jokes } from "../../data/runtime-data"
 import random from "random"
+import { jokes } from "../../data/remote/runtime-data"
+import Command from "../commands"
 
 const Joke: Command = {
     name: "joke",

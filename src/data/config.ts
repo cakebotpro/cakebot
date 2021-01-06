@@ -49,9 +49,11 @@ function parseCommaList(v?: string): number[] {
     const ids: number[] = []
 
     const s = v.split(",")
-    s.forEach(pid => {
+    s.forEach((pid) => {
         try {
-
+            const i = Number.parseInt(pid)
+            ids.push(i)
+            logger.debug(`Added ID ${i.toString()} to the ban list.`)
         } catch (e) {
             // noop
         }
@@ -63,14 +65,12 @@ function parseCommaList(v?: string): number[] {
 export function getConfig(): Configuration {
     const env = (process.env as unknown) as ExpectedEnvironment
 
-    const bannedIds: number[] = []
-
     const config = {
         discordToken: env.DISCORD_TOKEN,
         wordsapiToken: env.GITHUB_TOKEN,
         githubToken: env.GITHUB_TOKEN,
         debug: isTruthish(env.DEBUG),
-
+        bannedUserIds: parseCommaList(env.BANNED_IDS),
     }
 
     if (validateConfig(config)) {

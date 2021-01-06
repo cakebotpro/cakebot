@@ -37,7 +37,7 @@ export default class Registry<T> {
 
     /**
      * Registers the passed object to this registry.
-     * 
+     *
      * @param obj The object to register.
      */
     register(obj: T): void {
@@ -46,7 +46,7 @@ export default class Registry<T> {
 
     /**
      * Registers all the objects in the passed array to this registry.
-     * 
+     *
      * @param obj The array of objects to register.
      */
     registerAll(obj: T[]): void {
@@ -59,7 +59,7 @@ export default class Registry<T> {
      * to hello.
      * It's a complex implementation because we also have to account for TypeScript, and if the
      * value of the property is an array we also search inside the array for the value we want.
-     * 
+     *
      * @param property The name of the property to check.
      * @param value The value to check for.
      */
@@ -71,13 +71,13 @@ export default class Registry<T> {
                 return
             }
 
-            if (Array.isArray((obj as any)[property])) {
-                if (((obj as any)[property] as Array<V>).includes(value)) {
+            if (Array.isArray((obj as never)[property])) {
+                if (((obj as never)[property] as Array<V>).includes(value)) {
                     returnValue = obj
                 }
             }
 
-            if ((obj as any)[property] === value) {
+            if ((obj as never)[property] === value) {
                 returnValue = obj
             }
         })
