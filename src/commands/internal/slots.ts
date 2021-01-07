@@ -15,26 +15,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import chalk from "chalk"
+import getSlotResult from "../../data/slots"
+import Command from "../commands"
 
-/**
- * Used to give our errors actual context, so we can
- * contact the person who caused it for more details if need be.
- */
-export default class Trace {
-    command: string
-    args: string[]
-    user: string
+const Slots: Command = {
+    name: "slots",
+    execute(args, message) {
+        const slotResult = getSlotResult()
 
-    constructor(command: string, args: string[], user: string) {
-        this.command = command
-        this.args = args
-        this.user = user
-    }
-
-    toString(): string {
-        return chalk`[{blue User:} ${this.user}] [{blue Command:} ${
-            this.command
-        }] [{blue Arguments}]: ${this.args.join(" ")}`
-    }
+        message.channel.send(
+            `${slotResult.row1}\n${slotResult.row2}\n${slotResult.row3}`
+        )
+    },
 }
+
+export default Slots

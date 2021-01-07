@@ -26,6 +26,7 @@ import Help from "./internal/help"
 import Joke from "./internal/joke"
 import Pi from "./internal/pi"
 import Ping from "./internal/ping"
+import Slots from "./internal/slots"
 import Registry from "./registry"
 
 export default interface Command {
@@ -43,6 +44,7 @@ const internalCommands: Command[] = [
     Pi,
     Clapify,
     Fact,
+    Slots,
 ]
 
 export function registerInternalCommands(

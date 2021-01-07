@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`command tracing functionality toString output doesn't unexpectedly change 1`] = `"[[34mUser:[39m DiscordUser2#5678] [[34mCommand:[39m fake-command-2] [[34mArguments[39m]: my things yes"`;

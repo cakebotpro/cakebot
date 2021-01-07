@@ -20,7 +20,7 @@ import "source-map-support/register"
 import Command, { registerInternalCommands } from "./commands/commands"
 import Registry from "./commands/registry"
 import { getConfig } from "./data/config"
-import { Trace } from "./data/tracing"
+import Trace from "./data/tracing"
 import logger from "./util/logging"
 
 process.on("unhandledRejection", (e) => {
@@ -61,6 +61,15 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         return
     }
 
+    if (
+        getConfig().bannedUserIds.includes(Number.parseInt(message.author.id))
+    ) {
+        message.channel.send(
+            "You have been banned from using the bot! This typically happens because you abused a feature or caused a big problem for us."
+        )
+        return
+    }
+
     const command = argArray[0].replace("-", "").toLowerCase()
 
     // remove command
@@ -69,7 +78,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
     args.pop()
     args = args.reverse()
 
-    const trace = new Trace(command, args, message.author.toString())
+    const trace = new Trace(command, args, message.author.tag)
 
     try {
         let exe = commandRegistry.find("name", command)
@@ -87,6 +96,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         exe?.execute.call(exe, args, message)
     } catch (e) {
         logger.error("An error occured during runtime.")
+        logger.warn(`Command trace: ${trace}`)
         throw e
     }
 })
