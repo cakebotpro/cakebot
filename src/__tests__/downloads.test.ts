@@ -15,13 +15,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import fs from "fs"
+import { eightballs, jokes } from "../data/remote/runtime-data"
 
-// just a bit of setup
-process.env.IS_IN_JEST = "true"
+describe("runtime data downloading", () => {
+    it("downloads the correct 8ball answers", () => {
+        const realEightballs = fs
+            .readFileSync("content/8ball.txt")
+            .toString()
+            .split("\n")
+        expect(eightballs).toStrictEqual(realEightballs)
+    })
 
-export default {
-    coverageProvider: "v8",
-    testEnvironment: "node",
-    verbose: true,
-    roots: ["src/"],
-}
+    it("downloads the correct jokes", () => {
+        const realJokes = fs
+            .readFileSync("content/jokes.txt")
+            .toString()
+            .split("\n")
+        expect(jokes).toStrictEqual(realJokes)
+    })
+})

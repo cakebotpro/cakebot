@@ -20,7 +20,7 @@ import { asyncGetAndConsume } from "./remote/runtime-downloads"
 // todo: finish this!
 
 interface Result {
-    defs: string[],
+    defs: string[]
     syllables: string
 }
 
@@ -37,22 +37,30 @@ interface DefResultCast {
 export async function define(word: string, token: string): Promise<Result> {
     return new Promise((resolve, reject) => {
         try {
-            asyncGetAndConsume(`https://wordsapiv1.p.rapidapi.com/words/${word}`, data => {
-                const syllables = (data.syllables as unknown as SyllablesCast)?.list || []
-                const defResults: string[] = (data.results as unknown as DefResultCast).results.map(result => result.definition)
+            asyncGetAndConsume(
+                `https://wordsapiv1.p.rapidapi.com/words/${word}`,
+                (data) => {
+                    const syllables =
+                        ((data.syllables as unknown) as SyllablesCast)?.list ||
+                        []
+                    const defResults: string[] = ((data.results as unknown) as DefResultCast).results.map(
+                        (result) => result.definition
+                    )
 
-                const returnResult = {
-                    syllables: syllables.join(", "),
-                    defs: defResults
-                } as Result
+                    const returnResult = {
+                        syllables: syllables.join(", "),
+                        defs: defResults,
+                    } as Result
 
-                resolve(returnResult)
-            }, {
-                headers: {
-                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-                    "x-rapidapi-key": token,
+                    resolve(returnResult)
+                },
+                {
+                    headers: {
+                        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
+                        "x-rapidapi-key": token,
+                    },
                 }
-            })
+            )
         } catch (e) {
             reject(e)
         }

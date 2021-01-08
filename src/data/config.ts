@@ -23,6 +23,7 @@ export interface Configuration {
     githubToken?: string
     debug: boolean
     bannedUserIds: number[]
+    googleMapsApiKey?: string
 }
 
 interface ExpectedEnvironment {
@@ -31,6 +32,7 @@ interface ExpectedEnvironment {
     GITHUB_TOKEN?: string
     DEBUG?: string
     BANNED_IDS?: string
+    GOOGLE_MAPS_API_KEY?: string
 }
 
 function isTruthish(v?: string): boolean {
@@ -71,18 +73,25 @@ export function getConfig(): Configuration {
         githubToken: env.GITHUB_TOKEN,
         debug: isTruthish(env.DEBUG),
         bannedUserIds: parseCommaList(env.BANNED_IDS),
+        googleMapsApiKey: env.GOOGLE_MAPS_API_KEY,
     }
 
     if (validateConfig(config)) {
         return config
     }
 
+    logger.error("No Discord token specified!")
     logger.error(
-        `No Discord token specified! You need to put it in the .env file, with the variable being called 'DISCORD_TOKEN'!`
+        `You need to put it in the .env file, with the variable being called 'DISCORD_TOKEN'!`
     )
     process.exit(1)
 }
 
 function validateConfig(config: Configuration): boolean {
+    // don't run this validation when running `yarn test`
+    if (process.env.IS_IN_JEST === "true") {
+        return true
+    }
+
     return !!config.discordToken
 }

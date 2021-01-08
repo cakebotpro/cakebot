@@ -28,6 +28,7 @@ import Pi from "./internal/pi"
 import Ping from "./internal/ping"
 import Slots from "./internal/slots"
 import Registry from "./registry"
+// import Iss from "./internal/iss"
 
 export default interface Command {
     name: string
@@ -45,6 +46,8 @@ const internalCommands: Command[] = [
     Clapify,
     Fact,
     Slots,
+    // todo: get billing set up for gmaps
+    // Iss,
 ]
 
 export function registerInternalCommands(
