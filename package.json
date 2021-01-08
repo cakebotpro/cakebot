@@ -27,7 +27,7 @@
     ],
     "scripts": {
         "build": "rimraf build && tsc",
-        "lint": "eslint src/**/**/*.ts --fix && eslint src/**/*.ts --fix",
+        "lint": "eslint src/**/**/*.ts src/**/*.ts src/*.ts --fix",
         "prettier": "prettier --write **/*.{js,ts,md,yml,json}",
         "start": "rimraf build && tsc && node build/cli",
         "test": "jest"
@@ -38,7 +38,7 @@
         }
     },
     "lint-staged": {
-        "*.{js,ts,json,yaml,md}": "prettier --write"
+        "*.{js,ts,json,yml,md}": "prettier --write"
     },
     "prettier": {
         "semi": false,
@@ -70,7 +70,6 @@
         "babel-jest": "^26.6.3",
         "eslint": "^7.17.0",
         "eslint-plugin-header": "^3.1.0",
-        "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^4.2.1",
         "husky": "^4.3.7",
         "jest": "^26.6.3",
