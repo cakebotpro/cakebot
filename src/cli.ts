@@ -15,7 +15,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import commander from "commander"
+// organize-imports-ignore
+import "source-map-support/register"
 import { config as configureEnvironment } from "dotenv"
 import start from "."
 // prepopulate data
@@ -26,11 +27,4 @@ configureEnvironment()
 
 console.log(banner)
 
-commander.name("Cakebot")
-
-commander
-    .command("run")
-    .description("Run the bot.")
-    .action(() => start())
-
-commander.parse(process.argv)
+start()

@@ -1,13 +1,7 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "13:00"
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: "@types/jest"
-    versions:
-    - "> 26.0.19"
-    - "< 26.1"
+    - package-ecosystem: npm
+      directory: "/"
+      schedule:
+          interval: daily
+      open-pull-requests-limit: 10

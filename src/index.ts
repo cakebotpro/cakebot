@@ -16,7 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { Client, Message } from "discord.js"
-import "source-map-support/register"
 import Command, { registerInternalCommands } from "./commands/commands"
 import Registry from "./commands/registry"
 import { getConfig } from "./data/config"

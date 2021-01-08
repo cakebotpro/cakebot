@@ -1,0 +1,60 @@
+/**
+ * Cakebot - A fun and helpful Discord bot
+ * Copyright (C) 2021-current year  Reece Dunham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+import { asyncGetAndConsume } from "./remote/runtime-downloads"
+
+// todo: finish this!
+
+interface Result {
+    defs: string[],
+    syllables: string
+}
+
+interface SyllablesCast {
+    list: string[]
+}
+
+interface DefResultCast {
+    results: {
+        definition: string
+    }[]
+}
+
+export async function define(word: string, token: string): Promise<Result> {
+    return new Promise((resolve, reject) => {
+        try {
+            asyncGetAndConsume(`https://wordsapiv1.p.rapidapi.com/words/${word}`, data => {
+                const syllables = (data.syllables as unknown as SyllablesCast)?.list || []
+                const defResults: string[] = (data.results as unknown as DefResultCast).results.map(result => result.definition)
+
+                const returnResult = {
+                    syllables: syllables.join(", "),
+                    defs: defResults
+                } as Result
+
+                resolve(returnResult)
+            }, {
+                headers: {
+                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
+                    "x-rapidapi-key": token,
+                }
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
