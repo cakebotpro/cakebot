@@ -20,13 +20,16 @@ import { Message } from "discord.js"
 import logger from "../util/logging"
 import Boomer from "./internal/boomer"
 import Clapify from "./internal/clapify"
+import Coinflip from "./internal/coinflip"
 import EightBall from "./internal/eightball"
 import Fact from "./internal/fact"
 import Help from "./internal/help"
+import Homepage from "./internal/homepage"
 import Joke from "./internal/joke"
 import Pi from "./internal/pi"
 import Ping from "./internal/ping"
 import Slots from "./internal/slots"
+import Stars from "./internal/stars"
 import Registry from "./registry"
 // import Iss from "./internal/iss"
 
@@ -48,6 +51,9 @@ const internalCommands: Command[] = [
     Slots,
     // todo: get billing set up for gmaps
     // Iss,
+    Coinflip,
+    Stars,
+    Homepage,
 ]
 
 export function registerInternalCommands(

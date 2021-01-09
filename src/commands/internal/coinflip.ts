@@ -15,18 +15,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import chalk from "chalk"
+import random from "random"
+import Command from "../commands"
 
-// all backslashes need to be escaped
-// this should look better in consoles then IDEs
-export const banner = chalk.green(`
-  _____      _        _           _   
- / ____|    | |      | |         | |  
-| |     __ _| | _____| |__   ___ | |_ 
-| |    / __ | |/ / _ \\ '_ \\ / _ \\| __|
-| |___| (_| |   <  __/ |_) | (_) | |_ 
- \\_____\\__,_|_|\\_\\___|_.__/ \\___/ \\__|
+const Coinflip: Command = {
+    name: "coinflip",
+    aliases: ["coin", "headstails"],
+    execute(args, message) {
+        message.channel.send(`**${random.bool() ? "Heads" : "Tails"}**`)
+    },
+}
 
-         https://cakebot.club
-    Under the GNU AGPL-3.0 License.
-`)
+export default Coinflip

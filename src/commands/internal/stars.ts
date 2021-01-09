@@ -15,18 +15,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import chalk from "chalk"
+import { getRepositoryStars } from "../../data/remote/github"
+import commafy from "../../util/typed-commafy"
+import Command from "../commands"
 
-// all backslashes need to be escaped
-// this should look better in consoles then IDEs
-export const banner = chalk.green(`
-  _____      _        _           _   
- / ____|    | |      | |         | |  
-| |     __ _| | _____| |__   ___ | |_ 
-| |    / __ | |/ / _ \\ '_ \\ / _ \\| __|
-| |___| (_| |   <  __/ |_) | (_) | |_ 
- \\_____\\__,_|_|\\_\\___|_.__/ \\___/ \\__|
+const Stars: Command = {
+    name: "stars",
+    execute(args, message) {
+        if (args[0]) {
+            getRepositoryStars(args[0])
+                .then((resp) => {
+                    message.channel.send(
+                        `${args[0]} has ${commafy(resp)} stars.`
+                    )
+                    return
+                })
+                .catch(() =>
+                    message.channel.send("Unknown repository! Is it public?")
+                )
+        } else {
+            message.channel.send("Please specify a repository!")
+        }
+    },
+}
 
-         https://cakebot.club
-    Under the GNU AGPL-3.0 License.
-`)
+export default Stars
