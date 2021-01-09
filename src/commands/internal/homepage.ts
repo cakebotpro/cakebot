@@ -19,7 +19,8 @@ import { getRepositoryHomepage } from "../../data/remote/github"
 import Command from "../commands"
 
 const Homepage: Command = {
-    name: "stars",
+    name: "homepage",
+    aliases: ["ghpage"],
     execute(args, message) {
         if (args[0]) {
             getRepositoryHomepage(args[0])
