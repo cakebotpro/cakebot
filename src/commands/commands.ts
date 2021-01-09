@@ -21,6 +21,7 @@ import logger from "../util/logging"
 import Boomer from "./internal/boomer"
 import Clapify from "./internal/clapify"
 import Coinflip from "./internal/coinflip"
+import Define from "./internal/define"
 import EightBall from "./internal/eightball"
 import Fact from "./internal/fact"
 import Help from "./internal/help"
@@ -54,6 +55,7 @@ const internalCommands: Command[] = [
     Coinflip,
     Stars,
     Homepage,
+    Define,
 ]
 
 export function registerInternalCommands(

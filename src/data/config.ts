@@ -69,7 +69,7 @@ export function getConfig(): Configuration {
 
     const config = {
         discordToken: env.DISCORD_TOKEN,
-        wordsapiToken: env.GITHUB_TOKEN,
+        wordsapiToken: env.WORDSAPI_TOKEN,
         githubToken: env.GITHUB_TOKEN,
         debug: isTruthish(env.DEBUG),
         bannedUserIds: parseCommaList(env.BANNED_IDS),

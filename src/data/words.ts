@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import { getConfig } from "./config"
 import { asyncGetAndConsume } from "./remote/runtime-downloads"
 
 // todo: finish this!
@@ -31,10 +32,11 @@ interface SyllablesCast {
 interface DefResultCast {
     results: {
         definition: string
+        partOfSpeech: string
     }[]
 }
 
-export async function define(word: string, token: string): Promise<Result> {
+export default function define(word: string): Promise<Result> {
     return new Promise((resolve, reject) => {
         try {
             asyncGetAndConsume(
@@ -43,8 +45,9 @@ export async function define(word: string, token: string): Promise<Result> {
                     const syllables =
                         ((data.syllables as unknown) as SyllablesCast)?.list ||
                         []
-                    const defResults: string[] = ((data.results as unknown) as DefResultCast).results.map(
-                        (result) => result.definition
+                    const defResults: string[] = ((data as unknown) as DefResultCast).results.map(
+                        (result) =>
+                            `${result.partOfSpeech}: ${result.definition}`
                     )
 
                     const returnResult = {
@@ -57,7 +60,8 @@ export async function define(word: string, token: string): Promise<Result> {
                 {
                     headers: {
                         "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-                        "x-rapidapi-key": token,
+                        "x-rapidapi-key": (getConfig()
+                            .wordsapiToken as unknown) as never,
                     },
                 }
             )
