@@ -41,21 +41,21 @@ export default interface Command {
 }
 
 const internalCommands: Command[] = [
-    Help,
-    Ping,
     Boomer,
+    Clapify,
+    Coinflip,
+    Define,
     EightBall,
+    Fact,
+    Help,
+    Homepage,
     Joke,
     Pi,
-    Clapify,
-    Fact,
+    Ping,
     Slots,
     // todo: get billing set up for gmaps
     // Iss,
-    Coinflip,
     Stars,
-    Homepage,
-    Define,
 ]
 
 export function registerInternalCommands(

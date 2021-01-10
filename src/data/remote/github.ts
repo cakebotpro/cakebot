@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { Octokit } from "@octokit/core"
+import sanitizeGraphQL from "../../util/safety"
 import { getConfig } from "../config"
 
 function makeOctokit(): Octokit {
@@ -50,6 +51,8 @@ interface RepoHomepageQueryResponse {
 }
 
 export function getRepositoryStars(repository: string): Promise<number> {
+    repository = sanitizeGraphQL(repository)
+
     const owner = repository.split("/")[0]
     const repoName = repository.split("/")[1]
 
@@ -68,6 +71,8 @@ export function getRepositoryStars(repository: string): Promise<number> {
 export function getRepositoryHomepage(
     repository: string
 ): Promise<string | undefined> {
+    repository = sanitizeGraphQL(repository)
+
     const owner = repository.split("/")[0]
     const repoName = repository.split("/")[1]
 
