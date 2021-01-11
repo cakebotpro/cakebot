@@ -18,8 +18,6 @@
 import { getConfig } from "./config"
 import { asyncGetAndConsume } from "./remote/runtime-downloads"
 
-// todo: finish this!
-
 interface Result {
     defs: string[]
     syllables: string
