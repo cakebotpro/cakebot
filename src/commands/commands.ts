@@ -19,6 +19,7 @@
 import { Message } from "discord.js"
 import logger from "../util/logging"
 import Boomer from "./internal/boomer"
+import Cake from "./internal/cake"
 import Clapify from "./internal/clapify"
 import Coinflip from "./internal/coinflip"
 import Define from "./internal/define"
@@ -42,6 +43,7 @@ export default interface Command {
 
 const internalCommands: Command[] = [
     Boomer,
+    Cake,
     Clapify,
     Coinflip,
     Define,

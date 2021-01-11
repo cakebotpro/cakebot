@@ -22,9 +22,11 @@ import start from "."
 // prepopulate data
 import "./data/remote/runtime-data"
 import { banner } from "./util/constants"
+import { runDatabasePreChecks } from "./data/database"
 
 configureEnvironment()
 
 console.log(banner)
 
+runDatabasePreChecks()
 start()

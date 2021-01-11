@@ -16,48 +16,6 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from os import getenv
-from sys import exit as _exit
-
-import discord
-from click import group, option, secho, version_option
-from discord.utils import oauth_url
-from factdata import FactImp
-from filehandlers import AbstractFile, FileManipulator
-from github import Github
-
-from cakebot import (
-    Database,
-    EmbedUtil,
-    GitHubUtil,
-    IssApi,
-    Preconditions,
-    TextCommandsUtil,
-    UserUtil,
-    PyramidServer,
-    Slots,
-)
-
-config = FileManipulator(AbstractFile("config.json"))
-base_conf = {}
-
-if getenv("TEST_ENV") != "yes":
-    try:
-        base_conf = config.load_from_json()
-    except:
-        TextCommandsUtil.noop()
-
-
-g = Github(base_conf.get("tokens", {}).get("github"))
-wordsapi_token = base_conf.get("tokens", {}).get("wordsapi", None)
-
-intents = discord.Intents.default()
-intents.members = True
-
-client = discord.AutoShardedClient(intents=intents)
-
-required_permissions = discord.Permissions.text()
-
 
 @client.event
 async def on_ready():
@@ -105,44 +63,6 @@ async def on_message(message):
                 ]
             )
         )
-
-    if (
-        cmd
-        in {
-            "8",
-            "report",
-            "define",
-            "stars",
-            "homepage",
-            "clapify",
-            "cookie",
-            "say",
-            # these are for custom servers only:
-            "arrest",
-        }
-        and Preconditions.args_are_valid(args)
-    ):
-        return await s(
-            embed=EmbedUtil.prep(
-                "That command expected an argument (or arguments), but you didn't give it any!",
-                "[Read the docs?](https://cakebot.club/docs/commands/)",
-            )
-        )
-
-    tcu_result = TextCommandsUtil.handle_common_commands(args, cmd, message)
-    if tcu_result.message != "EMPTY":
-        return await s(tcu_result.message, **tcu_result.kwargs)
-
-    if cmd == "help":
-        return await s(
-            embed=EmbedUtil.prep(
-                "Help",
-                "You can check out [this page of our website](https://cakebot.club/docs/commands/) for a full command list!",
-            )
-        )
-
-    elif cmd == "ping":
-        return await s(f"🏓 - websocket responded in {client.latency}")
 
     elif cmd == "invite":
         return await s(
@@ -197,22 +117,6 @@ async def on_message(message):
             .add_field(name="Longitude", value=str(lon), inline=False)
         )
 
-    elif cmd == "fact":
-        return await s(embed=EmbedUtil.prep("Random Fact", FactImp().fact()))
-
-    elif cmd == "slots":
-        slotz = Slots.result()
-        top = Slots.row()
-        btm = Slots.row()
-        form = "win" if slotz[0] == 1 else "lose"
-        return await s(
-            f"⠀{top[0]}{top[1]}{top[2]}\n"
-            # the line above contains unicode, DO NOT REMOVE
-            + f"**>** {slotz[1][0]}{slotz[1][1]}{slotz[1][2]} **<**\n"
-            + f"   {btm[0]}{btm[1]}{btm[2]}"
-            + f"\n**You {form}!**"
-        )
-
     elif cmd == "reboot":
         if message.author.id in UserUtil.admins():
             await s("Restarting. This may take up to 5 minutes.")
@@ -220,30 +124,6 @@ async def on_message(message):
             _exit(1)
         else:
             return await s(":x: **You are not authorized to run this!**")
-
-    elif cmd == "stars":
-        try:
-            return await s(
-                f"`{args[0]}` has *{g.get_repo(args[0]).stargazers_count}* stars."
-            )
-        except:
-            return await s(
-                "Failed to get count. Is the repository valid and public?"
-            )
-
-    elif cmd == "homepage":
-        try:
-            url = g.get_repo(args[0]).homepage
-            if url is None:
-                url = "(error: homepage not specified by owner)"
-            return await s(f"{args[0]}'s homepage is located at {url}")
-        except:
-            return await s(
-                "Failed to fetch homepage. Is the repository valid and public?"
-            )
-
-    elif cmd == "boomer":
-        return await s(file=discord.File("content/boomer.jpeg"))
 
     elif cmd == "cookie" or cmd == "cookies":
         subcommand = args[0]
@@ -276,52 +156,3 @@ async def on_message(message):
             return await s(
                 f"Gave <@!{userId}> a cookie. They now have {new_count} cookies."
             )
-
-    elif cmd == "define":
-        if wordsapi_token is None:
-            return await s(
-                "This command is disabled due to a configuration error on my host's end - didn't find a WordsAPI token in the config!"
-            )
-        return await s(embed=TextCommandsUtil.define(args, wordsapi_token))
-
-
-@group()
-@version_option(version="2021.01.01", prog_name="Cakebot")
-def cli():
-    """The Cakebot command-line-interface."""
-    pass
-
-
-@cli.command()
-@option(
-    "--discord-token",
-    type=str,
-    help="Discord token for the bot to use, defaults to the one from the config.json",
-    default="",
-)
-def run(discord_token):
-    """Runs the bot."""
-
-    secho("Starting Cakebot...\n", fg="blue", bold=True)
-
-    secho("Using discord.py v" + discord.__version__, color="gray")
-
-    if g is None:
-        secho(
-            "GitHub credentials not found, disabling functionality.",
-            fg="white",
-        )
-    if wordsapi_token is None:
-        secho(
-            "WordsAPI credentials not found, disabling functionality.",
-            fg="white",
-        )
-
-    if discord_token != "":
-        client.run(discord_token)
-    else:
-        client.run(base_conf["tokens"]["discord"])
-
-
-if __name__ == "__main__":
-    cli()

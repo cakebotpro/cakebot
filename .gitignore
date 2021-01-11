@@ -6,3 +6,4 @@ build
 .env
 .eslintcache
 yarn-error.log
+database.json

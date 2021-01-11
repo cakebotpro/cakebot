@@ -36,7 +36,6 @@ const options = {
     },
 }
 
-// string neq "auto" literal for some reason
 // todo: why is record casting a thing
 const cakebot = new Client(
     options as Record<string, string | Record<string, Record<string, string>>>
@@ -92,11 +91,11 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         }
 
         logger.debug(`Command trace: ${trace}`)
-        exe?.execute.call(exe, args, message)
+        exe.execute.call(exe, args, message)
     } catch (e) {
         logger.error("An error occured during runtime.")
         logger.warn(`Command trace: ${trace}`)
-        throw e
+        logger.error(e)
     }
 })
 

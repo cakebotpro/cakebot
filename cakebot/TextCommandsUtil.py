@@ -16,101 +16,6 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import yappi
-from random import choice
-from requests import get
-from cakebot import EmbedUtil, UserUtil
-from discord import Message, Embed
-
-
-def random_from_file(file_name):
-    # type: (str) -> str
-    """Load a content file and pick a random line from it."""
-
-    fileobj = open("content/" + file_name + ".txt", mode="r")
-    lines = fileobj.readlines()
-    fileobj.close()
-    return choice(lines)
-
-
-def noop():
-    # type: () -> None
-    """Literally just do nothing."""
-    return
-
-
-def get_mentioned_id(args):
-    # type: (list) -> int
-    """Checks a list of arguments for a valid Discord mention."""
-
-    for arg in args:
-        base = arg
-        if (arg.startswith("<@!") or arg.startswith("<@")) and arg.endswith(
-            ">"
-        ):
-            # strip out the divider chars
-            base = base.replace("<@", "")
-            base = base.replace("!", "")
-            base = base.replace(">", "")
-        try:
-            if int(base) > 100000:
-                return int(base)
-        except ValueError:
-            noop()
-    return 0
-
-
-def define(args, token):
-    # type: (list, str) -> EmbedUtil.Embed
-    """Defines a word."""
-
-    word = args[0]
-    headers = {
-        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-        "x-rapidapi-key": token,
-    }
-    definition = get(
-        "https://wordsapiv1.p.rapidapi.com/words/" + word, headers=headers
-    )
-    resp = definition.json()
-
-    e = EmbedUtil.prep(
-        title=word.capitalize(), description="Data for this word:"
-    )
-    try:
-        e.add_field(
-            name="Syllables",
-            value=", ".join(
-                resp.get("syllables", {"list": ["unknown"]})["list"]
-            ),
-            inline=True,
-        )
-    except KeyError:
-        e.add_field(
-            name="Error", value="I don't think I know this word!", inline=True
-        )
-
-    e = parse_define_json(e, resp)
-    return e
-
-
-def parse_define_json(embed, json):
-    # type: (EmbedUtil.Embed, dict) -> EmbedUtil.Embed
-    """Parses the `results` of the `define` JSON."""
-
-    definitions = json["results"]
-    e = embed
-
-    for index, obj in enumerate(definitions[:8]):  # up to first 8 definitions
-        e.add_field(
-            name="Definition " + str(index + 1),
-            value=obj["definition"],
-            inline=False,
-        )
-
-    return e
-
-
 make_server_info = """\
 ***{0}***
 :crown: **Owner:** {1}
@@ -126,61 +31,9 @@ make_server_info = """\
 """.format
 
 
-class CommonCommandResultHolder:
-    kwargs: dict
-    message: str
-
-    def __init__(self, message="", kwargs={}):
-        # type: (str, dict) -> None
-        self.kwargs = kwargs
-        self.message = message
-
-
-def with_message(message):
-    # type: (str) -> CommonCommandResultHolder
-    """Helper to return a CommonCommandResultHolder that just sends a message."""
-    return CommonCommandResultHolder(message)
-
-
-def with_embed(embed):
-    # type: (Embed) -> CommonCommandResultHolder
-    """Helper to return a CommandCommandResultHolder that just sends an embed."""
-    return CommonCommandResultHolder(kwargs={embed: embed})
-
-
 def handle_common_commands(args, cmd, message):
     # type: (list, str, Message) -> CommonCommandResultHolder
     """Handles certain simple commands."""
 
-    if cmd == "pi":
-        return with_message(
-            "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709"
-        )
-
-    elif cmd == "coinflip":
-        return with_embed(
-            EmbedUtil.prep("Coinflip", choice(["**Heads**.", "**Tails**."]))
-        )
-
-    elif cmd == "8":
-        return with_message(random_from_file("8ball"))
-
-    elif cmd == "clapify":
-        return with_message(" :clap: ".join(args))
-
-    elif cmd == "say":
-        s = ""
-        for arg in args:
-            s += arg.replace("@everyone", "").replace(
-                "@here", ""
-            )  # prevent exploit
-            s += " "
-        return with_message(s)
-
-    elif cmd == "joke":
-        return with_message(random_from_file("jokes"))
-
     elif cmd == "icon":
         return with_message(str(message.guild.icon_url))
-
-    return with_message("EMPTY")
