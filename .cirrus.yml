@@ -1,0 +1,17 @@
+Test_task:
+    container:
+        image: node:14
+    Yarn_cache:
+        folder: node_modules
+        populate_script: yarn
+        fingerprint_script: cat yarn.lock
+    test_script: yarn test
+
+Lint_task:
+    container:
+        image: node:14
+    Yarn_cache:
+        folder: node_modules
+        populate_script: yarn
+        fingerprint_script: cat yarn.lock
+    lint_script: yarn test
