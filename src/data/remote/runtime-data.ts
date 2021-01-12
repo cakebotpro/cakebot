@@ -24,3 +24,5 @@ export const eightballs = download(
 export const jokes = download(
     "https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/jokes.txt"
 )
+
+export const usersWithTicketsOpen: string[] = []

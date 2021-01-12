@@ -48,13 +48,13 @@
  *
  * @param val The value.
  */
-function isNumeric(val: number | string): string | boolean {
+function isNumeric(val: number | string): boolean {
     if (typeof val === "number" && !isNaN(val)) {
         return true
     }
 
     val = (val || "").toString().trim()
-    return val && !isNaN(Number(val))
+    return !!val && !isNaN(Number(val))
 }
 
 export default function commafy(val: number | string): string {

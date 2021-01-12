@@ -32,6 +32,7 @@ const removes = [
     "]",
     "(",
     ")",
+    ":",
 ]
 
 export default function sanitizeGraphQL(input: string): string {

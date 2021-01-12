@@ -25,6 +25,14 @@ import { banner } from "./util/constants"
 import { runDatabasePreChecks } from "./data/database"
 
 configureEnvironment()
+// newline
+;["uncaughtException", "unhandledRejection"].forEach(
+    function setupErrorHandling(errorName: string) {
+        process.on(errorName, (e) => {
+            throw e
+        })
+    }
+)
 
 console.log(banner)
 

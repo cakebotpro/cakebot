@@ -15,19 +15,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import createEmbed from "../../util/embeds"
+import { createTicket } from "../../data/database"
 import Command from "../commands"
 
-const Invite: Command = {
-    name: "invite",
+const Report: Command = {
+    name: "report",
+    aliases: ["ticket"],
     execute(args, message) {
-        message.channel.send(
-            createEmbed(
-                "Invite Cakebot",
-                "[Click here to invite me!](https://discord.com/oauth2/authorize?client_id=580573141898887199&scope=bot&permissions=523328)"
-            )
-        )
+        if (args.length >= 2) {
+            createTicket({ author: message.author, message: args.join(" ") })
+                .then(() => {
+                    message.channel.send(
+                        "Ticket opened! Please wait for a team member to review it."
+                    )
+                    return
+                })
+                .catch((err) => {
+                    message.channel.send(`Error!: ${err}`)
+                })
+        } else {
+            message.channel.send("Your message is too short!")
+        }
     },
 }
 
-export default Invite
+export default Report

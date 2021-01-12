@@ -15,18 +15,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { readFileSync, statSync, writeFile, writeFileSync } from "fs"
+import { User } from "discord.js"
+import { mkdirSync, readFileSync, statSync, writeFileSync } from "fs"
 import path from "path"
+import random from "random"
+import { usersWithTicketsOpen } from "./remote/runtime-data"
 
 const dbPath = `${process.cwd()}${path.sep}database.json`
 
-export interface User {
+export interface CBUser {
     cakeCount: number
 }
 
 export interface Schema {
     users: {
-        [userId: string]: User
+        [userId: string]: CBUser
     }
     servers: {
         [serverId: string]: Record<string, never>
@@ -60,7 +63,7 @@ export function loadConfig(): Schema {
     return JSON.parse(instream.toString()) as Schema
 }
 
-export function getUserById(userId: string, useConfig?: () => Schema): User {
+export function getUserById(userId: string, useConfig?: () => Schema): CBUser {
     const d = (useConfig || loadConfig)()
 
     if (!d.users[userId]) {
@@ -70,8 +73,47 @@ export function getUserById(userId: string, useConfig?: () => Schema): User {
     return d.users[userId]
 }
 
-export function save(data: Schema): void {
-    writeFile(dbPath, JSON.stringify(data), (err) => {
-        throw err
+export function createTicket({
+    message,
+    author,
+}: {
+    message: string
+    author: User
+}): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        if (message.length >= 1000) {
+            reject("Message too large!")
+            return
+        }
+
+        if (usersWithTicketsOpen.includes(author.id)) {
+            reject(
+                "You already have a ticket open! Please wait until it is resolved to open another."
+            )
+            return
+        }
+
+        usersWithTicketsOpen.push(author.id)
+
+        try {
+            statSync("tickets")
+        } catch (e) {
+            mkdirSync("tickets")
+        }
+
+        const ticketId = random.int(1, 1_000_000)
+
+        writeFileSync(
+            `tickets/${ticketId}.txt`,
+            `Author: ${author.username}
+
+Message: ${message}`
+        )
+
+        resolve()
     })
+}
+
+export function save(data: Schema): void {
+    writeFileSync(dbPath, JSON.stringify(data))
 }

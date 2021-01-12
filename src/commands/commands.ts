@@ -31,6 +31,7 @@ import Invite from "./internal/invite"
 import Joke from "./internal/joke"
 import Pi from "./internal/pi"
 import Ping from "./internal/ping"
+import Report from "./internal/report"
 import Slots from "./internal/slots"
 import Stars from "./internal/stars"
 import Registry from "./registry"
@@ -56,6 +57,7 @@ const internalCommands: Command[] = [
     Joke,
     Pi,
     Ping,
+    Report,
     Slots,
     // todo: get billing set up for gmaps
     // Iss,

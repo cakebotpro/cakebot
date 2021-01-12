@@ -7,3 +7,4 @@ build
 .eslintcache
 yarn-error.log
 database.json
+tickets

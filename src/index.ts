@@ -22,10 +22,6 @@ import { getConfig } from "./data/config"
 import Trace from "./data/tracing"
 import logger from "./util/logging"
 
-process.on("unhandledRejection", (e) => {
-    throw e
-})
-
 const options = {
     shards: "auto",
     presence: {

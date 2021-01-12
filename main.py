@@ -39,31 +39,6 @@ async def on_message(message):
             )
         )
 
-    elif cmd == "report":
-        return await GitHubUtil.report(s, g, args, message)
-
-    elif cmd == "iss":
-        m = await s("Calculating...")
-        imp = IssApi.IssLocater()
-        lat = imp.lat
-        lon = imp.lon
-        from reverse_geocoder import search
-
-        geodata = search((lat, lon))
-        location = "{0}, {1}".format(geodata[0]["admin1"], geodata[0]["cc"])
-
-        await m.delete()
-        return await s(
-            embed=EmbedUtil.prep(
-                "International Space Station", "Where it is right now!"
-            )
-            .add_field(
-                name="Location above Earth", value=str(location), inline=False
-            )
-            .add_field(name="Latitude", value=str(lat), inline=False)
-            .add_field(name="Longitude", value=str(lon), inline=False)
-        )
-
     elif cmd == "reboot":
         if message.author.id in UserUtil.admins():
             await s("Restarting. This may take up to 5 minutes.")

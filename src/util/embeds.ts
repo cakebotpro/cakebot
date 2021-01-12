@@ -35,7 +35,7 @@ export default function createEmbed(
         "Created with ❤ and 🍪 by the Cakebot Team | https://cakebot.club"
     )
 
-    if (fields !== void 0) {
+    if (fields) {
         e.addFields(...fields)
     }
 

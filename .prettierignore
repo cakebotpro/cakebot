@@ -3,3 +3,4 @@ packages/**/build
 .mypy_cache
 build
 database.json
+tickets
