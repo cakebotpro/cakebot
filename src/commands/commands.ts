@@ -27,6 +27,7 @@ import EightBall from "./internal/eightball"
 import Fact from "./internal/fact"
 import Help from "./internal/help"
 import Homepage from "./internal/homepage"
+import Invite from "./internal/invite"
 import Joke from "./internal/joke"
 import Pi from "./internal/pi"
 import Ping from "./internal/ping"
@@ -51,6 +52,7 @@ const internalCommands: Command[] = [
     Fact,
     Help,
     Homepage,
+    Invite,
     Joke,
     Pi,
     Ping,
