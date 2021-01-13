@@ -16,11 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { Client, Message } from "discord.js"
+import { config as configureEnvironment } from "dotenv"
+import "source-map-support/register"
 import Command, { registerInternalCommands } from "./commands/commands"
 import Registry from "./commands/registry"
 import { getConfig } from "./data/config"
+import { runDatabasePreChecks } from "./data/database"
+import "./data/remote/runtime-data"
 import Trace from "./data/tracing"
+import { banner } from "./util/constants"
 import logger from "./util/logging"
+;["uncaughtException", "unhandledRejection"].forEach(
+    function setupErrorHandling(errorName: string) {
+        process.on(errorName, (e) => {
+            throw e
+        })
+    }
+)
 
 const options = {
     shards: "auto",
@@ -95,8 +107,28 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
     }
 })
 
-export default function start(): void {
+type ApplyHookup = (commandRegistry: Registry<Command>) => void
+
+export function start(applyHookups?: ApplyHookup | ApplyHookup[]): void {
+    configureEnvironment()
+
+    console.log(banner)
+
+    runDatabasePreChecks()
+
     logger.info("Starting!")
+
     registerInternalCommands(commandRegistry)
+
+    if (applyHookups) {
+        if (Array.isArray(applyHookups)) {
+            applyHookups.forEach((hookup) =>
+                hookup.call(hookup, commandRegistry)
+            )
+        } else {
+            applyHookups.call(applyHookups, commandRegistry)
+        }
+    }
+
     cakebot.login(getConfig().discordToken)
 }

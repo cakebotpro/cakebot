@@ -29,7 +29,7 @@
         "build": "rimraf build && tsc",
         "lint": "eslint src/**/**/*.ts src/**/*.ts src/*.ts --fix",
         "prettier": "prettier --write **/*.{js,ts,md,yml,json}",
-        "start": "rimraf build && tsc && node build/cli",
+        "start": "rimraf build && tsc && node launcher.js",
         "test": "jest"
     },
     "husky": {
