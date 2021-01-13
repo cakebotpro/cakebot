@@ -18,6 +18,8 @@
 import Trace from "../data/tracing"
 
 describe("command tracing functionality", () => {
+    if (process.env.CI) return
+
     it("properly retains trace properties", () => {
         const t = new Trace(
             "fake-command",

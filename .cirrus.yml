@@ -14,4 +14,4 @@ Lint_task:
         folder: node_modules
         populate_script: yarn
         fingerprint_script: cat yarn.lock
-    lint_script: yarn test
+    lint_script: yarn lint
