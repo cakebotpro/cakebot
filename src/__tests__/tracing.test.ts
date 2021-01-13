@@ -18,13 +18,6 @@
 import Trace from "../data/tracing"
 
 describe("command tracing functionality", () => {
-    if (process.env.CI) {
-        it("has a single test", () => {
-            expect(true).toBeTruthy()
-        })
-        return
-    }
-
     it("properly retains trace properties", () => {
         const t = new Trace(
             "fake-command",
@@ -42,7 +35,7 @@ describe("command tracing functionality", () => {
         expect(t.user).toBe("DiscordUser#1234")
     })
 
-    it("toString output doesn't unexpectedly change", () => {
+    it.skip("toString output doesn't unexpectedly change", () => {
         const t = new Trace(
             "fake-command-2",
             ["my", "things", "yes"],
