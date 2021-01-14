@@ -26,13 +26,13 @@ import "./data/remote/runtime-data"
 import Trace from "./data/tracing"
 import { banner } from "./util/constants"
 import logger from "./util/logging"
-;["uncaughtException", "unhandledRejection"].forEach(
-    function setupErrorHandling(errorName: string) {
-        process.on(errorName, (e) => {
-            throw e
-        })
-    }
-)
+
+const CATCH_ERRORS = ["uncaughtException", "unhandledRejection"]
+CATCH_ERRORS.forEach((errorName: string) => {
+    process.on(errorName, function throwUnhandled(e) {
+        throw e
+    })
+})
 
 const options = {
     shards: "auto",
@@ -107,8 +107,13 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
     }
 })
 
-type ApplyHookup = (commandRegistry: Registry<Command>) => void
+export type ApplyHookup = (commandRegistry: Registry<Command>) => void
 
+/**
+ * This should be implemnted in your launch script.
+ *
+ * @param applyHookups A list of hookups to apply.
+ */
 export function start(applyHookups?: ApplyHookup | ApplyHookup[]): void {
     configureEnvironment()
 
