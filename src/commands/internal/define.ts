@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { EmbedField } from "discord.js"
-import define from "../../data/words"
+import define from "../../data/remote/words"
 import createEmbed from "../../util/embeds"
 import Command from "../commands"
 

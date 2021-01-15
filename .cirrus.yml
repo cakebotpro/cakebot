@@ -1,17 +1,20 @@
-Test_task:
-    container:
-        image: node:14
-    Yarn_cache:
-        folder: node_modules
-        populate_script: yarn
-        fingerprint_script: cat yarn.lock
-    test_script: yarn test
+container:
+    image: node:14
 
-Lint_task:
-    container:
-        image: node:14
+task:
     Yarn_cache:
         folder: node_modules
         populate_script: yarn
         fingerprint_script: cat yarn.lock
-    lint_script: yarn lint
+    # native modules exist
+    dependencies_script: yarn
+    matrix:
+        - lint_script: yarn lint
+          name: Lint
+        - test_script: yarn test
+          name: Test
+        - build_script: yarn build && yarn pack
+          name: Build
+          package_artifacts:
+              path: ./*.tgz
+              type: application/gzip
