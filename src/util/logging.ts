@@ -18,6 +18,12 @@
 import chalk from "chalk"
 import { getConfig } from "../data/config"
 
+/**
+ * A very basic logger.
+ *
+ * @example
+ * logging.info("Hello world") // in console => info Hello world
+ */
 export default {
     info: (message: string): void => {
         console.log(chalk`{blue info} ${message}`)

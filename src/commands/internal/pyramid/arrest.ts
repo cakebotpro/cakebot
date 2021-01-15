@@ -28,11 +28,11 @@ function cancel(user: GuildMember | null, guild: Guild): void {
         `:police_car: :police_officer: <@!${user?.id}> **HAS BEEN ARRESTED**!`
     )
 
-    user?.roles.cache.each((value) =>
+    user?.roles.cache.each((value) => {
         user.roles.remove(value).catch((e) => {
             logging.warn(e)
         })
-    )
+    })
 
     user?.roles.add("768175383115202620")
 }

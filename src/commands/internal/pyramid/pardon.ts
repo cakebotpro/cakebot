@@ -39,11 +39,11 @@ const Pardon = (admins: readonly string[]): Command => ({
                     "Understood. Please allow a few seconds for pardoning to be executed."
                 )
 
-                actualUser?.roles.cache.each((value) =>
+                actualUser?.roles.cache.each((value) => {
                     actualUser.roles.remove(value).catch((e) => {
                         logging.warn(e)
                     })
-                )
+                })
                 actualUser?.roles.add("756551568387473580")
 
                 message.channel.send("Done!")

@@ -105,7 +105,7 @@ export function createTicket({
 
         writeFileSync(
             `tickets/${ticketId}.txt`,
-            `Author: ${author.username}
+            `Author: ${author.username}#${author.discriminator}
 
 Message: ${message}`
         )

@@ -19,6 +19,8 @@ import logger from "../util/logging"
 
 export interface Configuration {
     discordToken: string
+    prefix: string
+    status: string
     wordsapiToken?: string
     githubToken?: string
     debug: boolean
@@ -26,15 +28,23 @@ export interface Configuration {
     googleMapsApiKey?: string
 }
 
-interface ExpectedEnvironment {
+export interface ExpectedEnvironment {
     DISCORD_TOKEN: string
+    BOT_PREFIX?: string
+    BOT_STATUS?: string
+    DEBUG?: string
     WORDSAPI_TOKEN?: string
     GITHUB_TOKEN?: string
-    DEBUG?: string
     BANNED_IDS?: string
     GOOGLE_MAPS_API_KEY?: string
 }
 
+/**
+ * Returns if the value passed is a string representation of true.
+ *
+ * @param v The string to check.
+ * @returns If the string equals "true".
+ */
 function isTruthish(v?: string): boolean {
     if (!v) {
         return false
@@ -74,6 +84,8 @@ export function getConfig(): Configuration {
         debug: isTruthish(env.DEBUG),
         bannedUserIds: parseCommaList(env.BANNED_IDS),
         googleMapsApiKey: env.GOOGLE_MAPS_API_KEY,
+        prefix: env.BOT_PREFIX || "-",
+        status: env.BOT_STATUS || "Run (PREFIX)help",
     }
 
     if (validateConfig(config)) {
@@ -84,10 +96,17 @@ export function getConfig(): Configuration {
     logger.error(
         `You need to put it in the .env file, with the variable being called 'DISCORD_TOKEN'!`
     )
+    logger.info("See the documentation for more info.")
     process.exit(1)
 }
 
-function validateConfig(config: Configuration): boolean {
+/**
+ * Validates the configuration object for any errors.
+ *
+ * @param config The configuration to validate.
+ * @returns If the config has no errors (true), or has errors (false).
+ */
+export function validateConfig(config: Configuration): boolean {
     // don't run this validation when running `yarn test`
     if (process.env.IS_IN_JEST === "true") {
         return true

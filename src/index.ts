@@ -34,11 +34,13 @@ CATCH_ERRORS.forEach((errorName: string) => {
     })
 })
 
+const settings = getConfig()
+
 const options = {
     shards: "auto",
     presence: {
         activity: {
-            name: "Run +help | EARLY BETA OF CAKEBOT 2!",
+            name: settings.status.replace("(PREFIX)", settings.prefix),
             type: "PLAYING",
         },
     },
@@ -63,7 +65,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
     const argString = message.content
     const argArray = argString.split(" ")
 
-    if (!argArray[0].startsWith("-")) {
+    if (!argArray[0].startsWith(settings.prefix)) {
         return
     }
 
@@ -76,7 +78,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         return
     }
 
-    const command = argArray[0].replace("-", "").toLowerCase()
+    const command = argArray[0].replace(settings.prefix, "").toLowerCase()
 
     // remove command
     let args = [...argArray]
@@ -127,9 +129,9 @@ export function start(applyHookups?: ApplyHookup | ApplyHookup[]): void {
 
     if (applyHookups) {
         if (Array.isArray(applyHookups)) {
-            applyHookups.forEach((hookup) =>
+            applyHookups.forEach((hookup) => {
                 hookup.call(hookup, commandRegistry)
-            )
+            })
         } else {
             applyHookups.call(applyHookups, commandRegistry)
         }

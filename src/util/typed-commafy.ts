@@ -57,6 +57,14 @@ function isNumeric(val: number | string): boolean {
     return !!val && !isNaN(Number(val))
 }
 
+/**
+ * Adds commas every 3 digits.
+ *
+ * @param val The number or string representation of a number to add commas to.
+ * @returns The number with commas (this will be a string).
+ * @example
+ * commafy(1000000) // => "1,000,000"
+ */
 export default function commafy(val: number | string): string {
     if (typeof val === "undefined" || val === null) {
         val = ""
