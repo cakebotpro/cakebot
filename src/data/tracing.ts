@@ -23,10 +23,10 @@ import chalk from "chalk"
  */
 export default class Trace {
     command: string
-    args: string[]
+    args: readonly string[]
     user: string
 
-    constructor(command: string, args: string[], user: string) {
+    constructor(command: string, args: readonly string[], user: string) {
         this.command = command
         this.args = args
         this.user = user

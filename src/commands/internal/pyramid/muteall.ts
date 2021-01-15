@@ -19,13 +19,12 @@ import { Guild, VoiceChannel } from "discord.js"
 import Command from "../../commands"
 
 function muteAll(guild: Guild): void {
-    // eslint-disable-next-line
     const channel = guild.channels.cache.get("765693920126304256") as
         | undefined
         | VoiceChannel
 
     channel?.members.each((member) => {
-        member.edit({ mute: true })
+        member.edit({ mute: !member.voice.serverMute })
     })
 }
 
