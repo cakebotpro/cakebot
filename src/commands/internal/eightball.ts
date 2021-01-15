@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 import random from "random"
 import { eightballs } from "../../data/remote/runtime-data"
 import Command from "../commands"
