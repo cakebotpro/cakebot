@@ -17,6 +17,7 @@
  */
 import { start } from "../../../index"
 import Arrest from "./arrest"
+import MuteAll from "./muteall"
 import Pardon from "./pardon"
 
 const ADMINS = [
@@ -27,5 +28,6 @@ const ADMINS = [
 
 start((commandRegistry) => {
     commandRegistry.register(Arrest(ADMINS))
+    commandRegistry.register(MuteAll(ADMINS))
     commandRegistry.register(Pardon(ADMINS))
 })

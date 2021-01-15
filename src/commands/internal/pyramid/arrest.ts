@@ -20,10 +20,11 @@ import logging from "../../../util/logging"
 import Command from "../../commands"
 
 function cancel(user: GuildMember | null, guild: Guild): void {
-    // eslint-disable-next-line
-    ;(guild.channels.cache.get("783367524250157076") as
+    const channel = guild.channels.cache.get("783367524250157076") as
         | undefined
-        | TextChannel)?.send(
+        | TextChannel
+
+    channel?.send(
         `:police_car: :police_officer: <@!${user?.id}> **HAS BEEN ARRESTED**!`
     )
 
