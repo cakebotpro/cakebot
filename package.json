@@ -23,7 +23,8 @@
         "lib": "build"
     },
     "files": [
-        "build"
+        "build",
+        ".github/SECURITY.md"
     ],
     "scripts": {
         "build": "rimraf build && tsc",
