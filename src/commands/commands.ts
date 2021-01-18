@@ -29,6 +29,7 @@ import Help from "./internal/help"
 import Homepage from "./internal/homepage"
 import Info from "./internal/info"
 import Invite from "./internal/invite"
+// import Iss from "./internal/iss"
 import Joke from "./internal/joke"
 import Pi from "./internal/pi"
 import Ping from "./internal/ping"
@@ -36,7 +37,6 @@ import Report from "./internal/report"
 import Slots from "./internal/slots"
 import Stars from "./internal/stars"
 import Registry from "./registry"
-// import Iss from "./internal/iss"
 
 export default interface Command {
     name: string
@@ -61,7 +61,6 @@ const internalCommands: Command[] = [
     Ping,
     Report,
     Slots,
-    // todo: get billing set up for gmaps
     // Iss,
     Stars,
 ]

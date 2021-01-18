@@ -50,7 +50,7 @@
         "chalk": "^4.1.0",
         "discord.js": "^12.5.1",
         "dotenv": "^8.2.0",
-        "google-geo-decoder": "^1.0.7",
+        "local-reverse-geocoder": "^0.8.0",
         "node-fetch": "^2.6.1",
         "random": "^2.2.0",
         "source-map-support": "^0.5.19",

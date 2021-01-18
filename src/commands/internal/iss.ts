@@ -16,10 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 // @ts-ignore
-import decoder from "google-geo-decoder"
-import { getConfig } from "../../data/config"
+import geocoder from "local-reverse-geocoder"
 import { asyncGetAndConsume } from "../../data/remote/runtime-downloads"
+import logging from "../../util/logging"
 import Command from "../commands"
+
+geocoder.init({
+    load: {
+        admin1: false,
+        admin2: false,
+        admin3And4: false,
+        alternateNames: false,
+    },
+})
 
 interface ExpectedResponseData {
     iss_position: {
@@ -36,13 +45,22 @@ const Iss: Command = {
             (response) => {
                 const data = ((response as unknown) as ExpectedResponseData)
                     .iss_position
-                const key = getConfig().googleMapsApiKey
-                if (!key) {
-                    message.channel.send(
-                        "Error: this module is improperly configured. You need a Google Maps API key!"
-                    )
+
+                const coords = {
+                    latitude: data.latitude,
+                    longitude: data.longitude,
                 }
-                console.log(decoder(data.latitude, data.longitude, key))
+
+                geocoder.lookUp(
+                    coords,
+                    function cbCallback(err?: string, res?: never) {
+                        if (err) {
+                            logging.error(err)
+                        }
+
+                        logging.info(JSON.stringify(res, null, 2))
+                    }
+                )
             }
         )
     },
