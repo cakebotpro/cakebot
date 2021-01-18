@@ -25,7 +25,6 @@ export interface Configuration {
     githubToken?: string
     debug: boolean
     bannedUserIds: number[]
-    googleMapsApiKey?: string
 }
 
 export interface ExpectedEnvironment {
@@ -36,7 +35,6 @@ export interface ExpectedEnvironment {
     WORDSAPI_TOKEN?: string
     GITHUB_TOKEN?: string
     BANNED_IDS?: string
-    GOOGLE_MAPS_API_KEY?: string
 }
 
 /**
@@ -83,7 +81,6 @@ export function getConfig(): Configuration {
         githubToken: env.GITHUB_TOKEN,
         debug: isTruthish(env.DEBUG),
         bannedUserIds: parseCommaList(env.BANNED_IDS),
-        googleMapsApiKey: env.GOOGLE_MAPS_API_KEY,
         prefix: env.BOT_PREFIX || "-",
         status: env.BOT_STATUS || "Run (PREFIX)help",
     }
