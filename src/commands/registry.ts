@@ -16,20 +16,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- * Either the type parameter or null.
- * This gets reused multiple times so its just easier to have a global type for it.
- */
-type VirtualOptional<T> = T | null
+import logging from "../util/logging"
+import Command from "./commands"
 
 /**
  * A 'registry' allows for easy indexing and registering of items of a certain type.
  */
-export default class Registry<T> {
+export default class Registry {
     /**
      * The objects this registry holds. DO NOT modify outside this class!!
      */
-    objects: T[]
+    objects: Command[]
 
     constructor() {
         this.objects = []
@@ -40,8 +37,9 @@ export default class Registry<T> {
      *
      * @param obj The object to register.
      */
-    register(obj: T): void {
+    register(obj: Command): void {
         this.objects.push(obj)
+        logging.debug(`Registered command ${obj.name}.`)
     }
 
     /**
@@ -49,7 +47,7 @@ export default class Registry<T> {
      *
      * @param obj The array of objects to register.
      */
-    registerAll(obj: T[]): void {
+    registerAll(obj: Command[]): void {
         obj.forEach((o) => this.objects.push(o))
     }
 
@@ -63,8 +61,8 @@ export default class Registry<T> {
      * @param property The name of the property to check.
      * @param value The value to check for.
      */
-    find<V>(property: string, value: V): VirtualOptional<T> {
-        let returnValue: VirtualOptional<T> = null
+    find<V>(property: string, value: V): Command | null {
+        let returnValue: Command | null = null
 
         this.objects.forEach((obj) => {
             if (returnValue !== null) {

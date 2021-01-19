@@ -15,9 +15,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 import { Message } from "discord.js"
-import logger from "../util/logging"
+import { ApplyHookup } from ".."
 import Boomer from "./internal/boomer"
 import Cake from "./internal/cake"
 import Clapify from "./internal/clapify"
@@ -36,7 +35,6 @@ import Ping from "./internal/ping"
 import Report from "./internal/report"
 import Slots from "./internal/slots"
 import Stars from "./internal/stars"
-import Registry from "./registry"
 
 export default interface Command {
     name: string
@@ -44,7 +42,7 @@ export default interface Command {
     execute(args: readonly string[], message: Message): void
 }
 
-const internalCommands: Command[] = [
+export const defaultCommands: Command[] = [
     Boomer,
     Cake,
     Clapify,
@@ -65,11 +63,11 @@ const internalCommands: Command[] = [
     Stars,
 ]
 
-export function registerInternalCommands(
-    commandRegistry: Registry<Command>
-): void {
-    internalCommands.forEach((cmd) => {
-        commandRegistry.register(cmd)
-        logger.debug(`Loaded command '${cmd.name}'.`)
-    })
+/**
+ * A hookup that applies the bot's default commands.
+ *
+ * @param commandRegistry The command registry
+ */
+export const defaultCommandsHookup: ApplyHookup = ({ commandRegistry }) => {
+    defaultCommands.forEach((cmd) => commandRegistry.register(cmd))
 }

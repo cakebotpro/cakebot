@@ -18,14 +18,13 @@
 import { Client, Message } from "discord.js"
 import { config as configureEnvironment } from "dotenv"
 import "source-map-support/register"
-import Command, { registerInternalCommands } from "./commands/commands"
 import Registry from "./commands/registry"
 import { getConfig } from "./data/config"
 import { runDatabasePreChecks } from "./data/database"
 import "./data/remote/runtime-data"
 import Trace from "./data/tracing"
 import { banner } from "./util/constants"
-import logger from "./util/logging"
+import { default as logger, default as logging } from "./util/logging"
 
 const CATCH_ERRORS = ["uncaughtException", "unhandledRejection"]
 CATCH_ERRORS.forEach((errorName: string) => {
@@ -51,7 +50,7 @@ const cakebot = new Client(
     options as Record<string, string | Record<string, Record<string, string>>>
 )
 
-const commandRegistry = new Registry<Command>()
+const commandRegistry = new Registry()
 
 cakebot.on("ready", function cakebotReadyCallback() {
     logger.info("Completed setup, bot is now ready on Discord!")
@@ -109,14 +108,17 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
     }
 })
 
-export type ApplyHookup = (commandRegistry: Registry<Command>) => void
+/**
+ * A method which accepts context details and applies the needed hookups.
+ */
+export type ApplyHookup = (context: { commandRegistry: Registry }) => void
 
 /**
  * This should be implemnted in your launch script.
  *
  * @param applyHookups A list of hookups to apply.
  */
-export function start(applyHookups?: ApplyHookup | ApplyHookup[]): void {
+export function start(applyHookups: ApplyHookup | ApplyHookup[]): void {
     configureEnvironment()
 
     console.log(banner)
@@ -125,16 +127,22 @@ export function start(applyHookups?: ApplyHookup | ApplyHookup[]): void {
 
     logger.info("Starting!")
 
-    registerInternalCommands(commandRegistry)
+    const context = { commandRegistry }
 
-    if (applyHookups) {
-        if (Array.isArray(applyHookups)) {
-            applyHookups.forEach((hookup) => {
-                hookup.call(hookup, commandRegistry)
-            })
-        } else {
-            applyHookups.call(applyHookups, commandRegistry)
-        }
+    if (!applyHookups) {
+        logging.error(
+            "No hookups have been specified, so if we launched, the bot would not do anything."
+        )
+        logging.error("Aborting. Please see the docs for more information.")
+        process.exit(1)
+    }
+
+    if (Array.isArray(applyHookups)) {
+        applyHookups.forEach((hookup) => {
+            hookup.call(hookup, context)
+        })
+    } else {
+        applyHookups.call(applyHookups, context)
     }
 
     cakebot.login(getConfig().discordToken)

@@ -16,6 +16,5 @@
         "moduleResolution": "node",
         "noImplicitReturns": true,
         "noUnusedLocals": true
-    },
-    "exclude": ["jest.config.ts", "src/__tests__/**"]
+    }
 }

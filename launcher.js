@@ -7,5 +7,8 @@
  */
 
 const start = require("./build/index").start
+const defaultCommandsHookup = require("./build/commands/commands")
+    .defaultCommandsHookup
 
-start()
+// start with a hookup that applies the default commands
+start([defaultCommandsHookup])

@@ -11,8 +11,6 @@ task:
     matrix:
         - lint_script: yarn lint
           name: Lint
-        - test_script: yarn test
-          name: Test
         - build_script: yarn build && yarn pack
           name: Build
           package_artifacts:

@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { start } from "../../../index"
+import { defaultCommandsHookup } from "../../commands"
 import Arrest from "./arrest"
 import MuteAll from "./muteall"
 import Pardon from "./pardon"
@@ -28,8 +29,12 @@ const ADMINS = [
     "506121585929748491",
 ]
 
-start((commandRegistry) => {
-    commandRegistry.register(Arrest(ADMINS))
-    commandRegistry.register(MuteAll(ADMINS))
-    commandRegistry.register(Pardon(ADMINS))
-})
+// start with default commands hookup and a custom hookup that applies Pyramid server commands
+start([
+    defaultCommandsHookup,
+    ({ commandRegistry }) => {
+        commandRegistry.register(Arrest(ADMINS))
+        commandRegistry.register(MuteAll(ADMINS))
+        commandRegistry.register(Pardon(ADMINS))
+    },
+])

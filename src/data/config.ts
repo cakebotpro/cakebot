@@ -104,10 +104,5 @@ export function getConfig(): Configuration {
  * @returns If the config has no errors (true), or has errors (false).
  */
 export function validateConfig(config: Configuration): boolean {
-    // don't run this validation when running `yarn test`
-    if (process.env.IS_IN_JEST === "true") {
-        return true
-    }
-
     return !!config.discordToken
 }
