@@ -24,7 +24,7 @@ export interface Configuration {
     wordsapiToken?: string
     githubToken?: string
     debug: boolean
-    bannedUserIds: number[]
+    bannedUserIds: string[]
 }
 
 export interface ExpectedEnvironment {
@@ -39,11 +39,14 @@ export interface ExpectedEnvironment {
 
 /**
  * Returns if the value passed is a string representation of true.
- *
  * @param v The string to check.
  * @returns If the string equals "true".
+ * @example
+ * isTruthish(undefined) // false
+ * isTruthish(true) // false
+ * isTruthish("true") // true
  */
-function isTruthish(v?: string): boolean {
+export function isTruthish(v?: string): boolean {
     if (!v) {
         return false
     }
@@ -51,27 +54,33 @@ function isTruthish(v?: string): boolean {
     return v.toLowerCase() === "true"
 }
 
-function parseCommaList(v?: string): number[] {
+/**
+ * Parses the banned users list environment variable, and returns a list of banned user IDs as strings.
+ * @param v The value of the environment variable.
+ * @returns The banned IDs list.
+ */
+function parseBannedUserList(v?: string): string[] {
     if (!v) {
         return []
     }
 
-    const ids: number[] = []
+    const ids: string[] = []
 
     const s = v.split(",")
-    s.forEach((pid) => {
-        try {
-            const i = Number.parseInt(pid)
-            ids.push(i)
-            logger.debug(`Added ID ${i.toString()} to the ban list.`)
-        } catch (e) {
-            // noop
-        }
+    s.forEach(function eachBannedUser(pid): void {
+        ids.push(pid)
+        logger.debug(`Added ID ${pid} to the ban list.`)
     })
 
     return ids
 }
 
+/**
+ * Gets the configuration from the environment variables.
+ * @returns The configuration.
+ * @throws Error If the configuration is invalid.
+ * @see validateConfig
+ */
 export function getConfig(): Configuration {
     const env = (process.env as unknown) as ExpectedEnvironment
 
@@ -80,7 +89,7 @@ export function getConfig(): Configuration {
         wordsapiToken: env.WORDSAPI_TOKEN,
         githubToken: env.GITHUB_TOKEN,
         debug: isTruthish(env.DEBUG),
-        bannedUserIds: parseCommaList(env.BANNED_IDS),
+        bannedUserIds: parseBannedUserList(env.BANNED_IDS),
         prefix: env.BOT_PREFIX || "-",
         status: env.BOT_STATUS || "Run (PREFIX)help",
     }
@@ -94,7 +103,7 @@ export function getConfig(): Configuration {
         `You need to put it in the .env file, with the variable being called 'DISCORD_TOKEN'!`
     )
     logger.info("See the documentation for more info.")
-    process.exit(1)
+    throw new Error("Failing due to invalid configuration.")
 }
 
 /**

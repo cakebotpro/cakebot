@@ -68,9 +68,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         return
     }
 
-    if (
-        getConfig().bannedUserIds.includes(Number.parseInt(message.author.id))
-    ) {
+    if (getConfig().bannedUserIds.includes(message.author.id)) {
         message.channel.send(
             "You have been banned from using the bot! This typically happens because you abused a feature or caused a big problem for us."
         )
@@ -117,6 +115,7 @@ export type ApplyHookup = (context: { commandRegistry: Registry }) => void
  * This should be implemnted in your launch script.
  *
  * @param applyHookups A list of hookups to apply.
+ * @see ApplyHookup
  */
 export function start(applyHookups: ApplyHookup | ApplyHookup[]): void {
     configureEnvironment()

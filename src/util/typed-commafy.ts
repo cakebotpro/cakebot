@@ -44,9 +44,10 @@
  */
 
 /**
- * Determines if the passed object is a number.
+ * Determines if the passed object is a number or string representation of a number.
  *
  * @param val The value.
+ * @returns If it is a number or string representation of a number.
  */
 function isNumeric(val: number | string): boolean {
     if (typeof val === "number" && !isNaN(val)) {

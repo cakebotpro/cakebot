@@ -18,7 +18,7 @@
 import { getConfig } from "../config"
 import { asyncGetAndConsume } from "./runtime-downloads"
 
-interface Result {
+export interface DefineResult {
     defs: string[]
     syllables: string
 }
@@ -34,12 +34,12 @@ interface DefResultCast {
     }[]
 }
 
-export default function define(word: string): Promise<Result> {
+export default function define(word: string): Promise<DefineResult> {
     return new Promise((resolve, reject) => {
         try {
             asyncGetAndConsume(
                 `https://wordsapiv1.p.rapidapi.com/words/${word}`,
-                (data) => {
+                function consumeWordFetch(data) {
                     const syllables =
                         ((data.syllables as unknown) as SyllablesCast)?.list ||
                         []
@@ -48,10 +48,10 @@ export default function define(word: string): Promise<Result> {
                             `${result.partOfSpeech}: ${result.definition}`
                     )
 
-                    const returnResult = {
+                    const returnResult: DefineResult = {
                         syllables: syllables.join(", "),
                         defs: defResults,
-                    } as Result
+                    }
 
                     resolve(returnResult)
                 },

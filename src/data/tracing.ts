@@ -26,6 +26,12 @@ export default class Trace {
     args: readonly string[]
     user: string
 
+    /**
+     * Creates a new instance of the trace class.
+     * @param command The command that was run.
+     * @param args The arguments the command was run with.
+     * @param user The display name (User#1234) of the user who run the command.
+     */
     constructor(command: string, args: readonly string[], user: string) {
         this.command = command
         this.args = args

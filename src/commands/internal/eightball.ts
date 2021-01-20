@@ -23,6 +23,13 @@ const EightBall: Command = {
     name: "8ball",
     aliases: ["8", "eightball", "eight"],
     execute(args, message) {
+        if (args.length < 1) {
+            message.channel.send(
+                "I can't answer your question... you didn't give me one!"
+            )
+            return
+        }
+
         message.channel.send(eightballs[random.int(0, eightballs.length - 2)])
     },
 }

@@ -36,9 +36,9 @@ const Homepage: Command = {
                     }
                     return
                 })
-                .catch(() =>
+                .catch(() => {
                     message.channel.send("Unknown repository! Is it public?")
-                )
+                })
         } else {
             message.channel.send("Please specify a repository!")
         }

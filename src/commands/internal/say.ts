@@ -15,26 +15,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { start } from "../../../index"
-import { defaultCommandsHookup } from "../../commands"
-import Arrest from "./arrest"
-import MuteAll from "./muteall"
-import Pardon from "./pardon"
+import Command from "../commands"
 
-const ADMINS = [
-    "411505437003743243",
-    "497194854099451904",
-    "617194842723975198",
-    "701492075799117934",
-    "506121585929748491",
-]
+const Say: Command = {
+    name: "say",
+    aliases: ["repeat"],
+    execute(args, message) {
+        if (args.length < 1) {
+            message.channel.send("I can't say nothing!")
+            return
+        }
 
-// start with default commands hookup and a custom hookup that applies Pyramid server commands
-start([
-    defaultCommandsHookup,
-    ({ commandRegistry }) => {
-        commandRegistry.register(Arrest(ADMINS))
-        commandRegistry.register(MuteAll(ADMINS))
-        commandRegistry.register(Pardon(ADMINS))
+        message.channel.send(`**Somebody says**: ${args.join(" ")}`)
     },
-])
+}
+
+export default Say

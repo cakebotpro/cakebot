@@ -25,8 +25,9 @@ import logger from "../../util/logging"
  * This also allows them to be updated without needing a new release.
  *
  * @param url The remote file's url.
+ * @returns The file's lines as a list of strings.
  */
-const getFileContents = (url: string): string[] => {
+export const getFileContents = (url: string): string[] => {
     logger.debug(`Downloading external component: ${url}`)
 
     return fetch(url).text().split("\n")
@@ -40,6 +41,7 @@ type AsyncConsumer = (data: Record<string, string | number | never>) => void
  * @param url The URL to fetch the JSON content of.
  * @param consumer The consumer of the data that accepts the fetched JSON data.
  * @param options The fetch options.
+ * @returns Nothing, this uses a callback!
  */
 export const asyncGetAndConsume = (
     url: string,

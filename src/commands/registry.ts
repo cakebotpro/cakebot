@@ -36,6 +36,7 @@ export default class Registry {
      * Registers the passed object to this registry.
      *
      * @param obj The object to register.
+     * @returns Nothing.
      */
     register(obj: Command): void {
         this.objects.push(obj)
@@ -46,6 +47,7 @@ export default class Registry {
      * Registers all the objects in the passed array to this registry.
      *
      * @param obj The array of objects to register.
+     * @returns Nothing.
      */
     registerAll(obj: Command[]): void {
         obj.forEach((o) => this.objects.push(o))
@@ -60,11 +62,12 @@ export default class Registry {
      *
      * @param property The name of the property to check.
      * @param value The value to check for.
+     * @returns The entry you requested, or null.
      */
     find<V>(property: string, value: V): Command | null {
         let returnValue: Command | null = null
 
-        this.objects.forEach((obj) => {
+        this.objects.forEach(function registryFindIterator(obj) {
             if (returnValue !== null) {
                 return
             }
