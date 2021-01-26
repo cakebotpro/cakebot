@@ -22,7 +22,7 @@ import logging from "../../util/logging"
 import Command from "../commands"
 
 // @ts-ignore
-geocoder.init({})
+// geocoder.init({})
 
 interface ExpectedResponseData {
     iss_position: {

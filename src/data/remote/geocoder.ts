@@ -38,8 +38,8 @@ import unzip from "node-unzip-2"
 import path from "path"
 import request from "request"
 
-// All data from http://download.geonames.org/export/dump/
-const GEONAMES_URL = "http://download.geonames.org/export/dump/"
+// All data from https://download.geonames.org/export/dump/
+const GEONAMES_URL = "https://download.geonames.org/export/dump/"
 
 const CITIES_FILE = "cities1000"
 
@@ -67,32 +67,32 @@ const GEONAMES_COLUMNS = [
 
 let GEONAMES_DUMP = __dirname + "/geonames_dump"
 
+// Distance function taken from
+// http://www.movable-type.co.uk/scripts/latlong.html
+export function distanceFunc(x: any, y: any) {
+    function toRadians(num: number): number {
+        return (num * Math.PI) / 180
+    }
+
+    const lat1 = x.latitude
+    const lon1 = x.longitude
+    const lat2 = y.latitude
+    const lon2 = y.longitude
+
+    const R = 6371 // km
+    const o1 = toRadians(lat1)
+    const o2 = toRadians(lat2)
+    const to = toRadians(lat2 - lat1)
+    const tl = toRadians(lon2 - lon1)
+    const a =
+        Math.sin(to / 2) * Math.sin(to / 2) +
+        Math.cos(o1) * Math.cos(o2) * Math.sin(tl / 2) * Math.sin(tl / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return R * c
+}
+
 class Geocoder {
     private _kdTree?: unknown
-
-    // Distance function taken from
-    // http://www.movable-type.co.uk/scripts/latlong.html
-    public static _distanceFunc(x: any, y: any) {
-        function toRadians(num: number): number {
-            return (num * Math.PI) / 180
-        }
-
-        const lat1 = x.latitude
-        const lon1 = x.longitude
-        const lat2 = y.latitude
-        const lon2 = y.longitude
-
-        const R = 6371 // km
-        const o1 = toRadians(lat1)
-        const o2 = toRadians(lat2)
-        const to = toRadians(lat2 - lat1)
-        const tl = toRadians(lon2 - lon1)
-        const a =
-            Math.sin(to / 2) * Math.sin(to / 2) +
-            Math.cos(o1) * Math.cos(o2) * Math.sin(tl / 2) * Math.sin(tl / 2)
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-        return R * c
-    }
 
     private _getGeoNamesCitiesData(callback: any) {
         const now = new Date().toISOString().substr(0, 10)
@@ -192,7 +192,7 @@ class Geocoder {
             const dimensions = ["latitude", "longitude"]
             this._kdTree = kdTree.createKdTree(
                 data,
-                Geocoder._distanceFunc,
+                distanceFunc,
                 dimensions
             )
             return callback()

@@ -73,7 +73,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
 
     if (getConfig().bannedUserIds.includes(message.author.id)) {
         message.channel.send(
-            "You have been banned from using the bot! This typically happens because you abused a feature or caused a big problem for us."
+            "**You have been banned from using the bot!** This typically happens because you abused a feature or caused a big problem for us."
         )
         return
     }
