@@ -15,27 +15,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import geocoder from "../../data/remote/geocoder"
+import { init, lookUp, StringPoint } from "../../data/remote/geocoder"
 import { asyncGetAndConsume } from "../../data/remote/runtime-downloads"
 import createEmbed from "../../util/embeds"
-import logging from "../../util/logging"
 import Command from "../commands"
 
-// @ts-ignore
-// geocoder.init({})
+init()
 
-interface ExpectedResponseData {
-    iss_position: {
-        latitude: string
-        longitude: string
-    }
-}
-
-// the found... city object... ish
-// todo this should get a better name
-interface Find {
-    countryCode: string
-    name: string
+interface OpenNotifyResponseData {
+    iss_position: StringPoint
 }
 
 const Iss: Command = {
@@ -44,51 +32,39 @@ const Iss: Command = {
         asyncGetAndConsume(
             "http://api.open-notify.org/iss-now.json",
             (response) => {
-                const data = ((response as unknown) as ExpectedResponseData)
+                const data = ((response as unknown) as OpenNotifyResponseData)
                     .iss_position
 
-                const coords = {
+                const coords: StringPoint = {
                     latitude: data.latitude,
                     longitude: data.longitude,
                 }
 
-                // @ts-ignore
-                geocoder.lookUp(
-                    [coords],
-                    function cbCallback(err?: string, res?: never) {
-                        if (err) {
-                            logging.error(err)
-                        }
-
-                        // @ts-ignore
-                        const f: Find = res[0][0]
-
-                        message.channel.send(
-                            createEmbed(
-                                "ISS",
-                                "The current location of the international space station!",
-                                [
-                                    {
-                                        name: "Latitude",
-                                        value: data.latitude,
-                                        inline: true,
-                                    },
-                                    {
-                                        name: "Longitude",
-                                        value: data.longitude,
-                                        inline: true,
-                                    },
-                                    {
-                                        name:
-                                            "Relative location (closest city)",
-                                        value: `${f.name}, ${f.countryCode}`,
-                                        inline: true,
-                                    },
-                                ]
-                            )
+                lookUp(coords, function cbCallback(result) {
+                    message.channel.send(
+                        createEmbed(
+                            "ISS",
+                            "The current location of the international space station!",
+                            [
+                                {
+                                    name: "Latitude",
+                                    value: data.latitude,
+                                    inline: true,
+                                },
+                                {
+                                    name: "Longitude",
+                                    value: data.longitude,
+                                    inline: true,
+                                },
+                                {
+                                    name: "Relative location (closest city)",
+                                    value: `${result.name}, ${result.countryCode}`,
+                                    inline: true,
+                                },
+                            ]
                         )
-                    }
-                )
+                    )
+                })
             }
         )
     },
