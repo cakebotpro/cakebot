@@ -15,26 +15,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-// @ts-ignore
-import geocoder from "local-reverse-geocoder"
+import geocoder from "../../data/remote/geocoder"
 import { asyncGetAndConsume } from "../../data/remote/runtime-downloads"
+import createEmbed from "../../util/embeds"
 import logging from "../../util/logging"
 import Command from "../commands"
 
-geocoder.init({
-    load: {
-        admin1: false,
-        admin2: false,
-        admin3And4: false,
-        alternateNames: false,
-    },
-})
+// @ts-ignore
+geocoder.init({})
 
 interface ExpectedResponseData {
     iss_position: {
         latitude: string
         longitude: string
     }
+}
+
+// the found... city object... ish
+// todo this should get a better name
+interface Find {
+    countryCode: string
+    name: string
 }
 
 const Iss: Command = {
@@ -51,14 +52,41 @@ const Iss: Command = {
                     longitude: data.longitude,
                 }
 
+                // @ts-ignore
                 geocoder.lookUp(
-                    coords,
+                    [coords],
                     function cbCallback(err?: string, res?: never) {
                         if (err) {
                             logging.error(err)
                         }
 
-                        logging.info(JSON.stringify(res, null, 2))
+                        // @ts-ignore
+                        const f: Find = res[0][0]
+
+                        message.channel.send(
+                            createEmbed(
+                                "ISS",
+                                "The current location of the international space station!",
+                                [
+                                    {
+                                        name: "Latitude",
+                                        value: data.latitude,
+                                        inline: true,
+                                    },
+                                    {
+                                        name: "Longitude",
+                                        value: data.longitude,
+                                        inline: true,
+                                    },
+                                    {
+                                        name:
+                                            "Relative location (closest city)",
+                                        value: `${f.name}, ${f.countryCode}`,
+                                        inline: true,
+                                    },
+                                ]
+                            )
+                        )
                     }
                 )
             }
