@@ -17,15 +17,16 @@ import parse from "csv-parse"
 import fs from "fs"
 // @ts-ignore
 import kdTree from "kdt"
-// @ts-ignore
-import unzip from "node-unzip-2"
 import path from "path"
-import request from "request"
 
-// All data from https://download.geonames.org/export/dump/
-const GEONAMES_URL = "https://download.geonames.org/export/dump/"
-
-const CITIES_FILE = "cities1000"
+const s = path.sep
+const pkgDirs: string[] = __dirname.split(s)
+// ugly solution but whatever
+pkgDirs.pop()
+pkgDirs.pop()
+pkgDirs.pop()
+const pkgDir: string = pkgDirs.join(s)
+const CITIES_FILE = path.join(pkgDir, `content${s}geocoder-cities-data.txt`)
 
 const GEONAMES_COLUMNS = [
     "geoNameId",
@@ -69,7 +70,7 @@ export interface LookupResult {
 
 // Distance function taken from
 // http://www.movable-type.co.uk/scripts/latlong.html
-export function distanceFunc(x: NumberPoint, y: NumberPoint) {
+export function distanceFunc(x: NumberPoint, y: NumberPoint): number {
     function toRadians(num: number): number {
         return (num * Math.PI) / 180
     }
@@ -91,98 +92,30 @@ export function distanceFunc(x: NumberPoint, y: NumberPoint) {
     return R * c
 }
 
-function _getGeoNamesCitiesData(callback: any): void {
-    const now = new Date().toISOString().substr(0, 10)
-    // Use timestamped cities file OR bare cities file
-    const timestampedFilename =
-        GEONAMES_DUMP + "/cities/" + CITIES_FILE + "_" + now + ".txt"
-    if (fs.existsSync(timestampedFilename)) {
-        return callback(timestampedFilename)
-    }
+function _parseGeoNamesCitiesCsv(callback: (err?: Error) => void): void {
+    const data: unknown[] = []
+    const content = fs.readFileSync(CITIES_FILE)
+    parse(
+        content,
+        { delimiter: "\t", quote: "" },
+        function cbCsvParseCallback(err, lines): void {
+            if (err) {
+                throw err
+            }
+            lines.forEach(function (line: string) {
+                const lineObj = {}
+                for (let i = 0; i < GEONAMES_COLUMNS.length; i++) {
+                    // @ts-ignore
+                    lineObj[GEONAMES_COLUMNS[i]] = line[i] || null
+                }
+                data.push(lineObj)
+            })
 
-    const filename = GEONAMES_DUMP + "/cities/" + CITIES_FILE + ".txt"
-    if (fs.existsSync(filename)) {
-        return callback(filename)
-    }
-    const options = {
-        url: GEONAMES_URL + CITIES_FILE + ".zip",
-        encoding: null,
-    }
-    request.get(
-        options,
-        function (
-            err: Error | undefined,
-            response: { statusCode: number },
-            body: string
-        ) {
-            if (err || response.statusCode !== 200) {
-                return callback(
-                    "Error downloading GeoNames cities data" +
-                        (err ? ": " + err : "")
-                )
-            }
-            // Store a dump locally
-            if (!fs.existsSync(GEONAMES_DUMP + "/cities")) {
-                fs.mkdirSync(GEONAMES_DUMP + "/cities")
-            }
-            const zipFilename =
-                GEONAMES_DUMP + "/cities/" + CITIES_FILE + "_" + now + ".zip"
-            try {
-                fs.writeFileSync(zipFilename, body)
-                fs.createReadStream(zipFilename)
-                    .pipe(unzip.Extract({ path: GEONAMES_DUMP + "/cities" }))
-                    .on("close", function () {
-                        fs.renameSync(filename, timestampedFilename)
-                        fs.unlinkSync(
-                            GEONAMES_DUMP +
-                                "/cities/" +
-                                CITIES_FILE +
-                                "_" +
-                                now +
-                                ".zip"
-                        )
-                        // Housekeeping, remove old files
-                        const currentFileName = path.basename(
-                            timestampedFilename
-                        )
-                        fs.readdirSync(GEONAMES_DUMP + "/cities").forEach(
-                            function (file) {
-                                if (file !== currentFileName) {
-                                    fs.unlinkSync(
-                                        GEONAMES_DUMP + "/cities/" + file
-                                    )
-                                }
-                            }
-                        )
-                        return callback(timestampedFilename)
-                    })
-            } catch (e) {
-                return callback(timestampedFilename)
-            }
+            const dimensions = ["latitude", "longitude"]
+            theKdTree = kdTree.createKdTree(data, distanceFunc, dimensions)
+            return callback()
         }
     )
-}
-
-function _parseGeoNamesCitiesCsv(pathToCsv: string, callback: any): void {
-    const data: unknown[] = []
-    const content = fs.readFileSync(pathToCsv)
-    parse(content, { delimiter: "\t", quote: "" }, (err, lines) => {
-        if (err) {
-            return callback(err)
-        }
-        lines.forEach(function (line: string) {
-            const lineObj = {}
-            for (let i = 0; i < GEONAMES_COLUMNS.length; i++) {
-                // @ts-ignore
-                lineObj[GEONAMES_COLUMNS[i]] = line[i] || null
-            }
-            data.push(lineObj)
-        })
-
-        const dimensions = ["latitude", "longitude"]
-        theKdTree = kdTree.createKdTree(data, distanceFunc, dimensions)
-        return callback()
-    })
 }
 
 export function init(): void {
@@ -190,28 +123,29 @@ export function init(): void {
     if (!fs.existsSync(GEONAMES_DUMP)) {
         fs.mkdirSync(GEONAMES_DUMP)
     }
-    _getGeoNamesCitiesData((e: string) => _parseGeoNamesCitiesCsv(e, () => {}))
+    _parseGeoNamesCitiesCsv(() => {})
 }
 
-export function lookUp(
-    point: StringPoint,
-    callback: (result: LookupResult) => void
-): void {
+export function lookUp(point: StringPoint): LookupResult | null {
     if (!theKdTree) {
-        // todo
+        return null
     }
+
     const p = {
         latitude: parseFloat(point.latitude),
         longitude: parseFloat(point.longitude),
     }
+
     // @ts-ignore
-    const result = theKdTree.nearest(p, 1)
+    let result = theKdTree.nearest(p, 1)
     result.reverse()
+
     for (let j = 0, lenJ = result.length; j < lenJ; j++) {
         if (result && result[j] && result[j][0]) {
             // Simplify the output by not returning an array
-            result[j] = result[j][0]
+            result = result[j][0]
         }
     }
-    return callback(result)
+
+    return result
 }

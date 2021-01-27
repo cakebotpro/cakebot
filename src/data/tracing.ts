@@ -22,9 +22,9 @@ import chalk from "chalk"
  * contact the person who caused it for more details if need be.
  */
 export default class Trace {
-    command: string
-    args: readonly string[]
-    user: string
+    private readonly command: string
+    private readonly args: readonly string[]
+    private readonly user: string
 
     /**
      * Creates a new instance of the trace class.
@@ -32,13 +32,13 @@ export default class Trace {
      * @param args The arguments the command was run with.
      * @param user The display name (User#1234) of the user who run the command.
      */
-    constructor(command: string, args: readonly string[], user: string) {
+    public constructor(command: string, args: readonly string[], user: string) {
         this.command = command
         this.args = args
         this.user = user
     }
 
-    toString(): string {
+    public toString(): string {
         return chalk`[{blue User:} ${this.user}] [{blue Command:} ${
             this.command
         }] [{blue Arguments}]: ${this.args.join(" ")}`

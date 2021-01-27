@@ -40,31 +40,37 @@ const Iss: Command = {
                     longitude: data.longitude,
                 }
 
-                lookUp(coords, function cbCallback(result) {
+                const result = lookUp(coords)
+                if (result === null) {
                     message.channel.send(
-                        createEmbed(
-                            "ISS",
-                            "The current location of the international space station!",
-                            [
-                                {
-                                    name: "Latitude",
-                                    value: data.latitude,
-                                    inline: true,
-                                },
-                                {
-                                    name: "Longitude",
-                                    value: data.longitude,
-                                    inline: true,
-                                },
-                                {
-                                    name: "Relative location (closest city)",
-                                    value: `${result.name}, ${result.countryCode}`,
-                                    inline: true,
-                                },
-                            ]
-                        )
+                        "Something went wrong, we will investigate. Sorry!"
                     )
-                })
+                    return
+                }
+
+                message.channel.send(
+                    createEmbed(
+                        "ISS",
+                        "The current location of the international space station!",
+                        [
+                            {
+                                name: "Latitude",
+                                value: data.latitude,
+                                inline: true,
+                            },
+                            {
+                                name: "Longitude",
+                                value: data.longitude,
+                                inline: true,
+                            },
+                            {
+                                name: "Relative location (closest city)",
+                                value: `${result.name}, ${result.countryCode}`,
+                                inline: true,
+                            },
+                        ]
+                    )
+                )
             }
         )
     },
