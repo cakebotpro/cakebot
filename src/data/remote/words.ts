@@ -41,8 +41,13 @@ export default function define(word: string): Promise<DefineResult> {
                 `https://wordsapiv1.p.rapidapi.com/words/${word}`,
                 function consumeWordFetch(data) {
                     const syllables =
-                        ((data.syllables as unknown) as SyllablesCast)?.list ||
+                        ((data.syllables as unknown) as SyllablesCast)?.list ??
                         []
+
+                    if (!data.results) {
+                        reject(`No definitions found for word ${word}!`)
+                    }
+
                     const defResults: string[] = ((data as unknown) as DefResultCast).results.map(
                         (result) =>
                             `${result.partOfSpeech}: ${result.definition}`
