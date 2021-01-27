@@ -15,13 +15,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 import Command from "../commands"
 
 const Clapify: Command = {
     name: "clapify",
     aliases: ["clap"],
     execute(args, message) {
+        if (args.length < 2) {
+            message.channel.send("You didn't tell me what to add claps to!")
+            return
+        }
+
         message.channel.send(args.join(" :clap: "))
     },
 }
