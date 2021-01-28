@@ -30,3 +30,11 @@ export const banner = chalk.green(`
          https://cakebot.club
     Under the GNU AGPL-3.0 License.
 `)
+
+/**
+ * Makes an error message for Discord.
+ * @param error The error message.
+ * @returns The text to send.
+ */
+export const makeError = (error: string): string =>
+    `:no_entry: | **Error**: ${error}`

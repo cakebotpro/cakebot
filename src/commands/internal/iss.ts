@@ -19,6 +19,7 @@ import { init, lookUp, StringPoint } from "../../data/remote/geocoder"
 import { asyncGetAndConsume } from "../../data/remote/runtime-downloads"
 import createEmbed from "../../util/embeds"
 import Command from "../commands"
+import { makeError } from "../../util/constants"
 
 init()
 
@@ -43,7 +44,9 @@ const Iss: Command = {
                 const result = lookUp(coords)
                 if (result === null) {
                     message.channel.send(
-                        "Something went wrong, we will investigate. Sorry!"
+                        makeError(
+                            "Something went wrong, we will investigate. Sorry!"
+                        )
                     )
                     return
                 }

@@ -17,6 +17,7 @@
  */
 import { getRepositoryHomepage } from "../../data/remote/github"
 import Command from "../commands"
+import { makeError } from "../../util/constants"
 
 const Homepage: Command = {
     name: "homepage",
@@ -31,16 +32,18 @@ const Homepage: Command = {
                         )
                     } else {
                         message.channel.send(
-                            `${args[0]} doesn't have a homepage set!`
+                            makeError(`${args[0]} doesn't have a homepage set!`)
                         )
                     }
                     return
                 })
                 .catch(() => {
-                    message.channel.send("Unknown repository! Is it public?")
+                    message.channel.send(
+                        makeError("Unknown repository! Is it public?")
+                    )
                 })
         } else {
-            message.channel.send("Please specify a repository!")
+            message.channel.send(makeError("Please specify a repository!"))
         }
     },
 }

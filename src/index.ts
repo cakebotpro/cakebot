@@ -15,9 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-require("./util/patching")
-
 import { Client, Message } from "discord.js"
 import { config as configureEnvironment } from "dotenv"
 import "source-map-support/register"
@@ -48,7 +45,6 @@ const options = {
     },
 }
 
-// todo: why is record casting a thing
 const cakebot = new Client(
     options as Record<string, string | Record<string, Record<string, string>>>
 )

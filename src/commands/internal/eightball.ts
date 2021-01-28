@@ -18,6 +18,7 @@
 import random from "random"
 import { eightballs } from "../../data/remote/runtime-data"
 import Command from "../commands"
+import { makeError } from "../../util/constants"
 
 const EightBall: Command = {
     name: "8ball",
@@ -25,7 +26,9 @@ const EightBall: Command = {
     execute(args, message) {
         if (args.length < 1) {
             message.channel.send(
-                "I can't answer your question... you didn't give me one!"
+                makeError(
+                    "I can't answer your question... you didn't give me one!"
+                )
             )
             return
         }

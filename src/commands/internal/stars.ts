@@ -18,6 +18,7 @@
 import { getRepositoryStars } from "../../data/remote/github"
 import commafy from "../../util/typed-commafy"
 import Command from "../commands"
+import { makeError } from "../../util/constants"
 
 const Stars: Command = {
     name: "stars",
@@ -31,10 +32,12 @@ const Stars: Command = {
                     return
                 })
                 .catch(() => {
-                    message.channel.send("Unknown repository! Is it public?")
+                    message.channel.send(
+                        makeError("Unknown repository! Is it public?")
+                    )
                 })
         } else {
-            message.channel.send("Please specify a repository!")
+            message.channel.send(makeError("Please specify a repository!"))
         }
     },
 }

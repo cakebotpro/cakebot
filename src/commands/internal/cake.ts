@@ -19,6 +19,7 @@
 import { User } from "discord.js"
 import { getUserById, loadConfig, save, Schema } from "../../data/database"
 import Command from "../commands"
+import { makeError } from "../../util/constants"
 
 function getCount(user: User): number {
     const u = getUserById(user.id.toString())
@@ -74,7 +75,9 @@ const Cake: Command = {
             }
         } else {
             message.channel.send(
-                "I expected a subcommand. Try `+cake` `give`, `count`, or `leaderboard`."
+                makeError(
+                    "I expected a subcommand. Try `+cake` `give`, `count`, or `leaderboard`."
+                )
             )
         }
     },

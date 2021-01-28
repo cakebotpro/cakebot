@@ -19,6 +19,7 @@ import { EmbedField } from "discord.js"
 import define from "../../data/remote/words"
 import createEmbed from "../../util/embeds"
 import Command from "../commands"
+import { makeError } from "../../util/constants"
 
 const Define: Command = {
     name: "define",
@@ -42,9 +43,9 @@ const Define: Command = {
                     message.channel.send(embed)
                     return
                 })
-                .catch(() => message.channel.send("Word not found!"))
+                .catch(() => message.channel.send(makeError("Word not found!")))
         } else {
-            message.channel.send("Please specify a word!")
+            message.channel.send(makeError("Please specify a word!"))
         }
     },
 }

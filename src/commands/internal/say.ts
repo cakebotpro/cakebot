@@ -16,13 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import Command from "../commands"
+import { makeError } from "../../util/constants"
 
 const Say: Command = {
     name: "say",
     aliases: ["repeat"],
     execute(args, message) {
         if (args.length < 1) {
-            message.channel.send("I can't say nothing!")
+            message.channel.send(makeError("I can't say nothing!"))
             return
         }
 
