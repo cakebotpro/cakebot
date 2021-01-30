@@ -2,31 +2,18 @@
  * @fileoverview Local reverse geocoder based on GeoNames data.
  * @author Thomas Steiner (tomac@google.com)
  * @license Apache 2.0
- *
- * @example
- * // With just one point
- * var point = {latitude: 42.083333, longitude: 3.1};
- * geocoder.lookUp(point, 1, function(err, res) {
- *   console.log(JSON.stringify(res, null, 2));
- * });
  */
 
-/* eslint-disable */
+/* eslint-disable header/header */
 
 import parse from "csv-parse"
-import fs from "fs"
+import { existsSync, mkdirSync, readFileSync } from "fs"
 // @ts-ignore
 import kdTree from "kdt"
-import path from "path"
+import { CONTENT_FOLDER } from "./runtime-data"
+import { sep } from "path"
 
-const s = path.sep
-const pkgDirs: string[] = __dirname.split(s)
-// ugly solution but whatever
-pkgDirs.pop()
-pkgDirs.pop()
-pkgDirs.pop()
-const pkgDir: string = pkgDirs.join(s)
-const CITIES_FILE = path.join(pkgDir, `content${s}geocoder-cities-data.txt`)
+const CITIES_FILE = `${CONTENT_FOLDER}${sep}geocoder-cities-data.txt`
 
 const GEONAMES_COLUMNS = [
     "geoNameId",
@@ -92,9 +79,9 @@ export function distanceFunc(x: NumberPoint, y: NumberPoint): number {
     return R * c
 }
 
-function _parseGeoNamesCitiesCsv(callback: (err?: Error) => void): void {
+function _parseGeoNamesCitiesCsv(): void {
     const data: unknown[] = []
-    const content = fs.readFileSync(CITIES_FILE)
+    const content = readFileSync(CITIES_FILE)
     parse(
         content,
         { delimiter: "\t", quote: "" },
@@ -113,17 +100,16 @@ function _parseGeoNamesCitiesCsv(callback: (err?: Error) => void): void {
 
             const dimensions = ["latitude", "longitude"]
             theKdTree = kdTree.createKdTree(data, distanceFunc, dimensions)
-            return callback()
         }
     )
 }
 
 export function init(): void {
     // Create local cache folder
-    if (!fs.existsSync(GEONAMES_DUMP)) {
-        fs.mkdirSync(GEONAMES_DUMP)
+    if (!existsSync(GEONAMES_DUMP)) {
+        mkdirSync(GEONAMES_DUMP)
     }
-    _parseGeoNamesCitiesCsv(() => {})
+    _parseGeoNamesCitiesCsv()
 }
 
 export function lookUp(point: StringPoint): LookupResult | null {

@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { User } from "discord.js"
-import logging from "../../../util/logging"
+import type { User } from "discord.js"
+import { warn } from "../../../util/logging"
 import Command from "../../commands"
 
 const Pardon = (admins: readonly string[]): Command => ({
@@ -41,7 +41,7 @@ const Pardon = (admins: readonly string[]): Command => ({
 
                 actualUser?.roles.cache.each((value) => {
                     actualUser.roles.remove(value).catch((e) => {
-                        logging.warn(e)
+                        warn(e)
                     })
                 })
                 actualUser?.roles.add("756551568387473580")

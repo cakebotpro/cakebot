@@ -15,13 +15,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { Message } from "discord.js"
-import { ApplyHookup } from ".."
+import type { Message, MessageReaction, PartialUser, User } from "discord.js"
+import type { ApplyHookup } from ".."
 import Boomer from "./internal/boomer"
 import Cake from "./internal/cake"
 import Clapify from "./internal/clapify"
 import Coinflip from "./internal/coinflip"
 import Define from "./internal/define"
+import * as Events from "./internal/events"
 import EightBall from "./internal/eightball"
 import Fact from "./internal/fact"
 import Help from "./internal/help"
@@ -34,6 +35,7 @@ import Pi from "./internal/pi"
 import Ping from "./internal/ping"
 import Report from "./internal/report"
 import Say from "./internal/say"
+import Shutdown from "./internal/shutdown"
 import Slots from "./internal/slots"
 import Stars from "./internal/stars"
 
@@ -69,6 +71,7 @@ export const defaultCommands: Command[] = [
     Coinflip,
     Define,
     EightBall,
+    Events.default,
     Fact,
     Help,
     Homepage,
@@ -80,6 +83,7 @@ export const defaultCommands: Command[] = [
     Ping,
     Report,
     Say,
+    Shutdown,
     Slots,
     Stars,
 ]
@@ -88,7 +92,23 @@ export const defaultCommands: Command[] = [
  * A hookup that applies the bot's default commands.
  *
  * @param commandRegistry The command registry.
+ * @param botClient The bot.
  */
-export const defaultCommandsHookup: ApplyHookup = ({ commandRegistry }) => {
+export const defaultCommandsHookup: ApplyHookup = ({
+    commandRegistry,
+    botClient,
+}) => {
     defaultCommands.forEach((cmd) => commandRegistry.register(cmd))
+    botClient.on(
+        "messageReactionAdd",
+        (reaction: MessageReaction, user: User | PartialUser) => {
+            Events.handleReactionAdd(reaction, user)
+        }
+    )
+    botClient.on(
+        "messageReactionRemove",
+        (reaction: MessageReaction, user: User | PartialUser) => {
+            Events.handleReactionRemove(reaction, user)
+        }
+    )
 }

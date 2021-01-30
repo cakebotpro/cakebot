@@ -15,8 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import logger from "../util/logging"
+import { debug, error, info } from "../util/logging"
 
+/**
+ * A model for an object containing the possible configuration values.
+ */
 export interface Configuration {
     discordToken: string
     prefix: string
@@ -25,8 +28,12 @@ export interface Configuration {
     githubToken?: string
     debug: boolean
     bannedUserIds: string[]
+    adminUserIds: string[]
 }
 
+/**
+ * A model for all the possible and required environment variables.
+ */
 export interface ExpectedEnvironment {
     DISCORD_TOKEN: string
     BOT_PREFIX?: string
@@ -35,7 +42,12 @@ export interface ExpectedEnvironment {
     WORDSAPI_TOKEN?: string
     GITHUB_TOKEN?: string
     BANNED_IDS?: string
+    ADMIN_IDS?: string
 }
+
+// avoid recalculating these every time getConfig is called
+let bannedUsersCache: string[] | undefined = undefined
+let adminUsersCache: string[] | undefined = undefined
 
 /**
  * Returns if the value passed is a string representation of true.
@@ -55,11 +67,20 @@ export function isTruthish(v?: string): boolean {
 }
 
 /**
- * Parses the banned users list environment variable, and returns a list of banned user IDs as strings.
+ * Parses the banned users and admin users environment variables, and returns a list of user IDs as strings.
+ * @param typeName The display name for the type of the list (e.g. "banned users").
  * @param v The value of the environment variable.
  * @returns The banned IDs list.
  */
-function parseBannedUserList(v?: string): string[] {
+function parseUserList(typeName: string, v?: string): string[] {
+    if (typeName === "admin users" && adminUsersCache !== undefined) {
+        return adminUsersCache
+    }
+
+    if (typeName === "banned users" && bannedUsersCache !== undefined) {
+        return bannedUsersCache
+    }
+
     if (!v) {
         return []
     }
@@ -67,10 +88,16 @@ function parseBannedUserList(v?: string): string[] {
     const ids: string[] = []
 
     const s = v.split(",")
-    s.forEach(function eachBannedUser(pid): void {
+    s.forEach(function eachUser(pid): void {
         ids.push(pid)
-        logger.debug(`Added ID ${pid} to the ban list.`)
+        debug(`Added ID ${pid} to the ${typeName} list.`, true)
     })
+
+    if (typeName === "admin users") {
+        adminUsersCache = ids
+    } else {
+        bannedUsersCache = ids
+    }
 
     return ids
 }
@@ -89,7 +116,8 @@ export function getConfig(): Configuration {
         wordsapiToken: env.WORDSAPI_TOKEN,
         githubToken: env.GITHUB_TOKEN,
         debug: isTruthish(env.DEBUG),
-        bannedUserIds: parseBannedUserList(env.BANNED_IDS),
+        bannedUserIds: parseUserList("banned users", env.BANNED_IDS),
+        adminUserIds: parseUserList("admin users", env.ADMIN_IDS),
         prefix: env.BOT_PREFIX || "-",
         status: env.BOT_STATUS || "Run (PREFIX)help",
     }
@@ -98,20 +126,22 @@ export function getConfig(): Configuration {
         return config
     }
 
-    logger.error("No Discord token specified!")
-    logger.error(
-        `You need to put it in the .env file, with the variable being called 'DISCORD_TOKEN'!`
+    error("No Discord token specified!")
+    error(
+        `You need to put it into \`process.env\` in your launcher, called 'DISCORD_TOKEN'!`
     )
-    logger.info("See the documentation for more info.")
+    info(
+        "See https://cakebot.club/docs/selfhosting/environment-variables for more info."
+    )
     throw new Error("Failing due to invalid configuration.")
 }
 
 /**
  * Validates the configuration object for any errors.
- *
  * @param config The configuration to validate.
- * @returns If the config has no errors (true), or has errors (false).
+ * @returns If the config is valid (true), or has errors (false).
  */
 export function validateConfig(config: Configuration): boolean {
+    // Checks if the Discord token is null or undefined.
     return !!config.discordToken
 }

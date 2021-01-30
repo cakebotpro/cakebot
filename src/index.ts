@@ -15,23 +15,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { Client, Message } from "discord.js"
-import { config as configureEnvironment } from "dotenv"
 import "source-map-support/register"
+import { Client, Message } from "discord.js"
 import Registry from "./commands/registry"
 import { getConfig } from "./data/config"
-import { runDatabasePreChecks } from "./data/database"
+import * as Database from "./data/database"
 import "./data/remote/runtime-data"
 import Trace from "./data/tracing"
 import { banner } from "./util/constants"
-import { default as logger, default as logging } from "./util/logging"
+import { debug, error, info, warn } from "./util/logging"
+import { dbPath, inMemoryDB } from "./data/database"
+import { writeFileSync } from "fs"
+import { schedulePeriodicDataSaves } from "./util/scheduling"
 
 const CATCH_ERRORS = ["uncaughtException", "unhandledRejection"]
 CATCH_ERRORS.forEach((errorName: string) => {
-    process.on(errorName, function throwUnhandled(e) {
-        throw e
+    process.on(errorName, function warnUnhandled(e): void {
+        warn(e)
     })
 })
+
+/**
+ * If this becomes true at any point,
+ * we stop all functionality and attempt to perform last minute cleanup.
+ * @readonly
+ */
+export let isShuttingDown = false
 
 const settings = getConfig()
 
@@ -45,6 +54,8 @@ const options = {
     },
 }
 
+Database.loadDb()
+
 const cakebot = new Client(
     options as Record<string, string | Record<string, Record<string, string>>>
 )
@@ -52,11 +63,11 @@ const cakebot = new Client(
 const commandRegistry = new Registry()
 
 cakebot.on("ready", function cakebotReadyCallback() {
-    logger.info("Completed setup, bot is now ready on Discord!")
+    info("Completed setup, bot is now ready on Discord!")
 })
 
 cakebot.on("message", function cakebotMessageCallback(message: Message) {
-    if (message.author.bot) {
+    if (message.author.bot || isShuttingDown) {
         return
     }
 
@@ -76,8 +87,8 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
 
     const command = argArray[0].replace(settings.prefix, "").toLowerCase()
 
-    // remove command
     let args = [...argArray]
+    // pop first arg since it is the command
     args = args.reverse()
     args.pop()
     args = args.reverse()
@@ -96,19 +107,22 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
             return
         }
 
-        logger.debug(`Command trace: ${trace}`)
+        debug(`Command trace: ${trace}`)
         exe.execute.call(exe, args, message)
     } catch (e) {
-        logger.error("An error occured during runtime.")
-        logger.warn(`Command trace: ${trace}`)
-        logger.error(e)
+        error("An error occured during runtime.")
+        warn(`Command trace: ${trace}`)
+        error(e)
     }
 })
 
 /**
- * A method which accepts context details and applies the needed hookups.
+ * A method which accepts context details and applies whatever changes it needs to.
  */
-export type ApplyHookup = (context: { commandRegistry: Registry }) => void
+export type ApplyHookup = (context: {
+    commandRegistry: Registry
+    botClient: Client
+}) => void
 
 /**
  * This should be implemnted in your launch script.
@@ -117,21 +131,18 @@ export type ApplyHookup = (context: { commandRegistry: Registry }) => void
  * @see ApplyHookup
  */
 export function start(applyHookups: ApplyHookup | ApplyHookup[]): void {
-    configureEnvironment()
-
     console.log(banner)
+    info("Starting!")
 
-    runDatabasePreChecks()
+    schedulePeriodicDataSaves()
 
-    logger.info("Starting!")
-
-    const context = { commandRegistry }
+    const context = { commandRegistry, botClient: cakebot }
 
     if (!applyHookups) {
-        logging.error(
+        error(
             "No hookups have been specified, so if we launched, the bot would not do anything."
         )
-        logging.error("Aborting. Please see the docs for more information.")
+        error("Aborting. Please see the docs for more information.")
         process.exit(1)
     }
 
@@ -144,4 +155,10 @@ export function start(applyHookups: ApplyHookup | ApplyHookup[]): void {
     }
 
     cakebot.login(getConfig().discordToken)
+}
+
+export function shutdown(): void {
+    isShuttingDown = true
+    writeFileSync(dbPath, JSON.stringify(inMemoryDB))
+    process.exit(0)
 }

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import type { Guild, GuildMember, TextChannel, User } from "discord.js"
-import logging from "../../../util/logging"
+import { warn } from "../../../util/logging"
 import Command from "../../commands"
 
 function cancel(user: GuildMember | null, guild: Guild): void {
@@ -30,7 +30,7 @@ function cancel(user: GuildMember | null, guild: Guild): void {
 
     user?.roles.cache.each((value) => {
         user.roles.remove(value).catch((e) => {
-            logging.warn(e)
+            warn(e)
         })
     })
 

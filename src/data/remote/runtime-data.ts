@@ -15,14 +15,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import download from "./runtime-downloads"
+import { sep, join } from "path"
+import { readFileSync } from "fs"
 
-export const eightballs = download(
-    "https://raw.githubusercontent.com/cakebotpro/cakebot/main/content/8ball.txt"
-)
+const s = sep
+const pkgDirs: string[] = __dirname.split(s)
+// ugly solution to get the path of this file, but 3 directories up
+// the current working directory might not be from the source code, but instead
+// a tgz installed with npm
+pkgDirs.pop()
+pkgDirs.pop()
+pkgDirs.pop()
+export const pkgDir: string = pkgDirs.join(s)
+export const CONTENT_FOLDER = join(pkgDir, `content`)
 
-export const jokes = download(
-    "https://raw.githubusercontent.com/cakebotpro/cakebot/main/content/jokes.txt"
-)
+export const eightballs = readFileSync(`${CONTENT_FOLDER}/8ball.txt`)
+
+export const jokes = readFileSync(`${CONTENT_FOLDER}/jokes.txt`)
 
 export const usersWithTicketsOpen: string[] = []

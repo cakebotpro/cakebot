@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import logging from "../util/logging"
+import { debug } from "../util/logging"
 import Command from "./commands"
 
 /**
@@ -40,7 +40,7 @@ export default class Registry {
      */
     public register(obj: Command): void {
         this.objects.push(obj)
-        logging.debug(`Registered command ${obj.name}.`)
+        debug(`Registered command ${obj.name}.`)
     }
 
     /**

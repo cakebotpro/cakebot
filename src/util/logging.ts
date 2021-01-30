@@ -19,24 +19,45 @@ import chalk from "chalk"
 import { getConfig } from "../data/config"
 
 /**
- * A very basic logger.
- *
- * @example
- * logging.info("Hello world") // in console => info Hello world
+ * Logs a message at the 'info' level.
+ * @param message The message.
  */
-export default {
-    info: (message: string): void => {
-        console.log(chalk`{blue info} ${message}`)
-    },
-    warn: (message: string): void => {
-        console.log(chalk`{yellow warn} ${message}`)
-    },
-    error: (message: string): void => {
-        console.log(chalk`{red error} ${message}`)
-    },
-    debug: (message: string): void => {
-        if (getConfig().debug) {
-            console.log(chalk`{magenta debug} ${message}`)
-        }
-    },
+export function info(message: string): void {
+    console.log(chalk`{blue info} ${message}`)
+}
+
+/**
+ * Logs a message at the 'warning' level.
+ * @param message The message.
+ */
+export function warn(message: string): void {
+    console.log(chalk`{yellow warn} ${message}`)
+}
+
+/**
+ * Logs a message at the 'error' level.
+ * @param message The message.
+ */
+export function error(message: string): void {
+    console.log(chalk`{red error} ${message}`)
+}
+
+/**
+ * Logs a message at the 'debug' level, which requires `env.DEBUG` to be `"true"`.
+ * @param message The message.
+ * @param force If it should ignore the debug option and print anyway.
+ * @see https://cakebot.club/docs/selfhosting/environment-variables
+ */
+export function debug(message: string, force?: boolean): void {
+    let r
+
+    if (force === true) {
+        r = true
+    } else {
+        r = getConfig().debug
+    }
+
+    if (r === true) {
+        console.log(chalk`{magenta debug} ${message}`)
+    }
 }

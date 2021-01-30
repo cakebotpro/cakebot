@@ -16,23 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import fetchPromise, { RequestInit } from "node-fetch"
-// @ts-ignore
-import fetch from "sync-fetch"
-import logger from "../../util/logging"
 
-/**
- * I don't want to have to go through the hassle of manually packaging files, so we just download them at runtime.
- * This also allows them to be updated without needing a new release.
- * @param url The remote file's url.
- * @returns The file's lines as a list of strings.
- */
-export const getFileContents = (url: string): string[] => {
-    logger.debug(`Downloading external component: ${url}`)
-
-    return fetch(url).text().split("\n")
-}
-
-type AsyncConsumer = (data: Record<string, string | number | never>) => void
+export type AsyncConsumer = (
+    data: Record<string, string | number | never>
+) => void
 
 /**
  * Downloads the file content, and calls the callback with the value of the JSON data.
@@ -49,6 +36,7 @@ export const asyncGetAndConsume = (
     fetchPromise(url, options || {})
         .then((response) => response.json())
         .then((jsondata) => {
+            // eslint-disable-next-line promise/no-callback-in-promise
             callback(jsondata)
             return
         })
@@ -56,5 +44,3 @@ export const asyncGetAndConsume = (
             throw e
         })
 }
-
-export default getFileContents

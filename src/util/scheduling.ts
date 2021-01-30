@@ -15,27 +15,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { EmbedField, MessageEmbed } from "discord.js"
+import { writeFileSync } from "fs"
+import { dbPath, inMemoryDB } from "../data/database"
 
-export default function createEmbed(
-    title: string,
-    description: string,
-    fields?: EmbedField[]
-): MessageEmbed {
-    const e = new MessageEmbed()
+function callback(): void {
+    writeFileSync(dbPath, JSON.stringify(inMemoryDB))
+}
 
-    e.setTitle(title)
-    e.setDescription(description)
-    e.setAuthor(
-        "Cakebot",
-        "https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/cake.png",
-        "https://cakebot.club"
-    )
-    e.setFooter("Created with ❤ by the Cakebot Team | https://cakebot.club")
-
-    if (fields) {
-        e.addFields(...fields)
-    }
-
-    return e
+export function schedulePeriodicDataSaves(): void {
+    setInterval(() => callback(), 150000)
 }

@@ -16,26 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { User } from "discord.js"
-import { getUserById, loadConfig, save, Schema } from "../../data/database"
+import type { User } from "discord.js"
+import { addUserById, inMemoryDB } from "../../data/database"
 import Command from "../commands"
 import { makeError } from "../../util/constants"
 
 function getCount(user: User): number {
-    const u = getUserById(user.id.toString())
-    return u.cakeCount
+    if (!inMemoryDB.users[user.id]) {
+        addUserById(user.id)
+    }
+
+    return inMemoryDB.users[user.id].cakeCount
 }
 
 function give(to: User): void {
-    const conf = loadConfig()
+    if (!inMemoryDB.users[to.id]) {
+        addUserById(to.id)
+    }
 
-    const u = getUserById(to.id.toString(), function useConfig(): Schema {
-        return conf
-    })
-
-    u.cakeCount += 1
-
-    save(conf)
+    inMemoryDB.users[to.id].cakeCount += 1
 }
 
 const Cake: Command = {
@@ -62,7 +61,9 @@ const Cake: Command = {
 
                 if (!user) {
                     message.channel.send(
-                        "I don't know who to give a cake to, please **mention them**."
+                        makeError(
+                            "I don't know who to give a cake to, please **mention them**."
+                        )
                     )
                     return
                 }

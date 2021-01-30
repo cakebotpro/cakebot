@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { EmbedField } from "discord.js"
+import type { EmbedField } from "discord.js"
 import define from "../../data/remote/words"
 import createEmbed from "../../util/embeds"
 import Command from "../commands"

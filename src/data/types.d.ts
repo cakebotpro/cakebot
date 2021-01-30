@@ -15,27 +15,41 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { EmbedField, MessageEmbed } from "discord.js"
 
-export default function createEmbed(
-    title: string,
-    description: string,
-    fields?: EmbedField[]
-): MessageEmbed {
-    const e = new MessageEmbed()
+/**
+ * A Cakebot user.
+ */
+export interface CBUser {
+    cakeCount: number
+}
 
-    e.setTitle(title)
-    e.setDescription(description)
-    e.setAuthor(
-        "Cakebot",
-        "https://raw.githubusercontent.com/cakebotpro/cakebot/master/content/cake.png",
-        "https://cakebot.club"
-    )
-    e.setFooter("Created with ❤ by the Cakebot Team | https://cakebot.club")
+/**
+ * A Cakebot event.
+ */
+export interface CBEvent {
+    /**
+     * A list of user IDs that have RSVP'd.
+     */
+    people: string[]
 
-    if (fields) {
-        e.addFields(...fields)
+    /**
+     * The ID of the message to react to in order to RSVP.
+     */
+    reactionMessageId: string
+}
+
+/**
+ * A Cakebot Discord server as a database entry.
+ */
+export interface CBServer {
+    activeEvent?: CBEvent
+}
+
+export interface Schema {
+    users: {
+        [userId: string]: CBUser
     }
-
-    return e
+    servers: {
+        [serverId: string]: CBServer
+    }
 }

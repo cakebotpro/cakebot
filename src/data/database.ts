@@ -15,25 +15,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { User } from "discord.js"
+import type { Message, User } from "discord.js"
 import { mkdirSync, readFileSync, statSync, writeFileSync } from "fs"
-import path from "path"
+import { sep } from "path"
 import random from "random"
 import { usersWithTicketsOpen } from "./remote/runtime-data"
+import type { Schema } from "./types"
+import { error } from "../util/logging"
 
-const dbPath = `${process.cwd()}${path.sep}database.json`
+/* eslint-disable promise/no-nesting */
 
-export interface CBUser {
-    cakeCount: number
-}
+export const dbPath = `${process.cwd()}${sep}database.json`
 
-export interface Schema {
-    users: {
-        [userId: string]: CBUser
+/**
+ * Loads the database.
+ * @see inMemoryDB
+ */
+export function loadDb(): Schema {
+    try {
+        statSync(dbPath)
+    } catch (e) {
+        // doesn't exist
+        writeFileSync(dbPath, defaultData)
     }
-    servers: {
-        [serverId: string]: Record<string, never>
-    }
+
+    const instream = readFileSync(dbPath)
+
+    return JSON.parse(instream.toString()) as Schema
 }
 
 const defaultData = JSON.stringify({
@@ -41,36 +49,68 @@ const defaultData = JSON.stringify({
     servers: {},
 })
 
-export function runDatabasePreChecks(): void {
-    try {
-        statSync(dbPath)
-    } catch (e) {
-        // doesn't exist
-        writeFileSync(dbPath, defaultData)
-    }
-}
+/**
+ * The active database.
+ * This is openly readable and writable.
+ */
+export const inMemoryDB: Schema = loadDb()
 
-function addUserById(userId: string, data: Schema): void {
-    data.users[userId] = {
+export function addUserById(userId: string): void {
+    inMemoryDB.users[userId] = {
         cakeCount: 0,
     }
-    save(data)
 }
 
-export function loadConfig(): Schema {
-    const instream = readFileSync(dbPath)
-
-    return JSON.parse(instream.toString()) as Schema
+export function addServerById(serverId: string): void {
+    inMemoryDB.servers[serverId] = {}
 }
 
-export function getUserById(userId: string, useConfig?: () => Schema): CBUser {
-    const d = (useConfig || loadConfig)()
+export function createEvent({
+    msg,
+    message,
+}: {
+    msg: string
+    message: Message
+}): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        message.channel
+            .send(msg)
+            .then((announcementMessage) => {
+                const server = inMemoryDB.servers[message.guild?.id || ""]
+                server.activeEvent = {
+                    people: [message.author.id],
+                    reactionMessageId: announcementMessage.id,
+                }
+                inMemoryDB.servers[message.guild?.id || ""] = server
+                resolve()
+                return
+            })
+            .catch((reason) => reject(reason))
+    })
+}
 
-    if (!d.users[userId]) {
-        addUserById(userId, d)
-    }
+export function startEvent(message: Message): void {
+    message.channel
+        .send("Starting the event now!")
+        .then(() => {
+            const server = inMemoryDB.servers[message.guild?.id || ""]
+            server.activeEvent?.people.forEach((person) => {
+                // eslint-disable-next-line promise/no-nesting
+                message.guild
+                    ?.member(person)
+                    ?.createDM()
+                    .then((channel) => {
+                        channel.send("An event you joined is starting now!")
+                        return
+                    })
+                    .catch((e) => error(e))
+            })
+            server.activeEvent = undefined
 
-    return d.users[userId]
+            inMemoryDB.servers[message.guild?.id || ""] = server
+            return
+        })
+        .catch((reason) => error(reason))
 }
 
 export function createTicket({
@@ -106,14 +146,9 @@ export function createTicket({
         writeFileSync(
             `tickets/${ticketId}.txt`,
             `Author: ${author.username}#${author.discriminator}
-
 Message: ${message}`
         )
 
         resolve()
     })
-}
-
-export function save(data: Schema): void {
-    writeFileSync(dbPath, JSON.stringify(data))
 }
