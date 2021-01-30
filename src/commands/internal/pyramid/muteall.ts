@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { Guild, VoiceChannel } from "discord.js"
+import type { Guild, VoiceChannel } from "discord.js"
 import Command from "../../commands"
 
 function muteAll(guild: Guild): void {

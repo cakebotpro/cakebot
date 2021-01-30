@@ -35,6 +35,11 @@ const removes = [
     ":",
 ]
 
+/**
+ * Strips any characters from an input in a GraphQL query that could be harmful.
+ * @param input The input for the query.
+ * @returns The sanitized version of the input.
+ */
 export default function sanitizeGraphQL(input: string): string {
     let inp = input
 

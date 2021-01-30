@@ -24,11 +24,11 @@ import Command from "./commands"
  */
 export default class Registry {
     /**
-     * The objects this registry holds. DO NOT modify outside this class!!
+     * The objects this registry holds.
      */
-    objects: Command[]
+    private objects: Command[]
 
-    constructor() {
+    public constructor() {
         this.objects = []
     }
 
@@ -38,7 +38,7 @@ export default class Registry {
      * @param obj The object to register.
      * @returns Nothing.
      */
-    register(obj: Command): void {
+    public register(obj: Command): void {
         this.objects.push(obj)
         logging.debug(`Registered command ${obj.name}.`)
     }
@@ -49,7 +49,7 @@ export default class Registry {
      * @param obj The array of objects to register.
      * @returns Nothing.
      */
-    registerAll(obj: Command[]): void {
+    public registerAll(obj: Command[]): void {
         obj.forEach((o) => this.objects.push(o))
     }
 
@@ -64,7 +64,7 @@ export default class Registry {
      * @param value The value to check for.
      * @returns The entry you requested, or null.
      */
-    find<V>(property: string, value: V): Command | null {
+    public find<V>(property: string, value: V): Command | null {
         let returnValue: Command | null = null
 
         this.objects.forEach(function registryFindIterator(obj) {

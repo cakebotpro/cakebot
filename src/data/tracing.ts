@@ -38,6 +38,10 @@ export default class Trace {
         this.user = user
     }
 
+    /**
+     * Returns a string representation of the trace object (made for console, contains color characters).
+     * @returns The string.
+     */
     public toString(): string {
         return chalk`[{blue User:} ${this.user}] [{blue Command:} ${
             this.command

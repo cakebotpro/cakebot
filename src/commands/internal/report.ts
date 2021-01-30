@@ -17,6 +17,7 @@
  */
 import { createTicket } from "../../data/database"
 import Command from "../commands"
+import { makeError } from "../../util/constants"
 
 const Report: Command = {
     name: "report",
@@ -31,10 +32,10 @@ const Report: Command = {
                     return
                 })
                 .catch((err) => {
-                    message.channel.send(`Error!: ${err}`)
+                    message.channel.send(makeError(err))
                 })
         } else {
-            message.channel.send("Your message is too short!")
+            message.channel.send(makeError("Your message is too short!"))
         }
     },
 }

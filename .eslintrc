@@ -19,6 +19,7 @@
     ],
     "rules": {
         "header/header": [2, "content/header.js"],
-        "@typescript-eslint/ban-ts-comment": 0
+        "@typescript-eslint/ban-ts-comment": 0,
+        "@typescript-eslint/no-non-null-assertion": 0
     }
 }
