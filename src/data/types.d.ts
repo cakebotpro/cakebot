@@ -20,7 +20,15 @@
  * A Cakebot user.
  */
 export interface CBUser {
+    /**
+     * The number of cakes that the user has.
+     */
     cakeCount: number
+
+    /**
+     * Custom server only.
+     */
+    nonArrestRoles?: string[]
 }
 
 /**
@@ -45,6 +53,9 @@ export interface CBServer {
     activeEvent?: CBEvent
 }
 
+/**
+ * The primary database schema.
+ */
 export interface Schema {
     users: {
         [userId: string]: CBUser

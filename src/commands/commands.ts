@@ -38,6 +38,7 @@ import Say from "./internal/say"
 import Shutdown from "./internal/shutdown"
 import Slots from "./internal/slots"
 import Stars from "./internal/stars"
+import Trump from "./internal/trump"
 
 /**
  * A command that users can execute.
@@ -86,6 +87,7 @@ export const defaultCommands: Command[] = [
     Shutdown,
     Slots,
     Stars,
+    Trump,
 ]
 
 /**

@@ -18,8 +18,14 @@
 import type { Guild, GuildMember, TextChannel, User } from "discord.js"
 import { warn } from "../../../util/logging"
 import Command from "../../commands"
+import { addUserById, inMemoryDB } from "../../../data/database"
+import { makeError } from "../../../util/constants"
 
-function cancel(user: GuildMember | null, guild: Guild): void {
+function cancel(user: GuildMember, guild: Guild): void {
+    if (!inMemoryDB.users[user.id]) {
+        addUserById(user.id)
+    }
+
     const channel = guild.channels.cache.get("783367524250157076") as
         | undefined
         | TextChannel
@@ -28,11 +34,16 @@ function cancel(user: GuildMember | null, guild: Guild): void {
         `:police_car: :police_officer: <@!${user?.id}> **HAS BEEN ARRESTED**!`
     )
 
+    const roleIds: string[] = []
+
     user?.roles.cache.each((value) => {
+        roleIds.push(value.id)
         user.roles.remove(value).catch((e) => {
             warn(e)
         })
     })
+
+    inMemoryDB.users[user.id].nonArrestRoles = roleIds
 
     user?.roles.add("768175383115202620")
 }
@@ -47,7 +58,7 @@ const Arrest = (admins: readonly string[]): Command => ({
             const targetUser: User | undefined = message.mentions.users.first()
 
             if (!admins.includes(message.author.id)) {
-                message.channel.send("You can't do that!!")
+                message.channel.send(makeError("You can't do that!!"))
                 return
             }
 
@@ -56,12 +67,14 @@ const Arrest = (admins: readonly string[]): Command => ({
                 message.channel.send(
                     "Understood. Please allow a few seconds for cancellation to be executed."
                 )
-                cancel(actualUser, guild)
+                if (actualUser !== null) {
+                    cancel(actualUser, guild)
+                }
                 message.channel.send("Done!")
                 return
             }
 
-            message.channel.send("No such user/role found!")
+            message.channel.send(makeError("No such user/role found!"))
         }
     },
 })

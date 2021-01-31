@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import fetchPromise, { RequestInit } from "node-fetch"
+import { warn } from "../../util/logging"
 
 export type AsyncConsumer = (
     data: Record<string, string | number | never>
@@ -41,6 +42,6 @@ export const asyncGetAndConsume = (
             return
         })
         .catch((e) => {
-            throw e
+            warn(e)
         })
 }

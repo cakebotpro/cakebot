@@ -18,6 +18,8 @@
 import type { User } from "discord.js"
 import { warn } from "../../../util/logging"
 import Command from "../../commands"
+import { addUserById, inMemoryDB } from "../../../data/database"
+import { makeError } from "../../../util/constants"
 
 const Pardon = (admins: readonly string[]): Command => ({
     name: "pardon",
@@ -29,11 +31,15 @@ const Pardon = (admins: readonly string[]): Command => ({
             const targetUser: User | undefined = message.mentions.users.first()
 
             if (!admins.includes(message.author.id)) {
-                message.channel.send("You can't do that!!")
+                message.channel.send(makeError("You can't do that!!"))
                 return
             }
 
             if (targetUser) {
+                if (!inMemoryDB.users[targetUser.id]) {
+                    addUserById(targetUser.id)
+                }
+
                 const actualUser = guild.member(targetUser)
                 message.channel.send(
                     "Understood. Please allow a few seconds for pardoning to be executed."
@@ -44,13 +50,24 @@ const Pardon = (admins: readonly string[]): Command => ({
                         warn(e)
                     })
                 })
-                actualUser?.roles.add("756551568387473580")
+
+                if (inMemoryDB.users[targetUser.id].nonArrestRoles) {
+                    inMemoryDB.users[targetUser.id].nonArrestRoles?.forEach(
+                        (nonArrestRole) => {
+                            actualUser?.roles.add(nonArrestRole)
+                        }
+                    )
+                } else {
+                    actualUser?.roles.add("756551568387473580")
+                }
+
+                delete inMemoryDB.users[targetUser.id].nonArrestRoles
 
                 message.channel.send("Done!")
                 return
             }
 
-            message.channel.send("No such user found!")
+            message.channel.send(makeError("No such user found!"))
         }
     },
 })
