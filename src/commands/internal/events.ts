@@ -83,6 +83,13 @@ If you want to join the event, just run the \`join\` subcommand!`
                         message.channel.send(makeError(err))
                     })
                 return
+            } else {
+                message.channel.send(
+                    makeError(
+                        "You need to have the manage server or administrator permissions on this Discord server!"
+                    )
+                )
+                return
             }
         }
 
