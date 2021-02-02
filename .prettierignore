@@ -1,6 +1,4 @@
-packages/**/build
 .theia/settings.json
-.mypy_cache
 build
 database.json
 tickets

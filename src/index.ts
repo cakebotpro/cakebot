@@ -35,6 +35,10 @@ CATCH_ERRORS.forEach((errorName: string) => {
     })
 })
 
+process.on("SIGTERM", function quit(): void {
+    writeFileSync(dbPath, JSON.stringify(inMemoryDB))
+})
+
 /**
  * If this becomes true at any point,
  * we stop all functionality and attempt to perform last minute cleanup.
