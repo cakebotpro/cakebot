@@ -29,8 +29,8 @@ pkgDirs.pop()
 export const pkgDir: string = pkgDirs.join(s)
 export const CONTENT_FOLDER = join(pkgDir, `content`)
 
-export const eightballs = readFileSync(`${CONTENT_FOLDER}/8ball.txt`)
+export const eightballs = readFileSync(`${CONTENT_FOLDER}/8ball.txt`).toString().split("\n")
 
-export const jokes = readFileSync(`${CONTENT_FOLDER}/jokes.txt`)
+export const jokes = readFileSync(`${CONTENT_FOLDER}/jokes.txt`).toString().split("\n")
 
 export const usersWithTicketsOpen: string[] = []
