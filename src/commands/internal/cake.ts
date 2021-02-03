@@ -16,12 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { User } from "discord.js"
-import { addUserById, inMemoryDB } from "../../data/database"
+import type {User} from "discord.js"
+import {addUserById, inMemoryDB} from "../../data/database"
 import Command from "../commands"
-import { makeError } from "../../util/constants"
+import {makeError} from "../../util/constants"
+import {cakebot} from "../../index";
+import {MessageEmbed} from "discord.js";
 
-function getCount(user: User): number {
+export function getCount(user: User): number {
     if (!inMemoryDB.users[user.id]) {
         addUserById(user.id)
     }
@@ -73,6 +75,46 @@ const Cake: Command = {
                 message.channel.send(
                     `Done! ${user?.username} now has ${getCount(user)} cakes.`
                 )
+            }
+
+            if (subcommand === "leaderboard") {
+                const mappedData = Object
+                    .keys(inMemoryDB.users)
+                    .map(user => {
+                        return {
+                            id: user,
+                            data: inMemoryDB.users[user]
+                        }
+                    })
+                    .sort(user => user.data.cakeCount);
+
+                const md = mappedData.map(data => {
+                    const index = mappedData.indexOf(data);
+                    if (index <= 10) {
+                        const user = cakebot.users.cache.find(u => u.id == data.id)
+                        return `${index + 1}. ${user?.tag ?? "Name#0000"} - ${data.data.cakeCount} cakes`;
+                    } else {
+                        return null;
+                    }
+                }).filter(item => item !== null);
+
+                const executorIndex = mappedData.findIndex(u => u.id == message.author.id);
+
+                if (executorIndex > 11) {
+                    md.push(`${executorIndex + 1}. ${message.author.username} - ${getCount(message.author)} cakes`);
+                }
+
+                if (md.length == 0) {
+                    md.push("There doesn't seem to be anybody on the leaderboard :(.");
+                }
+
+                const embed = new MessageEmbed()
+                    .setColor(message.member?.displayColor ?? "#2196f3")
+                    .setTimestamp(Date.now())
+                    .setDescription(md.join("\n"))
+                    .setAuthor("Leaderboard")
+
+                message.channel.send(embed);
             }
         } else {
             message.channel.send(

@@ -60,7 +60,7 @@ const options = {
 
 Database.loadDb()
 
-const cakebot = new Client(
+export const cakebot = new Client(
     options as Record<string, string | Record<string, Record<string, string>>>
 )
 
