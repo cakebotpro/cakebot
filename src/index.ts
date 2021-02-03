@@ -121,12 +121,19 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
 })
 
 /**
- * A method which accepts context details and applies whatever changes it needs to.
+ * The context given by ApplyHookup.
+ * @see ApplyHookup
  */
-export type ApplyHookup = (context: {
+export interface Context {
     commandRegistry: Registry
     botClient: Client
-}) => void
+}
+
+/**
+ * A method which accepts context details and applies whatever changes it needs to.
+ * @see Context
+ */
+export type ApplyHookup = (context: Context) => void
 
 /**
  * This should be implemnted in your launch script.

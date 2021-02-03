@@ -20,8 +20,10 @@ import type { User } from "discord.js"
 import { addUserById, inMemoryDB } from "../../data/database"
 import Command from "../commands"
 import { makeError } from "../../util/constants"
+import { Context } from "../../index"
+import createEmbed from "../../util/embeds"
 
-function getCount(user: User): number {
+export function getCount(user: User): number {
     if (!inMemoryDB.users[user.id]) {
         addUserById(user.id)
     }
@@ -37,7 +39,7 @@ function give(to: User): void {
     inMemoryDB.users[to.id].cakeCount += 1
 }
 
-const Cake: Command = {
+const Cake = ({ botClient }: Context): Command => ({
     name: "cake",
     aliases: ["cakes"],
     execute(args, message) {
@@ -74,6 +76,65 @@ const Cake: Command = {
                     `Done! ${user?.username} now has ${getCount(user)} cakes.`
                 )
             }
+
+            if (subcommand === "leaderboard" || subcommand === "lb") {
+                const mappedData = Object.keys(inMemoryDB.users)
+                    .map((user) => {
+                        return {
+                            id: user,
+                            data: inMemoryDB.users[user],
+                        }
+                    })
+                    .sort((user) => user.data.cakeCount)
+
+                const md = mappedData
+                    .map((data) => {
+                        const index = mappedData.indexOf(data)
+                        if (index <= 10) {
+                            const user = botClient.users.cache.find(
+                                (u) => u.id == data.id
+                            )
+                            return `${index + 1}. ${
+                                user?.tag ?? "Unknown User"
+                            } - ${data.data.cakeCount} cakes`
+                        } else {
+                            return null
+                        }
+                    })
+                    .filter((item) => item !== null)
+
+                const executorIndex = mappedData.findIndex(
+                    (u) => u.id == message.author.id
+                )
+
+                if (executorIndex > 11) {
+                    md.push(
+                        `${executorIndex + 1}. ${
+                            message.author.username
+                        } - ${getCount(message.author)} cakes`
+                    )
+                }
+
+                if (md.length == 0) {
+                    md.push(
+                        "There doesn't seem to be anybody on the leaderboard :sad:"
+                    )
+                }
+
+                message.channel.send(
+                    createEmbed(
+                        "Leaderboard",
+                        "The people with the most cakes!",
+                        [
+                            {
+                                name: "test",
+                                value: md.join("\n"),
+                                inline: false,
+                            },
+                        ]
+                    )
+                )
+            }
         } else {
             message.channel.send(
                 makeError(
@@ -82,6 +143,6 @@ const Cake: Command = {
             )
         }
     },
-}
+})
 
 export default Cake

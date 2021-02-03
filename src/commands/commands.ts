@@ -67,7 +67,6 @@ export default interface Command {
 
 export const defaultCommands: Command[] = [
     Boomer,
-    Cake,
     Clapify,
     Coinflip,
     Define,
@@ -93,20 +92,21 @@ export const defaultCommands: Command[] = [
 /**
  * A hookup that applies the bot's default commands.
  *
- * @param commandRegistry The command registry.
- * @param botClient The bot.
+ * @param context The context.
  */
-export const defaultCommandsHookup: ApplyHookup = ({
-    commandRegistry,
-    botClient,
-}) => {
+export const defaultCommandsHookup: ApplyHookup = (context) => {
+    const { commandRegistry, botClient } = context
+
     defaultCommands.forEach((cmd) => commandRegistry.register(cmd))
+    commandRegistry.register(Cake.apply(Cake, [context]))
+
     botClient.on(
         "messageReactionAdd",
         (reaction: MessageReaction, user: User | PartialUser) => {
             Events.handleReactionAdd(reaction, user)
         }
     )
+
     botClient.on(
         "messageReactionRemove",
         (reaction: MessageReaction, user: User | PartialUser) => {
