@@ -7,7 +7,7 @@
 /* eslint-disable header/header */
 
 import parse from "csv-parse"
-import { existsSync, mkdirSync, readFileSync } from "fs"
+import { readFileSync } from "fs"
 // @ts-ignore
 import kdTree from "kdt"
 import { CONTENT_FOLDER } from "./runtime-data"
@@ -37,7 +37,6 @@ const GEONAMES_COLUMNS = [
     "modificationDate",
 ]
 
-const GEONAMES_DUMP = __dirname + "/geonames_dump"
 let theKdTree: unknown = undefined
 
 export interface StringPoint {
@@ -79,7 +78,7 @@ export function distanceFunc(x: NumberPoint, y: NumberPoint): number {
     return R * c
 }
 
-function _parseGeoNamesCitiesCsv(): void {
+export function init(): void {
     const data: unknown[] = []
     const content = readFileSync(CITIES_FILE)
     parse(
@@ -102,14 +101,6 @@ function _parseGeoNamesCitiesCsv(): void {
             theKdTree = kdTree.createKdTree(data, distanceFunc, dimensions)
         }
     )
-}
-
-export function init(): void {
-    // Create local cache folder
-    if (!existsSync(GEONAMES_DUMP)) {
-        mkdirSync(GEONAMES_DUMP)
-    }
-    _parseGeoNamesCitiesCsv()
 }
 
 export function lookUp(point: StringPoint): LookupResult | null {
