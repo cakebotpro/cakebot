@@ -16,12 +16,54 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { writeFileSync } from "fs"
-import { dbPath, inMemoryDB } from "../data/database"
+import { commitLeaderboardData, dbPath, inMemoryDB } from "../data/database"
+import type { LeaderboardEntry } from "../data/types"
+import type { Client } from "discord.js"
+import { warn } from "./logging"
 
 function callback(): void {
     writeFileSync(dbPath, JSON.stringify(inMemoryDB))
 }
 
-export function schedulePeriodicDataSaves(): void {
-    setInterval(() => callback(), 150000)
+export function scheduleTasks(botClient: Client): void {
+    setInterval(() => callback(), 150_000)
+    setInterval(() => {
+        recalculateLeaderboard(botClient)
+            .catch((e) => warn(e))
+    }, 900_000)
+    // also first time
+    recalculateLeaderboard(botClient)
+        .catch((e) => warn(e))
+}
+
+export async function recalculateLeaderboard(botClient: Client): Promise<void> {
+    const lb: LeaderboardEntry[] = []
+
+    const mappedData = Object.keys(inMemoryDB.users)
+        .map((user) => {
+            return {
+                id: user,
+                data: inMemoryDB.users[user],
+            }
+        })
+        .sort((userOne, userTwo) => {
+            return userOne.data.cakeCount - userTwo.data.cakeCount
+        })
+
+    let i = 0
+
+    while (i < 10) {
+        const data = mappedData[i]
+
+        if (data) {
+            const user = await botClient.users.fetch(data.id, true)
+            if (data.data.cakeCount >= 1) {
+                lb.push({ name: user?.tag ?? "", cakes: data.data.cakeCount })
+            }
+        }
+
+        i += 1
+    }
+
+    commitLeaderboardData(lb)
 }

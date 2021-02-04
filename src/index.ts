@@ -26,7 +26,7 @@ import { banner } from "./util/constants"
 import { debug, error, info, warn } from "./util/logging"
 import { dbPath, inMemoryDB } from "./data/database"
 import { writeFileSync } from "fs"
-import { schedulePeriodicDataSaves } from "./util/scheduling"
+import { scheduleTasks } from "./util/scheduling"
 
 const CATCH_ERRORS = ["uncaughtException", "unhandledRejection"]
 CATCH_ERRORS.forEach((errorName: string) => {
@@ -145,9 +145,9 @@ export function start(applyHookups: ApplyHookup | ApplyHookup[]): void {
     console.log(banner)
     info("Starting!")
 
-    schedulePeriodicDataSaves()
-
     const context = { commandRegistry, botClient: cakebot }
+
+    scheduleTasks(cakebot)
 
     if (!applyHookups) {
         error(

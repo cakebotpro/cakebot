@@ -64,3 +64,8 @@ export interface Schema {
         [serverId: string]: CBServer
     }
 }
+
+export interface LeaderboardEntry {
+    name: string
+    cakes: number
+}

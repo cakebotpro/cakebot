@@ -40,7 +40,7 @@ const removes = [
  * @param input The input for the query.
  * @returns The sanitized version of the input.
  */
-export default function sanitizeGraphQL(input: string): string {
+export function sanitizeGraphQL(input: string): string {
     let inp = input
 
     removes.forEach((remove) => {

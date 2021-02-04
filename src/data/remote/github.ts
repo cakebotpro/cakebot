@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { Octokit } from "@octokit/core"
-import sanitizeGraphQL from "../../util/safety"
+import { sanitizeGraphQL } from "../../util/safety"
 import { getConfig } from "../config"
 
 function makeOctokit(): Octokit {
