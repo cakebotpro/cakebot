@@ -17,7 +17,14 @@
  */
 
 import type { User } from "discord.js"
-import { addUserById, getLeaderboard, inMemoryDB } from "../../data/database"
+import {
+    addUserById,
+    commitCooldown,
+    getCooldowns,
+    getLeaderboard,
+    inMemoryDB,
+    removeCooldown,
+} from "../../data/database"
 import Command from "../commands"
 import { makeError } from "../../util/constants"
 import createEmbed from "../../util/embeds"
@@ -35,7 +42,9 @@ function give(to: User): void {
         addUserById(to.id)
     }
 
+    commitCooldown(to.id)
     inMemoryDB.users[to.id].cakeCount += 1
+    setInterval(() => removeCooldown(to.id), 7_200_000)
 }
 
 const Cake: Command = {
@@ -69,6 +78,13 @@ const Cake: Command = {
                     return
                 }
 
+                if (getCooldowns().includes(message.author.id)) {
+                    message.channel.send(
+                        makeError("You can only give a cake every *2 hours*!")
+                    )
+                    return
+                }
+
                 give(user)
 
                 message.channel.send(
@@ -90,11 +106,13 @@ const Cake: Command = {
                     createEmbed(
                         "Leaderboard",
                         "The people with the most cakes!",
-                        getLeaderboard().reverse().map((ent) => ({
-                            name: ent.name,
-                            value: `${ent.cakes} cakes.`,
-                            inline: false,
-                        }))
+                        getLeaderboard()
+                            .reverse()
+                            .map((ent) => ({
+                                name: ent.name,
+                                value: `${ent.cakes} cakes.`,
+                                inline: false,
+                            }))
                     )
                 )
             }

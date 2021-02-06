@@ -55,7 +55,7 @@ export interface LookupResult {
 }
 
 // Distance function taken from
-// http://www.movable-type.co.uk/scripts/latlong.html
+// https://www.movable-type.co.uk/scripts/latlong.html
 export function distanceFunc(x: NumberPoint, y: NumberPoint): number {
     function toRadians(num: number): number {
         return (num * Math.PI) / 180

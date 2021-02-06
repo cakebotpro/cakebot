@@ -22,6 +22,7 @@ import random from "random"
 import { usersWithTicketsOpen } from "./remote/runtime-data"
 import type { LeaderboardEntry, Schema } from "./types"
 import { error } from "../util/logging"
+import { removeIf } from "../util/array-polyfills"
 
 /* eslint-disable promise/no-nesting */
 
@@ -32,6 +33,7 @@ export const dbPath = `${process.cwd()}${sep}database.json`
  * @see commitLeaderboardData
  */
 let leaderboard: LeaderboardEntry[] = []
+let cakeCooldowns: string[] = []
 
 /**
  * Loads the database.
@@ -165,4 +167,16 @@ export function commitLeaderboardData(dat: LeaderboardEntry[]): void {
 
 export function getLeaderboard(): LeaderboardEntry[] {
     return leaderboard
+}
+
+export function commitCooldown(userId: string): void {
+    cakeCooldowns.push(userId)
+}
+
+export function removeCooldown(userId: string): void {
+    cakeCooldowns = removeIf<string>(cakeCooldowns, (item) => item === userId)
+}
+
+export function getCooldowns(): string[] {
+    return cakeCooldowns
 }

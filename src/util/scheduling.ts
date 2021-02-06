@@ -28,12 +28,10 @@ function callback(): void {
 export function scheduleTasks(botClient: Client): void {
     setInterval(() => callback(), 150_000)
     setInterval(() => {
-        recalculateLeaderboard(botClient)
-            .catch((e) => warn(e))
+        recalculateLeaderboard(botClient).catch((e) => warn(e))
     }, 900_000)
     // also first time
-    recalculateLeaderboard(botClient)
-        .catch((e) => warn(e))
+    recalculateLeaderboard(botClient).catch((e) => warn(e))
 }
 
 export async function recalculateLeaderboard(botClient: Client): Promise<void> {
