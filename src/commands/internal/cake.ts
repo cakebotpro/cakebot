@@ -16,18 +16,52 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { User } from "discord.js"
+import type { Client, User } from "discord.js"
 import {
     addUserById,
     commitCooldown,
     getCooldowns,
-    getLeaderboard,
     inMemoryDB,
     removeCooldown,
 } from "../../data/database"
 import Command from "../commands"
 import { makeError } from "../../util/constants"
 import createEmbed from "../../util/embeds"
+import type { LeaderboardEntry } from "../../data/types"
+
+export async function getLeaderboard(
+    botClient: Client
+): Promise<LeaderboardEntry[]> {
+    const lb: LeaderboardEntry[] = []
+
+    const mappedData = Object.keys(inMemoryDB.users)
+        .map((user) => {
+            return {
+                id: user,
+                data: inMemoryDB.users[user],
+            }
+        })
+        .sort((userOne, userTwo) => {
+            return userOne.data.cakeCount - userTwo.data.cakeCount
+        })
+
+    let i = 0
+
+    while (i < 10) {
+        const data = mappedData[i]
+
+        if (data) {
+            const user = await botClient.users.fetch(data.id, true)
+            if (data.data.cakeCount >= 1) {
+                lb.push({ name: user?.tag ?? "", cakes: data.data.cakeCount })
+            }
+        }
+
+        i += 1
+    }
+
+    return lb
+}
 
 export function getCount(user: User): number {
     if (!inMemoryDB.users[user.id]) {
@@ -47,7 +81,7 @@ function give(to: User): void {
     setInterval(() => removeCooldown(to.id), 7_200_000)
 }
 
-const Cake: Command = {
+const Cake = (botClient: Client): Command => ({
     name: "cake",
     aliases: ["cakes"],
     execute(args, message) {
@@ -78,6 +112,13 @@ const Cake: Command = {
                     return
                 }
 
+                if (user.bot) {
+                    message.channel.send(
+                        makeError("You can't give cakes to bots!")
+                    )
+                    return
+                }
+
                 if (getCooldowns().includes(message.author.id)) {
                     message.channel.send(
                         makeError("You can only give a cake every *2 hours*!")
@@ -93,28 +134,30 @@ const Cake: Command = {
             }
 
             if (subcommand === "leaderboard" || subcommand === "lb") {
-                if (getLeaderboard().length == 0) {
-                    message.channel.send(
-                        makeError(
-                            "There doesn't seem to be anybody on the leaderboard, or it hasn't been calculated yet :sad:"
-                        )
-                    )
-                    return
-                }
+                ;(async () => {
+                    const lb = await getLeaderboard(botClient)
 
-                message.channel.send(
-                    createEmbed(
-                        "Leaderboard",
-                        "The people with the most cakes!",
-                        getLeaderboard()
-                            .reverse()
-                            .map((ent) => ({
-                                name: ent.name,
+                    if (lb.length == 0) {
+                        message.channel.send(
+                            makeError(
+                                "There doesn't seem to be anybody on the leaderboard, or it hasn't been calculated yet :sad:"
+                            )
+                        )
+                        return
+                    }
+
+                    message.channel.send(
+                        createEmbed(
+                            "Leaderboard",
+                            "The people with the most cakes!",
+                            lb.reverse().map((ent, index) => ({
+                                name: `${index}. ent.name`,
                                 value: `${ent.cakes} cakes.`,
                                 inline: false,
                             }))
+                        )
                     )
-                )
+                })()
             }
         } else {
             message.channel.send(
@@ -124,6 +167,6 @@ const Cake: Command = {
             )
         }
     },
-}
+})
 
 export default Cake

@@ -147,7 +147,7 @@ export function start(applyHookups: ApplyHookup | ApplyHookup[]): void {
 
     const context = { commandRegistry, botClient: cakebot }
 
-    scheduleTasks(cakebot)
+    scheduleTasks()
 
     if (!applyHookups) {
         error(

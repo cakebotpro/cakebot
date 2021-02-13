@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "build",
-        "target": "ES5",
+        "target": "ES2018",
         "incremental": true,
         "strict": true,
         "declaration": true,
@@ -15,6 +15,7 @@
         "esModuleInterop": true,
         "moduleResolution": "node",
         "noImplicitReturns": true,
-        "noUnusedLocals": true
+        "noUnusedLocals": true,
+        "module": "CommonJS"
     }
 }

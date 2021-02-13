@@ -20,7 +20,7 @@ import { mkdirSync, readFileSync, statSync, writeFileSync } from "fs"
 import { sep } from "path"
 import random from "random"
 import { usersWithTicketsOpen } from "./remote/runtime-data"
-import type { LeaderboardEntry, Schema } from "./types"
+import type { Schema } from "./types"
 import { error } from "../util/logging"
 import { removeIf } from "../util/array-polyfills"
 
@@ -28,11 +28,6 @@ import { removeIf } from "../util/array-polyfills"
 
 export const dbPath = `${process.cwd()}${sep}database.json`
 
-/**
- * @see getLeaderboard
- * @see commitLeaderboardData
- */
-let leaderboard: LeaderboardEntry[] = []
 let cakeCooldowns: string[] = []
 
 /**
@@ -159,14 +154,6 @@ Message: ${message}`
 
         resolve()
     })
-}
-
-export function commitLeaderboardData(dat: LeaderboardEntry[]): void {
-    leaderboard = dat
-}
-
-export function getLeaderboard(): LeaderboardEntry[] {
-    return leaderboard
 }
 
 export function commitCooldown(userId: string): void {

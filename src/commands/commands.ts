@@ -39,6 +39,7 @@ import Shutdown from "./internal/shutdown"
 import Slots from "./internal/slots"
 import Stars from "./internal/stars"
 import Trump from "./internal/trump"
+import type { Client } from "discord.js"
 
 /**
  * A command that users can execute.
@@ -65,9 +66,9 @@ export default interface Command {
     execute(args: readonly string[], message: Message): void
 }
 
-export const defaultCommands: Command[] = [
+export const defaultCommands = (botClient: Client): Command[] => [
     Boomer,
-    Cake,
+    Cake(botClient),
     Clapify,
     Coinflip,
     Define,
@@ -98,7 +99,7 @@ export const defaultCommands: Command[] = [
 export const defaultCommandsHookup: ApplyHookup = (context) => {
     const { commandRegistry, botClient } = context
 
-    defaultCommands.forEach((cmd) => commandRegistry.register(cmd))
+    defaultCommands(botClient).forEach((cmd) => commandRegistry.register(cmd))
 
     botClient.on(
         "messageReactionAdd",
