@@ -50,6 +50,7 @@ export interface CBEvent {
  * A Cakebot Discord server as a database entry.
  */
 export interface CBServer {
+    prefix: string
     activeEvent?: CBEvent
 }
 
@@ -57,6 +58,7 @@ export interface CBServer {
  * The primary database schema.
  */
 export interface Schema {
+    version?: number
     users: {
         [userId: string]: CBUser
     }

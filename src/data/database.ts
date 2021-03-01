@@ -23,6 +23,7 @@ import { usersWithTicketsOpen } from "./remote/runtime-data"
 import type { Schema } from "./types"
 import { error } from "../util/logging"
 import { removeIf } from "../util/array-polyfills"
+import { getConfig } from "./config"
 
 /* eslint-disable promise/no-nesting */
 
@@ -65,7 +66,9 @@ export function addUserById(userId: string): void {
 }
 
 export function addServerById(serverId: string): void {
-    inMemoryDB.servers[serverId] = {}
+    inMemoryDB.servers[serverId] = {
+        prefix: getConfig().prefix
+    }
 }
 
 export function createEvent({
