@@ -43,7 +43,7 @@
         "discord.js": "^12.5.1",
         "kdt": "^0.1.0",
         "node-fetch": "^2.6.1",
-        "random": "^2.2.0",
+        "random": "^3.0.0",
         "source-map-support": "^0.5.19",
         "tslib": "^2.1.0"
     },
