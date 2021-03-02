@@ -134,6 +134,7 @@ const Cake = (botClient: Client): Command => ({
             }
 
             if (subcommand === "leaderboard" || subcommand === "lb") {
+                // eslint-disable-next-line
                 ;(async () => {
                     const lb = await getLeaderboard(botClient)
 

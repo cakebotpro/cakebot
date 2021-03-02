@@ -67,7 +67,7 @@ export function addUserById(userId: string): void {
 
 export function addServerById(serverId: string): void {
     inMemoryDB.servers[serverId] = {
-        prefix: getConfig().prefix
+        prefix: getConfig().prefix,
     }
 }
 
