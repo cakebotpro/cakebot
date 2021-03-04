@@ -51,6 +51,5 @@ export default function update(): void {
 
     while (inMemoryDB.version! < CURRENT_PATCH_LEVEL) {
         applyPatch(inMemoryDB.version! + 1)
-        continue
     }
 }

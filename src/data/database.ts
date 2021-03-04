@@ -22,7 +22,6 @@ import random from "random"
 import { usersWithTicketsOpen } from "./remote/runtime-data"
 import type { Schema } from "./types"
 import { error } from "../util/logging"
-import { removeIf } from "../util/array-polyfills"
 import { getConfig } from "./config"
 
 /* eslint-disable promise/no-nesting */
@@ -164,7 +163,7 @@ export function commitCooldown(userId: string): void {
 }
 
 export function removeCooldown(userId: string): void {
-    cakeCooldowns = removeIf<string>(cakeCooldowns, (item) => item === userId)
+    cakeCooldowns = cakeCooldowns.filter((item) => item !== userId)
 }
 
 export function getCooldowns(): string[] {

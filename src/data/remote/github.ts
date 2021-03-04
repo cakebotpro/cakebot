@@ -26,62 +26,32 @@ function makeOctokit(): Octokit {
     })
 }
 
-const repoStarsQuery = (owner: string, name: string) => `query {
+const cakebotRepoMetaQuery = (owner: string, name: string) => `query {
     repository(owner: "${owner}", name: "${name}") {
         stargazerCount
-    }
-}`
-
-const repoHomepageQuery = (owner: string, name: string) => `query {
-    repository(owner: "${owner}", name: "${name}") {        
         homepageUrl
     }
 }`
 
-interface RepoStarQueryResponse {
+export interface CakebotMetaQueryResponse {
     repository: {
         stargazerCount: number
-    }
-}
-
-interface RepoHomepageQueryResponse {
-    repository: {
         homepageUrl?: string
     }
 }
 
-export function getRepositoryStars(repository: string): Promise<number> {
+export default function getRepositoryMetadata(repository: string): Promise<CakebotMetaQueryResponse> {
     repository = sanitizeGraphQL(repository)
 
     const owner = repository.split("/")[0]
     const repoName = repository.split("/")[1]
 
-    return new Promise<number>((resolve, reject) => {
+    return new Promise<CakebotMetaQueryResponse>((resolve, reject) => {
         makeOctokit()
-            .graphql(repoStarsQuery(owner, repoName))
+            .graphql(cakebotRepoMetaQuery(owner, repoName))
             .then((data) =>
                 resolve(
-                    (data as RepoStarQueryResponse).repository.stargazerCount
-                )
-            )
-            .catch((e) => reject(e))
-    })
-}
-
-export function getRepositoryHomepage(
-    repository: string
-): Promise<string | undefined> {
-    repository = sanitizeGraphQL(repository)
-
-    const owner = repository.split("/")[0]
-    const repoName = repository.split("/")[1]
-
-    return new Promise<string | undefined>((resolve, reject) => {
-        makeOctokit()
-            .graphql(repoHomepageQuery(owner, repoName))
-            .then((data) =>
-                resolve(
-                    (data as RepoHomepageQueryResponse).repository.homepageUrl
+                    data as CakebotMetaQueryResponse
                 )
             )
             .catch((e) => reject(e))

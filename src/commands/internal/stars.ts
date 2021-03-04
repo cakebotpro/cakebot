@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { getRepositoryStars } from "../../data/remote/github"
+import getRepositoryMetadata from "../../data/remote/github"
 import commafy from "../../util/typed-commafy"
 import Command from "../commands"
 import { makeError } from "../../util/constants"
@@ -24,10 +24,10 @@ const Stars: Command = {
     name: "stars",
     execute(args, message) {
         if (args[0]) {
-            getRepositoryStars(args[0])
+            getRepositoryMetadata(args[0])
                 .then((resp) => {
                     message.channel.send(
-                        `${args[0]} has ${commafy(resp)} stars.`
+                        `${args[0]} has ${commafy(resp.repository.stargazerCount)} stars.`
                     )
                     return
                 })

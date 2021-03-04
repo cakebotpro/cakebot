@@ -27,6 +27,7 @@ import { debug, error, info, warn } from "./util/logging"
 import { dbPath, inMemoryDB } from "./data/database"
 import { writeFileSync } from "fs"
 import { scheduleTasks } from "./util/scheduling"
+import runMigrations from "./data/migrations/migrations"
 
 const CATCH_ERRORS = ["uncaughtException", "unhandledRejection"]
 CATCH_ERRORS.forEach((errorName: string) => {
@@ -164,6 +165,7 @@ export function start(applyHookups: ApplyHookup | ApplyHookup[]): void {
     } else {
         applyHookups.call(applyHookups, context)
     }
+    runMigrations()
 
     cakebot.login(getConfig().discordToken)
 }

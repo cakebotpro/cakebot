@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { getRepositoryHomepage } from "../../data/remote/github"
+import getRepositoryMetadata from "../../data/remote/github"
 import Command from "../commands"
 import { makeError } from "../../util/constants"
 
@@ -24,11 +24,11 @@ const Homepage: Command = {
     aliases: ["ghpage"],
     execute(args, message) {
         if (args[0]) {
-            getRepositoryHomepage(args[0])
+            getRepositoryMetadata(args[0])
                 .then((resp) => {
-                    if (resp) {
+                    if (resp.repository.homepageUrl) {
                         message.channel.send(
-                            `${args[0]}'s homepage is located at ${resp}`
+                            `${args[0]}'s homepage is located at ${resp.repository.homepageUrl}`
                         )
                     } else {
                         message.channel.send(

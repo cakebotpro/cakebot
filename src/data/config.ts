@@ -16,34 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { debug, error, info } from "../util/logging"
-
-/**
- * A model for an object containing the possible configuration values.
- */
-export interface Configuration {
-    discordToken: string
-    prefix: string
-    status: string
-    wordsapiToken?: string
-    githubToken?: string
-    debug: boolean
-    bannedUserIds: string[]
-    adminUserIds: string[]
-}
-
-/**
- * A model for all the possible and required environment variables.
- */
-export interface ExpectedEnvironment {
-    DISCORD_TOKEN: string
-    BOT_PREFIX?: string
-    BOT_STATUS?: string
-    DEBUG?: string
-    WORDSAPI_TOKEN?: string
-    GITHUB_TOKEN?: string
-    BANNED_IDS?: string
-    ADMIN_IDS?: string
-}
+import type { Configuration, ExpectedEnvironment } from "./types"
 
 // avoid recalculating these every time getConfig is called
 let bannedUsersCache: string[] | undefined = undefined
