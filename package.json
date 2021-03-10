@@ -37,7 +37,7 @@
         "tabWidth": 4
     },
     "dependencies": {
-        "@octokit/core": "^3.2.5",
+        "@octokit/core": "^3.3.0",
         "chalk": "^4.1.0",
         "csv-parse": "^4.15.3",
         "discord.js": "^12.5.1",
