@@ -84,7 +84,7 @@ function give(to: User): void {
 const Cake = (botClient: Client): Command => ({
     name: "cake",
     aliases: ["cakes"],
-    execute(args, message) {
+    async execute(args, message) {
         const subcommand = args[0]
 
         if (subcommand) {
@@ -134,31 +134,28 @@ const Cake = (botClient: Client): Command => ({
             }
 
             if (subcommand === "leaderboard" || subcommand === "lb") {
-                // eslint-disable-next-line
-                ;(async () => {
-                    const lb = await getLeaderboard(botClient)
+                const lb = await getLeaderboard(botClient)
 
-                    if (lb.length == 0) {
-                        message.channel.send(
-                            makeError(
-                                "There doesn't seem to be anybody on the leaderboard, or it hasn't been calculated yet :sad:"
-                            )
-                        )
-                        return
-                    }
-
+                if (lb.length == 0) {
                     message.channel.send(
-                        createEmbed(
-                            "Leaderboard",
-                            "The people with the most cakes!",
-                            lb.reverse().map((ent, index) => ({
-                                name: `${index}. ent.name`,
-                                value: `${ent.cakes} cakes.`,
-                                inline: false,
-                            }))
+                        makeError(
+                            "There doesn't seem to be anybody on the leaderboard, or it hasn't been calculated yet :sad:"
                         )
                     )
-                })()
+                    return
+                }
+
+                message.channel.send(
+                    createEmbed(
+                        "Leaderboard",
+                        "The people with the most cakes!",
+                        lb.reverse().map((ent, index) => ({
+                            name: `${index}. ent.name`,
+                            value: `${ent.cakes} cakes.`,
+                            inline: false,
+                        }))
+                    )
+                )
             }
         } else {
             message.channel.send(

@@ -40,7 +40,9 @@ export interface CakebotMetaQueryResponse {
     }
 }
 
-export default function getRepositoryMetadata(repository: string): Promise<CakebotMetaQueryResponse> {
+export default function getRepositoryMetadata(
+    repository: string
+): Promise<CakebotMetaQueryResponse> {
     repository = sanitizeGraphQL(repository)
 
     const owner = repository.split("/")[0]
@@ -49,11 +51,7 @@ export default function getRepositoryMetadata(repository: string): Promise<Cakeb
     return new Promise<CakebotMetaQueryResponse>((resolve, reject) => {
         makeOctokit()
             .graphql(cakebotRepoMetaQuery(owner, repoName))
-            .then((data) =>
-                resolve(
-                    data as CakebotMetaQueryResponse
-                )
-            )
+            .then((data) => resolve(data as CakebotMetaQueryResponse))
             .catch((e) => reject(e))
     })
 }

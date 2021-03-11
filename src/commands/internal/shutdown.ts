@@ -23,9 +23,9 @@ import { shutdown } from "../../index"
 const Shutdown: Command = {
     name: "shutdown",
     aliases: ["reboot"],
-    execute(args, message) {
+    async execute(args, message) {
         if (getConfig().adminUserIds.includes(message.author.id)) {
-            message.channel.send("Shutting the bot down.")
+            await message.channel.send("Shutting the bot down.")
             shutdown()
             return
         }

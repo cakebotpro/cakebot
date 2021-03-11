@@ -63,7 +63,7 @@ export default interface Command {
      * @param message The discord.js message object.
      * @return Nothing.
      */
-    execute(args: readonly string[], message: Message): void
+    execute(args: readonly string[], message: Message): Promise<void> | void
 }
 
 export const defaultCommands = (botClient: Client): Command[] => [

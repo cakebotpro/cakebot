@@ -27,7 +27,9 @@ const Stars: Command = {
             getRepositoryMetadata(args[0])
                 .then((resp) => {
                     message.channel.send(
-                        `${args[0]} has ${commafy(resp.repository.stargazerCount)} stars.`
+                        `${args[0]} has ${commafy(
+                            resp.repository.stargazerCount
+                        )} stars.`
                     )
                     return
                 })

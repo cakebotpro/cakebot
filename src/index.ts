@@ -24,7 +24,7 @@ import "./data/remote/runtime-data"
 import Trace from "./data/tracing"
 import { banner } from "./util/constants"
 import { debug, error, info, warn } from "./util/logging"
-import { dbPath, inMemoryDB } from "./data/database"
+import { addServerById, dbPath, inMemoryDB } from "./data/database"
 import { writeFileSync } from "fs"
 import { scheduleTasks } from "./util/scheduling"
 import runMigrations from "./data/migrations/migrations"
@@ -79,7 +79,16 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
     const argString = message.content
     const argArray = argString.split(" ")
 
-    if (!argArray[0].startsWith(settings.prefix)) {
+    // if this is not a direct message and the guild is not in the db, kick things off
+    if (!!message.guild?.id && !inMemoryDB.servers[message.guild?.id]) {
+        addServerById(message.guild?.id)
+    }
+
+    // this server's prefix OR the global prefix
+    const perServerPrefix =
+        inMemoryDB.servers[message.guild?.id || ""]?.prefix ?? settings.prefix
+
+    if (!argArray[0].startsWith(perServerPrefix)) {
         return
     }
 
@@ -90,7 +99,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         return
     }
 
-    const command = argArray[0].replace(settings.prefix, "").toLowerCase()
+    const command = argArray[0].replace(perServerPrefix, "").toLowerCase()
 
     let args = [...argArray]
     // pop first arg since it is the command
@@ -113,7 +122,9 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         }
 
         debug(`Command trace: ${trace}`)
-        exe.execute.call(exe, args, message)
+        ;(async () => {
+            await exe.execute(args, message)
+        })()
     } catch (e) {
         error("An error occured during runtime.")
         warn(`Command trace: ${trace}`)
