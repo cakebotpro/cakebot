@@ -33,6 +33,7 @@ import Iss from "./internal/iss"
 import Joke from "./internal/joke"
 import Pi from "./internal/pi"
 import Ping from "./internal/ping"
+import Prefix from "./internal/prefix"
 import Report from "./internal/report"
 import Say from "./internal/say"
 import Shutdown from "./internal/shutdown"
@@ -83,6 +84,7 @@ export const defaultCommands = (botClient: Client): Command[] => [
     Joke,
     Pi,
     Ping,
+    Prefix,
     Report,
     Say,
     Shutdown,

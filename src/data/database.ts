@@ -70,28 +70,20 @@ export function addServerById(serverId: string): void {
     }
 }
 
-export function createEvent({
+export async function createEvent({
     msg,
     message,
 }: {
     msg: string
     message: Message
 }): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-        message.channel
-            .send(msg)
-            .then((announcementMessage) => {
-                const server = inMemoryDB.servers[message.guild?.id || ""]
-                server.activeEvent = {
-                    people: [message.author.id],
-                    reactionMessageId: announcementMessage.id,
-                }
-                inMemoryDB.servers[message.guild?.id || ""] = server
-                resolve()
-                return
-            })
-            .catch((reason) => reject(reason))
-    })
+    const announcementMessage = await message.channel.send(msg)
+    const server = inMemoryDB.servers[message.guild?.id || ""]
+    server.activeEvent = {
+        people: [message.author.id],
+        reactionMessageId: announcementMessage.id,
+    }
+    inMemoryDB.servers[message.guild?.id || ""] = server
 }
 
 export function startEvent(message: Message): void {
@@ -118,44 +110,38 @@ export function startEvent(message: Message): void {
         .catch((reason) => error(reason))
 }
 
-export function createTicket({
+export async function createTicket({
     message,
     author,
 }: {
     message: string
     author: User
 }): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-        if (message.length >= 1000) {
-            reject("Message too large!")
-            return
-        }
+    if (message.length >= 1000) {
+        throw new Error("Message too large!")
+    }
 
-        if (usersWithTicketsOpen.includes(author.id)) {
-            reject(
-                "You already have a ticket open! Please wait until it is resolved to open another."
-            )
-            return
-        }
-
-        usersWithTicketsOpen.push(author.id)
-
-        try {
-            statSync("tickets")
-        } catch (e) {
-            mkdirSync("tickets")
-        }
-
-        const ticketId = random.int(1, 1_000_000)
-
-        writeFileSync(
-            `tickets/${ticketId}.txt`,
-            `Author: ${author.username}#${author.discriminator}
-Message: ${message}`
+    if (usersWithTicketsOpen.includes(author.id)) {
+        throw new Error(
+            "You already have a ticket open! Please wait until it is resolved to open another."
         )
+    }
 
-        resolve()
-    })
+    usersWithTicketsOpen.push(author.id)
+
+    try {
+        statSync("tickets")
+    } catch (e) {
+        mkdirSync("tickets")
+    }
+
+    const ticketId = random.int(1, 1_000_000)
+
+    writeFileSync(
+        `tickets/${ticketId}.txt`,
+        `Author: ${author.username}#${author.discriminator}
+Message: ${message}`
+    )
 }
 
 export function commitCooldown(userId: string): void {

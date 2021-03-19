@@ -71,7 +71,7 @@ cakebot.on("ready", function cakebotReadyCallback() {
     info("Completed setup, bot is now ready on Discord!")
 })
 
-cakebot.on("message", function cakebotMessageCallback(message: Message) {
+async function cakebotMessageCallback(message: Message) {
     if (message.author.bot || isShuttingDown) {
         return
     }
@@ -93,7 +93,7 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
     }
 
     if (getConfig().bannedUserIds.includes(message.author.id)) {
-        message.channel.send(
+        await message.channel.send(
             "**You have been banned from using the bot!** This typically happens because you abused a feature or caused a big problem for us."
         )
         return
@@ -122,15 +122,18 @@ cakebot.on("message", function cakebotMessageCallback(message: Message) {
         }
 
         debug(`Command trace: ${trace}`)
-        ;(async () => {
-            await exe.execute(args, message)
-        })()
+        await exe.execute(args, message)
     } catch (e) {
         error("An error occured during runtime.")
         warn(`Command trace: ${trace}`)
         error(e)
     }
-})
+}
+
+// fancy way to enter async context inline
+cakebot.on("message", (message: Message) =>
+    (async () => await cakebotMessageCallback(message))()
+)
 
 /**
  * The context given by ApplyHookup.
