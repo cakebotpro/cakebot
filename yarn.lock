@@ -1042,10 +1042,10 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.2.tgz#abf64491e6ecf0f38a6502403d4cda04f372dfd3"
   integrity sha512-dB15eXv3p2jDlbOiNLyMabYg1/sXvppd8DP2J3EOCQ0AkuSXCW2tP7mnVouVLJKgUMY6yP0kcQDVpLCN13h4Xg==
 
-random@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/random/-/random-3.0.3.tgz#5929021da0f8e308bc9fe15e030bef568e83f5db"
-  integrity sha512-Ppz8eI5oYbzC0dQKW3oSFFtyKnh7B1kN1kD7s6J545/aq+R1+YcqQEDJ5AZ0di3wYWbFV9otf5MaHJAhYH56Fw==
+random@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/random/-/random-3.0.5.tgz#068e2287ae7b8f54398c4b12e9ffb3997cfec183"
+  integrity sha512-ANuFSZk8lB7kW4JekNHdyTSXH0rwzA+l9oeP646BBdoGXceG5AfdG+S9tbHI1saoOcbbUL3Fs6affbbyCDgobw==
   dependencies:
     seedrandom "^3.0.5"
 
