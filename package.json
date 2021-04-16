@@ -39,7 +39,7 @@
     "dependencies": {
         "@octokit/core": "^3.4.0",
         "chalk": "^4.1.0",
-        "csv-parse": "^4.15.3",
+        "csv-parse": "^4.15.4",
         "discord.js": "^12.5.3",
         "kdt": "^0.1.0",
         "node-fetch": "^2.6.1",
