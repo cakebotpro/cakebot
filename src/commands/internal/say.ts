@@ -28,7 +28,7 @@ const Say: Command = {
         }
 
         message.channel.send(
-            `**${message.author.username} says**: ${args.join(" ")}`
+            `**${message.author.username} says**: ${args.join(" ").replace("@everyone", "").replace("@here", "")}`
         )
     },
 }
