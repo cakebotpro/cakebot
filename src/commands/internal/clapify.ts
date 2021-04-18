@@ -29,7 +29,13 @@ const Clapify: Command = {
             return
         }
 
-        message.channel.send(args.join(" :clap: ").replace("@everyone", "").replace("@here", ""))
+        message.channel.send(
+            args
+                .join(" :clap: ")
+                .replace("@everyone", "")
+                .replace("@here", "")
+                .replace("@", "")
+        )
     },
 }
 
