@@ -45,7 +45,7 @@
         "node-fetch": "^2.6.1",
         "random": "^3.0.6",
         "source-map-support": "^0.5.19",
-        "tslib": "^2.2.0"
+        "tslib": "^2.3.0"
     },
     "devDependencies": {
         "@types/node": "^16.4.1",
