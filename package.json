@@ -49,7 +49,7 @@
     },
     "devDependencies": {
         "@types/node": "^16.4.13",
-        "@types/node-fetch": "^2.5.10",
+        "@types/node-fetch": "^2.5.12",
         "@types/source-map-support": "^0.5.4",
         "@types/ws": "^7.4.7",
         "@typescript-eslint/eslint-plugin": "^4.29.0",
