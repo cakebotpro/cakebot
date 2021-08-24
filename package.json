@@ -40,7 +40,7 @@
         "@octokit/core": "^3.5.1",
         "chalk": "^4.1.2",
         "csv-parse": "^4.16.0",
-        "discord.js": "^12.5.3",
+        "discord.js": "^13.1.0",
         "kdt": "^0.1.0",
         "node-fetch": "^2.6.1",
         "random": "^3.0.6",
