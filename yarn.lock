@@ -453,10 +453,10 @@ cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-csv-parse@^4.16.0:
-  version "4.16.0"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.16.0.tgz#b4c875e288a41f7ff917cb0d7d45880d563034f6"
-  integrity sha512-Zb4tGPANH4SW0LgC9+s9Mnequs9aqn7N3/pCqNbVjs2XhEF6yWNU2Vm4OGl1v2Go9nw8rXt87Cm2QN/o6Vpqgg==
+csv-parse@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-5.0.3.tgz#eeb0b1ac8bf2970f703176c8f54d313325b6d2e8"
+  integrity sha512-86R0WU4aEEF/1fPZKxP3NmDAYC4Ce1t9iFgKPZogG5Lvk4m9WZQkCEsDANktG29jppejwclTtEOzubN2ieCJqw==
 
 debug@^4.0.1, debug@^4.1.1, debug@^4.3.1:
   version "4.3.2"
