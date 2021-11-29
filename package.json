@@ -48,7 +48,7 @@
         "tslib": "^2.3.1"
     },
     "devDependencies": {
-        "@types/node": "^16.7.1",
+        "@types/node": "^16.11.10",
         "@types/node-fetch": "^2.5.12",
         "@types/source-map-support": "^0.5.4",
         "@types/ws": "^7.4.7",
